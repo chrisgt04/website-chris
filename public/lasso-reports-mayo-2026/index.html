@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lasso — Reporte Mayo 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #C9A84C;
+      --gold-dim: #8a6e2e;
+      --bg: #040404;
+      --card: #0a0a0a;
+      --card2: #111111;
+      --border: rgba(255,255,255,0.06);
+      --text: #f0f0f0;
+      --muted: #555;
+      --muted2: #888;
+      --green: #4ade80;
+      --red: #f87171;
+      --blue: #60a5fa;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* ── Grain overlay ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.35;
+    }
+
+    /* ── Typography ── */
+    .mono { font-family: 'DM Mono', monospace; }
+    .label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted2);
+    }
+
+    /* ── Layout ── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+    section { padding: 100px 0; }
+
+    /* ── Reveal animation ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s cubic-bezier(.16,1,.3,1), transform 0.8s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ═══════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 20% 80%, rgba(201,168,76,0.04) 0%, transparent 60%);
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 2rem;
+    }
+
+    .hero-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.3);
+      padding: 5px 12px;
+      border-radius: 3px;
+    }
+
+    .hero-separator { width: 40px; height: 1px; background: var(--muted); }
+
+    .hero-eyebrow-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted2);
+    }
+
+    .hero-title {
+      font-size: clamp(3rem, 8vw, 7.5rem);
+      font-weight: 900;
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+      margin-bottom: 2rem;
+    }
+
+    .hero-title .line-1 { display: block; color: var(--text); }
+    .hero-title .line-2 {
+      display: block;
+      background: linear-gradient(135deg, var(--gold) 0%, #e8c96b 50%, var(--gold-dim) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      color: var(--muted2);
+      max-width: 480px;
+      line-height: 1.7;
+      margin-bottom: 3rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .hero-meta-item .val {
+      font-family: 'DM Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .hero-meta-item .key {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      z-index: 2;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.1); }
+    }
+
+    /* ═══════════════════════════════════════
+       SECTION HEADERS
+    ═══════════════════════════════════════ */
+    .section-header { margin-bottom: 4rem; }
+    .section-number {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-number::after {
+      content: '';
+      flex: 1;
+      max-width: 60px;
+      height: 1px;
+      background: var(--gold-dim);
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+    .section-desc {
+      margin-top: 1rem;
+      color: var(--muted2);
+      font-size: 0.95rem;
+      max-width: 500px;
+    }
+
+    /* ═══════════════════════════════════════
+       STAT CARDS
+    ═══════════════════════════════════════ */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .stat-card {
+      background: var(--card);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .stat-card:hover::before { opacity: 1; }
+
+    .stat-card .sc-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .stat-card .sc-value {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .stat-card .sc-value.gold { color: var(--gold); }
+    .stat-card .sc-value.green { color: var(--green); }
+
+    .stat-card .sc-sub {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .stat-card.featured {
+      background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, var(--card) 60%);
+    }
+
+    /* ═══════════════════════════════════════
+       CAMPAIGNS
+    ═══════════════════════════════════════ */
+    .campaigns-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 700px) {
+      .campaigns-grid { grid-template-columns: 1fr; }
+    }
+
+    .campaign-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .campaign-card.primary { border-color: rgba(201,168,76,0.2); }
+    .campaign-card.primary::after {
+      content: 'PRINCIPAL';
+      position: absolute;
+      top: 1rem; right: 1rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.3);
+      padding: 3px 8px;
+      border-radius: 3px;
+    }
+
+    .campaign-name {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--muted2);
+      margin-bottom: 0.5rem;
+    }
+
+    .campaign-objective {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+
+    .campaign-stats { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .camp-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .camp-row:last-child { border-bottom: none; }
+    .camp-row .k { font-size: 0.8rem; color: var(--muted2); }
+    .camp-row .v {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .camp-row .v.gold { color: var(--gold); }
+    .camp-row .v.green { color: var(--green); }
+
+    .campaign-spend {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+
+    /* ═══════════════════════════════════════
+       FUNNEL
+    ═══════════════════════════════════════ */
+    .funnel-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    @media (max-width: 768px) {
+      .funnel-wrap { grid-template-columns: 1fr; }
+    }
+
+    .funnel-stages { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .funnel-stage { position: relative; }
+
+    .funnel-stage-inner {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: border-color 0.3s;
+      cursor: default;
+    }
+
+    .funnel-stage-inner:hover { border-color: rgba(201,168,76,0.3); }
+
+    .funnel-stage-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 1.6rem;
+      font-weight: 700;
+      min-width: 60px;
+      color: var(--text);
+    }
+
+    .funnel-stage-info { flex: 1; }
+    .funnel-stage-name { font-weight: 600; font-size: 0.95rem; }
+    .funnel-stage-pct {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted2);
+    }
+
+    .funnel-bar-wrap {
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .funnel-bar {
+      height: 100%;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+      width: 0%;
+      transition: width 1.2s cubic-bezier(.16,1,.3,1);
+    }
+
+    .funnel-stage.closed .funnel-stage-num { color: var(--green); }
+    .funnel-stage.closed .funnel-bar { background: linear-gradient(90deg, #16a34a, var(--green)); }
+    .funnel-stage.closed .funnel-stage-inner { border-color: rgba(74,222,128,0.2); }
+
+    /* Right side: conversion rates */
+    .conversion-rates { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .conv-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+    }
+
+    .conv-arrow {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .conv-rate {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .conv-desc {
+      font-size: 0.8rem;
+      color: var(--muted2);
+      margin-top: 0.25rem;
+    }
+
+    /* ═══════════════════════════════════════
+       CLOSES
+    ═══════════════════════════════════════ */
+    .closes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .close-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .close-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(74,222,128,0.3);
+    }
+
+    .close-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--green), #16a34a);
+    }
+
+    .close-badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--green);
+      border: 1px solid rgba(74,222,128,0.3);
+      padding: 3px 8px;
+      border-radius: 3px;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+
+    .close-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .close-biz {
+      font-size: 0.82rem;
+      color: var(--muted2);
+      margin-bottom: 1.25rem;
+    }
+
+    .close-revenue {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--green);
+    }
+
+    .close-plan {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .close-source {
+      position: absolute;
+      bottom: 1rem; right: 1rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    /* Revenue totals */
+    .revenue-totals {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    @media (max-width: 600px) {
+      .revenue-totals { grid-template-columns: 1fr; }
+    }
+
+    .rev-cell {
+      background: var(--card);
+      padding: 2rem;
+    }
+
+    .rev-cell .rc-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .rev-cell .rc-val {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .rev-cell.featured { background: linear-gradient(135deg, rgba(74,222,128,0.05), var(--card)); }
+    .rev-cell .rc-val.gold { color: var(--gold); }
+    .rev-cell .rc-val.green { color: var(--green); }
+
+    /* ═══════════════════════════════════════
+       ROI BAR
+    ═══════════════════════════════════════ */
+    .roi-section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .roi-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 100% at 100% 50%, rgba(201,168,76,0.04) 0%, transparent 70%);
+    }
+
+    .roi-content { position: relative; z-index: 1; }
+
+    .roi-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .roi-title { font-size: 1.5rem; font-weight: 700; }
+    .roi-multiplier {
+      font-size: 3.5rem;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .roi-bar-wrap {
+      height: 8px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .roi-bar {
+      height: 100%;
+      width: 0%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+      transition: width 1.5s cubic-bezier(.16,1,.3,1) 0.3s;
+    }
+
+    .roi-annotations {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted2);
+    }
+
+    .roi-note {
+      margin-top: 1.5rem;
+      padding: 1rem 1.25rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.82rem;
+      color: var(--muted2);
+      line-height: 1.6;
+    }
+
+    /* ═══════════════════════════════════════
+       LEADS TABLE
+    ═══════════════════════════════════════ */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+
+    thead {
+      background: var(--card2);
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    thead th {
+      padding: 0.85rem 1rem;
+      text-align: left;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 400;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(255,255,255,0.02); }
+    tbody tr.won { background: rgba(74,222,128,0.03); }
+    tbody tr.won:hover { background: rgba(74,222,128,0.06); }
+
+    tbody td {
+      padding: 0.85rem 1rem;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+    .dot.on { background: var(--green); box-shadow: 0 0 6px var(--green); }
+    .dot.off { background: var(--muted); }
+    .dot.warn { background: #fbbf24; }
+
+    .stage-tag {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      padding: 2px 7px;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+    .stage-won { background: rgba(74,222,128,0.12); color: var(--green); border: 1px solid rgba(74,222,128,0.25); }
+    .stage-trial { background: rgba(96,165,250,0.12); color: var(--blue); border: 1px solid rgba(96,165,250,0.25); }
+    .stage-demo { background: rgba(201,168,76,0.12); color: var(--gold); border: 1px solid rgba(201,168,76,0.25); }
+    .stage-sql { background: rgba(255,255,255,0.05); color: var(--muted2); border: 1px solid var(--border); }
+    .stage-mql { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+    .stage-lost { background: rgba(248,113,113,0.08); color: var(--red); border: 1px solid rgba(248,113,113,0.2); }
+
+    .rev-badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--green);
+    }
+
+    /* ═══════════════════════════════════════
+       DIVIDER
+    ═══════════════════════════════════════ */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 2rem;
+    }
+
+    /* ═══════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════ */
+    footer {
+      padding: 4rem 0;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-meta {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    /* ═══════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════ */
+    @media (max-width: 768px) {
+      section { padding: 60px 0; }
+      .hero-title { font-size: 3rem; }
+      .hero-meta { gap: 1.5rem; }
+      .roi-multiplier { font-size: 2.5rem; }
+    }
+
+    @media (max-width: 500px) {
+      .container { padding: 0 1.25rem; }
+      .stat-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════ HERO ═══════ -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="container hero-content">
+
+      <div class="hero-eyebrow reveal visible">
+        <span class="hero-logo">Lasso</span>
+        <span class="hero-separator"></span>
+        <span class="hero-eyebrow-text">Bajío Campaign Report</span>
+      </div>
+
+      <h1 class="hero-title reveal visible" style="transition-delay:0.1s">
+        <span class="line-1">Mayo</span>
+        <span class="line-2">2026</span>
+      </h1>
+
+      <p class="hero-subtitle reveal visible" style="transition-delay:0.2s">
+        Resultados de la campaña en Meta Ads — inversión, alcance,
+        leads generados y estado del pipeline de ventas.
+      </p>
+
+      <div class="hero-meta reveal visible" style="transition-delay:0.3s">
+        <div class="hero-meta-item">
+          <span class="val">$7,848</span>
+          <span class="key">Gasto MXN</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="val">51</span>
+          <span class="key">Leads totales</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="val">4</span>
+          <span class="key">Cierres ganados</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="val">$13,496</span>
+          <span class="key">Revenue MXN</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════ META ADS OVERVIEW ═══════ -->
+  <section id="meta-overview">
+    <div class="container">
+
+      <div class="section-header">
+        <div class="section-number reveal">01 — Meta Ads</div>
+        <h2 class="section-title reveal reveal-delay-1">Gasto e impacto<br/>en plataforma</h2>
+        <p class="section-desc reveal reveal-delay-2">
+          Resultados consolidados de las 2 campañas activas durante Mayo 2026.
+        </p>
+      </div>
+
+      <div class="stat-grid reveal reveal-delay-2">
+        <div class="stat-card featured">
+          <div class="sc-label">Gasto total</div>
+          <div class="sc-value gold" data-count="7847.55" data-prefix="$" data-suffix=" MXN">$0</div>
+          <div class="sc-sub">2 campañas activas</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-label">Impresiones</div>
+          <div class="sc-value" data-count="62274" data-comma="true">0</div>
+          <div class="sc-sub">62K+ visualizaciones</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-label">Alcance</div>
+          <div class="sc-value" data-count="37139" data-comma="true">0</div>
+          <div class="sc-sub">Personas únicas</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-label">Clicks</div>
+          <div class="sc-value" data-count="2330" data-comma="true">0</div>
+          <div class="sc-sub">CTR promedio 3.74%</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-label">Leads (Pixel)</div>
+          <div class="sc-value green" data-count="38">0</div>
+          <div class="sc-sub">Registrados en Meta</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-label">CPL promedio</div>
+          <div class="sc-value" data-prefix="$" data-count="190" data-suffix=" MXN">$0</div>
+          <div class="sc-sub">Costo por lead</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-label">CPM</div>
+          <div class="sc-value" data-prefix="$" data-count="126" data-suffix=" MXN">$0</div>
+          <div class="sc-sub">Por 1,000 impresiones</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-label">CPC</div>
+          <div class="sc-value" data-prefix="$" data-count="3.37" data-suffix=" MXN">$0</div>
+          <div class="sc-sub">Costo por click</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════ CAMPAIGNS ═══════ -->
+  <section id="campaigns">
+    <div class="container">
+
+      <div class="section-header">
+        <div class="section-number reveal">02 — Campañas</div>
+        <h2 class="section-title reveal reveal-delay-1">Desglose por<br/>campaña</h2>
+      </div>
+
+      <div class="campaigns-grid">
+
+        <div class="campaign-card primary reveal">
+          <div class="campaign-name">LASSO | CDMX | V1</div>
+          <div class="campaign-objective">Generación de Leads</div>
+          <div class="campaign-spend">$7,221 MXN</div>
+          <div class="campaign-stats">
+            <div class="camp-row"><span class="k">Impresiones</span><span class="v">42,906</span></div>
+            <div class="camp-row"><span class="k">Alcance</span><span class="v">22,278</span></div>
+            <div class="camp-row"><span class="k">Clicks</span><span class="v">1,294</span></div>
+            <div class="camp-row"><span class="k">CTR</span><span class="v">3.02%</span></div>
+            <div class="camp-row"><span class="k">CPM</span><span class="v">$168.30 MXN</span></div>
+            <div class="camp-row"><span class="k">CPC</span><span class="v">$5.58 MXN</span></div>
+            <div class="camp-row"><span class="k">Leads generados</span><span class="v gold">38</span></div>
+            <div class="camp-row"><span class="k">CPL</span><span class="v gold">$190.03 MXN</span></div>
+          </div>
+        </div>
+
+        <div class="campaign-card reveal reveal-delay-1">
+          <div class="campaign-name">Nueva campaña de Tráfico</div>
+          <div class="campaign-objective">Tráfico a Landing Page</div>
+          <div class="campaign-spend">$626 MXN</div>
+          <div class="campaign-stats">
+            <div class="camp-row"><span class="k">Impresiones</span><span class="v">19,368</span></div>
+            <div class="camp-row"><span class="k">Alcance</span><span class="v">14,402</span></div>
+            <div class="camp-row"><span class="k">Clicks</span><span class="v">1,036</span></div>
+            <div class="camp-row"><span class="k">CTR</span><span class="v">5.35%</span></div>
+            <div class="camp-row"><span class="k">CPM</span><span class="v">$32.34 MXN</span></div>
+            <div class="camp-row"><span class="k">CPC</span><span class="v">$0.60 MXN</span></div>
+            <div class="camp-row"><span class="k">Landing Views</span><span class="v">691</span></div>
+            <div class="camp-row"><span class="k">Costo por vista</span><span class="v">$0.90 MXN</span></div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════ PIPELINE FUNNEL ═══════ -->
+  <section id="pipeline">
+    <div class="container">
+
+      <div class="section-header">
+        <div class="section-number reveal">03 — Pipeline</div>
+        <h2 class="section-title reveal reveal-delay-1">Embudo de ventas<br/>Mayo 2026</h2>
+        <p class="section-desc reveal reveal-delay-2">
+          51 leads totales en CRM — incluyendo campañas Meta y canales Friends &amp; Family.
+        </p>
+      </div>
+
+      <div class="funnel-wrap">
+        <div class="funnel-stages reveal">
+          <div class="funnel-stage">
+            <div class="funnel-stage-inner">
+              <div class="funnel-stage-num">51</div>
+              <div class="funnel-stage-info">
+                <div class="funnel-stage-name">Leads totales</div>
+                <div class="funnel-stage-pct">100% — todos los contactos</div>
+                <div class="funnel-bar-wrap">
+                  <div class="funnel-bar" data-width="100"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="funnel-stage">
+            <div class="funnel-stage-inner">
+              <div class="funnel-stage-num">31</div>
+              <div class="funnel-stage-info">
+                <div class="funnel-stage-name">MQL — Calificado Marketing</div>
+                <div class="funnel-stage-pct">60.8% de leads totales</div>
+                <div class="funnel-bar-wrap">
+                  <div class="funnel-bar" data-width="60.8"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="funnel-stage">
+            <div class="funnel-stage-inner">
+              <div class="funnel-stage-num">23</div>
+              <div class="funnel-stage-info">
+                <div class="funnel-stage-name">SQL — Calificado Ventas</div>
+                <div class="funnel-stage-pct">45.1% de leads totales</div>
+                <div class="funnel-bar-wrap">
+                  <div class="funnel-bar" data-width="45.1"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="funnel-stage">
+            <div class="funnel-stage-inner">
+              <div class="funnel-stage-num">16</div>
+              <div class="funnel-stage-info">
+                <div class="funnel-stage-name">Demo completada</div>
+                <div class="funnel-stage-pct">31.4% de leads totales</div>
+                <div class="funnel-bar-wrap">
+                  <div class="funnel-bar" data-width="31.4"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="funnel-stage">
+            <div class="funnel-stage-inner">
+              <div class="funnel-stage-num">7</div>
+              <div class="funnel-stage-info">
+                <div class="funnel-stage-name">En Trial</div>
+                <div class="funnel-stage-pct">13.7% de leads totales</div>
+                <div class="funnel-bar-wrap">
+                  <div class="funnel-bar" data-width="13.7"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="funnel-stage closed">
+            <div class="funnel-stage-inner">
+              <div class="funnel-stage-num">4</div>
+              <div class="funnel-stage-info">
+                <div class="funnel-stage-name">Cierre Ganado</div>
+                <div class="funnel-stage-pct">7.8% de leads totales · 57% de trials</div>
+                <div class="funnel-bar-wrap">
+                  <div class="funnel-bar" data-width="7.8"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="conversion-rates reveal reveal-delay-2">
+          <div class="conv-item">
+            <div class="conv-arrow">Lead → MQL</div>
+            <div class="conv-rate">60.8%</div>
+            <div class="conv-desc">31 de 51 leads calificaron en marketing</div>
+          </div>
+          <div class="conv-item">
+            <div class="conv-arrow">MQL → Demo</div>
+            <div class="conv-rate">51.6%</div>
+            <div class="conv-desc">16 de 31 MQL llegaron a demo</div>
+          </div>
+          <div class="conv-item">
+            <div class="conv-arrow">Demo → Trial</div>
+            <div class="conv-rate">43.7%</div>
+            <div class="conv-desc">7 de 16 demos iniciaron trial</div>
+          </div>
+          <div class="conv-item">
+            <div class="conv-arrow">Trial → Cierre</div>
+            <div class="conv-rate">57.1%</div>
+            <div class="conv-desc">4 de 7 trials convirtieron a cliente</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════ CIERRES ═══════ -->
+  <section id="closes">
+    <div class="container">
+
+      <div class="section-header">
+        <div class="section-number reveal">04 — Cierres</div>
+        <h2 class="section-title reveal reveal-delay-1">Deals ganados</h2>
+        <p class="section-desc reveal reveal-delay-2">4 cierres en Mayo 2026 — 2 de campañas Meta, 2 de Friends &amp; Family.</p>
+      </div>
+
+      <div class="closes-grid">
+
+        <div class="close-card reveal">
+          <div class="close-badge">✓ Ganado · Meta</div>
+          <div class="close-name">Fernando</div>
+          <div class="close-biz">LykkeLand</div>
+          <div class="close-revenue">$1,499</div>
+          <div class="close-plan">Growth — Trimestral</div>
+          <div class="close-source">Campaña Bajío</div>
+        </div>
+
+        <div class="close-card reveal reveal-delay-1">
+          <div class="close-badge">✓ Ganado · Meta</div>
+          <div class="close-name">Gustavo</div>
+          <div class="close-biz">Knox</div>
+          <div class="close-revenue">$3,999</div>
+          <div class="close-plan">Pro Plan</div>
+          <div class="close-source">Campaña Bajío</div>
+        </div>
+
+        <div class="close-card reveal reveal-delay-2">
+          <div class="close-badge">✓ Ganado · F&amp;F</div>
+          <div class="close-name">Mauro</div>
+          <div class="close-biz">Café Nader</div>
+          <div class="close-revenue">$3,999</div>
+          <div class="close-plan">Pro Plan</div>
+          <div class="close-source">Friends &amp; Family</div>
+        </div>
+
+        <div class="close-card reveal reveal-delay-3">
+          <div class="close-badge">✓ Ganado · F&amp;F</div>
+          <div class="close-name">Andrea Beceiro</div>
+          <div class="close-biz">Renew</div>
+          <div class="close-revenue">$3,999</div>
+          <div class="close-plan">Pro Plan</div>
+          <div class="close-source">Friends &amp; Family</div>
+        </div>
+
+      </div>
+
+      <div class="revenue-totals reveal reveal-delay-2">
+        <div class="rev-cell">
+          <div class="rc-label">Revenue de Meta Ads</div>
+          <div class="rc-val gold" data-count="5498" data-prefix="$" data-suffix=" MXN">$0</div>
+        </div>
+        <div class="rev-cell">
+          <div class="rc-label">Revenue F&amp;F</div>
+          <div class="rc-val" data-count="7998" data-prefix="$" data-suffix=" MXN">$0</div>
+        </div>
+        <div class="rev-cell featured">
+          <div class="rc-label">Revenue total generado</div>
+          <div class="rc-val green" data-count="13496" data-prefix="$" data-suffix=" MXN">$0</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════ ROI ═══════ -->
+  <section id="roi">
+    <div class="container">
+
+      <div class="section-header">
+        <div class="section-number reveal">05 — ROI</div>
+        <h2 class="section-title reveal reveal-delay-1">Retorno sobre<br/>la inversión</h2>
+      </div>
+
+      <div class="stat-grid reveal reveal-delay-1" style="margin-bottom:2rem">
+        <div class="stat-card">
+          <div class="sc-label">Inversión en Meta</div>
+          <div class="sc-value gold">$7,848</div>
+          <div class="sc-sub">MXN — Mayo 2026</div>
+        </div>
+        <div class="stat-card featured">
+          <div class="sc-label">ROAS (campañas)</div>
+          <div class="sc-value gold">0.70×</div>
+          <div class="sc-sub">$5,498 revenue / $7,848 gasto</div>
+        </div>
+        <div class="stat-card featured">
+          <div class="sc-label">ROAS (total + F&F)</div>
+          <div class="sc-value green">1.72×</div>
+          <div class="sc-sub">$13,496 revenue / $7,848 gasto</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-label">CPL real (CRM)</div>
+          <div class="sc-value">$154</div>
+          <div class="sc-sub">$7,848 / 51 leads</div>
+        </div>
+      </div>
+
+      <div class="roi-section reveal reveal-delay-2">
+        <div class="roi-bg"></div>
+        <div class="roi-content">
+          <div class="roi-header">
+            <div>
+              <div class="label" style="margin-bottom:0.5rem">ROAS consolidado Mayo 2026</div>
+              <div class="roi-title">Por cada peso invertido en Meta,<br/>Lasso recupera <span style="color:var(--gold)">$1.72</span> en revenue total</div>
+            </div>
+            <div class="roi-multiplier" id="roas-display">1.72×</div>
+          </div>
+          <div class="roi-bar-wrap">
+            <div class="roi-bar" id="roi-bar" data-width="86"></div>
+          </div>
+          <div class="roi-annotations">
+            <span>0×</span>
+            <span>Break even (1×)</span>
+            <span>2×</span>
+          </div>
+          <div class="roi-note">
+            💡 <strong>Nota:</strong> El ROAS de campañas directas (0.70×) todavía está por debajo del break-even, lo que indica que hay
+            <strong>5 leads activos en pipeline</strong> (Arturo en Trial, Enrique en Trial, Hugo con plan confirmado, Argelia convencida de Growth, y varios en Demo)
+            que si cierran pueden cambiar significativamente el retorno de la campaña.
+            El pipeline vivo representa un potencial adicional estimado de <strong>$15,000–$20,000 MXN</strong>.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════ LEADS TABLE ═══════ -->
+  <section id="leads">
+    <div class="container">
+
+      <div class="section-header">
+        <div class="section-number reveal">06 — Detalle</div>
+        <h2 class="section-title reveal reveal-delay-1">Todos los leads</h2>
+        <p class="section-desc reveal reveal-delay-2">Estado completo del pipeline — 51 contactos.</p>
+      </div>
+
+      <div class="table-wrap reveal reveal-delay-2">
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Negocio</th>
+              <th>Fuente</th>
+              <th>Etapa</th>
+              <th>Notas</th>
+              <th>Revenue</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="won">
+              <td>Fernando</td>
+              <td>LykkeLand</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-won">Ganado</span></td>
+              <td>Cerró Growth Trimestral</td>
+              <td><span class="rev-badge">$1,499</span></td>
+            </tr>
+            <tr class="won">
+              <td>Gustavo</td>
+              <td>Knox</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-won">Ganado</span></td>
+              <td>Cerró plan Pro</td>
+              <td><span class="rev-badge">$3,999</span></td>
+            </tr>
+            <tr class="won">
+              <td>Mauro</td>
+              <td>Café Nader</td>
+              <td><span class="dot warn"></span> F&F</td>
+              <td><span class="stage-tag stage-won">Ganado</span></td>
+              <td>Cerró plan Pro</td>
+              <td><span class="rev-badge">$3,999</span></td>
+            </tr>
+            <tr class="won">
+              <td>Andrea Beceiro</td>
+              <td>Renew</td>
+              <td><span class="dot warn"></span> F&F</td>
+              <td><span class="stage-tag stage-won">Ganado</span></td>
+              <td>Recomendada por Elías, cerró Pro</td>
+              <td><span class="rev-badge">$3,999</span></td>
+            </tr>
+            <tr>
+              <td>Arturo</td>
+              <td>Santo Mare</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-trial">Trial</span></td>
+              <td>Crearon cuenta, no metieron tarjeta — marcarle a Carmen</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Enrique</td>
+              <td>Pádel</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-trial">Trial</span></td>
+              <td>Club de pádel, darle atención para cerrar Pro</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Mariana Berg</td>
+              <td>GCAllende</td>
+              <td><span class="dot warn"></span> F&F</td>
+              <td><span class="stage-tag stage-trial">Trial</span></td>
+              <td>Comenzó prueba</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Dafne</td>
+              <td>AoHom Santuario</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-demo">Demo</span></td>
+              <td>Hablando con ella</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Tomás Darío</td>
+              <td>Tacon Madre</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-demo">Demo</span></td>
+              <td>Quiere algo más sencillo y barato</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Agustín</td>
+              <td>Los Cantaritos Puebla</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-demo">Demo</span></td>
+              <td>Se tuvo que ir de la demo, llamada a reprogramar</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Daniel</td>
+              <td>Depiglow</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-demo">Demo</span></td>
+              <td>Lo va a consultar con su esposa</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Hugo</td>
+              <td>Cafetería de Barrio</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-demo">Demo</span></td>
+              <td>Va a contratar plan trimestral sin trial — darle seguimiento</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Julio</td>
+              <td>Pickld</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-demo">Demo</span></td>
+              <td>Empieza prueba, en espera — darle seguimiento</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Argelia</td>
+              <td>MAJO Boutique</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-demo">Demo</span></td>
+              <td>Está convencida de plan Growth</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Carlos</td>
+              <td>Frederis Marisquería</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-demo">Demo</span></td>
+              <td>Le interesa, tiene más socios — contactar siguiente semana</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Dinorah</td>
+              <td>Pastelería Dinorah</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-demo">Demo</span></td>
+              <td>Quiere mensajes masivos por WhatsApp</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Andrea Toro</td>
+              <td>LaMari</td>
+              <td><span class="dot warn"></span> F&F</td>
+              <td><span class="stage-tag stage-sql">SQL</span></td>
+              <td>En revisión de propuesta</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Alejandro Elizondo</td>
+              <td>El Tazón</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-sql">SQL</span></td>
+              <td>Va a platícarlo con su esposa</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Christian</td>
+              <td>Mr Leos</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-sql">SQL</span></td>
+              <td>Agendemos reunión la semana siguiente</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Jorge V</td>
+              <td>ZDM Zapatería</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-sql">SQL</span></td>
+              <td>No se unió a la demo</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Eli</td>
+              <td>Mr Zurdo</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-sql">SQL</span></td>
+              <td>No contestó nunca</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Adrian</td>
+              <td>Taquería El Fiñy</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-sql">SQL</span></td>
+              <td>No contestó nunca</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Narciso</td>
+              <td>Narciso</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-mql">MQL</span></td>
+              <td>No contestó nunca</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Maleni León</td>
+              <td>AoliCreppasFrappes</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-mql">MQL</span></td>
+              <td>Pendiente de volver a llamar</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Miguel</td>
+              <td>Tintorería Paso Taylor</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-mql">MQL</span></td>
+              <td>No contestó nunca</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Nohemí</td>
+              <td>Óptica Anahi</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-mql">MQL</span></td>
+              <td>No se unió a la Demo</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>José</td>
+              <td>Croq'Delice México</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-mql">MQL</span></td>
+              <td>No contestó</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Leah</td>
+              <td>Café Trigali</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-mql">MQL</span></td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Gina</td>
+              <td>YOEL</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-mql">MQL</span></td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Priscila</td>
+              <td>Snakeris</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-lost">Espía</span></td>
+              <td>Sospecha de sacar info, descartada</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Héctor</td>
+              <td>Parthenon</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-lost">Espía</span></td>
+              <td>Era espía, descartado</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Cristina</td>
+              <td>Heladería</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-lost">No contactable</span></td>
+              <td>No contestó nunca</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Diego</td>
+              <td>Burricos</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-lost">No contactable</span></td>
+              <td>No contactable</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>David</td>
+              <td>Santísimo</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-lost">No contactable</span></td>
+              <td>No contestó nunca</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Gustavo</td>
+              <td>Gus Gus</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-lost">No contactable</span></td>
+              <td>No contestó nunca</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Sergio</td>
+              <td>Clínica Sergio Valdés</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-lost">No contactable</span></td>
+              <td>No contestó nunca</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Carlos Corona</td>
+              <td>Antica Trattoria</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-lost">No contactable</span></td>
+              <td>No contestó nunca</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Karla Schmal</td>
+              <td>Flor de Humo</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-lost">No contactable</span></td>
+              <td>No contestó nunca</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Marco Antonio</td>
+              <td>Pastelería Dulce Vainilla</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-lost">No contactable</span></td>
+              <td>No contestó nunca</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>María José</td>
+              <td>Q Don Pollo</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-lost">No contactable</span></td>
+              <td>No contestó nunca</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Zahara</td>
+              <td>Bella</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-lost">No contactable</span></td>
+              <td>No ha contestado</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Andrea Flores</td>
+              <td>Fisio Experience</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-lost">No contactable</span></td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Yuli</td>
+              <td>Senses</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-lost">No contactable</span></td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Jazmín</td>
+              <td>Ofelia</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-lost">No contactable</span></td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Emerson</td>
+              <td>Maracaná Fútbol 7</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-lost">No contactable</span></td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Julieta</td>
+              <td>Kalli Jaguar</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-lost">No contactable</span></td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Pablo</td>
+              <td>Salón</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-lost">No contactable</span></td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Claudia</td>
+              <td>KAI by Chaguas</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-lost">No contactable</span></td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Johana Vázquez</td>
+              <td>VIVRÉ BEAUTY</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-lost">No contactable</span></td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Fabián</td>
+              <td>La Naranja</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-lost">No contactable</span></td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Diana</td>
+              <td>D Almendra Keto</td>
+              <td><span class="dot on"></span> Meta</td>
+              <td><span class="stage-tag stage-lost">No contactable</span></td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════ FOOTER ═══════ -->
+  <footer>
+    <div class="footer-logo">Lasso</div>
+    <div class="footer-meta">Reporte generado — Mayo 2026</div>
+    <div class="footer-meta" style="color:var(--muted)">christiangtzb.com · Confidencial</div>
+  </footer>
+
+  <script>
+    // ── Intersection Observer para reveals ──
+    const revealEls = document.querySelectorAll('.reveal:not(.visible)');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    // ── Counter animation ──
+    function animateCount(el) {
+      const target = parseFloat(el.dataset.count);
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const useComma = el.dataset.comma === 'true';
+      const isDecimal = target % 1 !== 0;
+      const duration = 1400;
+      const start = performance.now();
+
+      function fmt(n) {
+        if (isDecimal) {
+          return prefix + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + suffix;
+        }
+        if (useComma) {
+          return prefix + Math.round(n).toLocaleString('en-US') + suffix;
+        }
+        return prefix + Math.round(n).toLocaleString('en-US') + suffix;
+      }
+
+      function tick(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 4);
+        el.textContent = fmt(ease * target);
+        if (progress < 1) requestAnimationFrame(tick);
+        else el.textContent = fmt(target);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    const counterEls = document.querySelectorAll('[data-count]');
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          animateCount(e.target);
+          counterObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    counterEls.forEach(el => counterObserver.observe(el));
+
+    // ── Funnel bars ──
+    const funnelBars = document.querySelectorAll('.funnel-bar');
+    const barObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.width = e.target.dataset.width + '%';
+          barObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    funnelBars.forEach(b => barObserver.observe(b));
+
+    // ── ROI bar ──
+    const roiBar = document.getElementById('roi-bar');
+    if (roiBar) {
+      const roiObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            roiBar.style.width = roiBar.dataset.width + '%';
+            roiObs.unobserve(roiBar);
+          }
+        });
+      }, { threshold: 0.4 });
+      roiObs.observe(roiBar);
+    }
+  </script>
+
+</body>
+</html>
