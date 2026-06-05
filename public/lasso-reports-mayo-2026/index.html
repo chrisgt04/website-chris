@@ -221,46 +221,37 @@
     }
     .g-btn:hover::before { left: 130%; }
 
-    /* ── gate brand bar ── */
-    .g-brand {
-      display: flex; align-items: center; gap: 8px;
-      margin-bottom: 2.5rem;
-      font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
+    /* ── gate eyebrow ── */
+    .g-eyebrow {
+      font-family: var(--mono); font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--blue-s); border: 1px solid rgba(59,111,245,.25);
+      padding: 5px 14px; border-radius: 3px; margin-bottom: 2rem;
+      animation: eyebrowFloat 3.5s ease-in-out infinite;
     }
-    .g-brand-dot {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: var(--mint); box-shadow: 0 0 8px var(--mint);
-      animation: pls 2s infinite; flex-shrink: 0;
-    }
-    @keyframes pls { 0%,100%{box-shadow:0 0 4px var(--mint)} 50%{box-shadow:0 0 14px var(--mint)} }
-    .g-brand-name { color: var(--mint); font-weight: 500; }
-    .g-brand-sep { color: var(--muted2); }
-    .g-brand-label { color: var(--muted2); text-transform: uppercase; letter-spacing: .18em; font-size: 9px; }
+    @keyframes eyebrowFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
 
-    /* ── service delivery card ── */
-    .g-card {
-      display: flex; align-items: center; gap: 1.25rem;
-      background: rgba(59,111,245,.06);
-      border: 1px solid rgba(59,111,245,.18);
-      border-radius: 14px; padding: 1.25rem 1.5rem;
-      margin-bottom: 1.75rem; width: 100%;
+    /* ── main heading block ── */
+    .g-heading {
+      display: flex; flex-direction: column; align-items: center;
+      gap: .35rem; margin-bottom: 1.25rem; text-align: center;
     }
-    .g-card-from, .g-card-to { display: flex; flex-direction: column; gap: 3px; }
-    .g-card-from-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted2); }
-    .g-card-from-val { font-size: .95rem; font-weight: 700; color: var(--text); }
-    .g-card-arrow {
-      font-size: 1.2rem; color: var(--blue-s); opacity: .6;
-      flex: 1; text-align: center;
-      animation: arrowPulse 2s ease-in-out infinite;
+    .g-heading-pre {
+      font-family: var(--mono); font-size: .85rem; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--muted2);
     }
-    @keyframes arrowPulse { 0%,100%{opacity:.4;transform:translateX(0)} 50%{opacity:.9;transform:translateX(4px)} }
 
-    /* badge inside sub */
-    .g-badge {
-      display: inline-block; font-family: var(--mono); font-size: 9px;
-      letter-spacing: .16em; color: var(--blue-s);
-      border: 1px solid rgba(59,111,245,.25); padding: 3px 10px;
-      border-radius: 3px; margin-top: .5rem;
+    /* "por christiangtzb" line */
+    .g-by {
+      display: flex; align-items: center; gap: .75rem;
+      margin-top: .5rem;
+    }
+    .g-by-line { flex: 0 0 32px; height: 1px; background: var(--hair); }
+    .g-by-text {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .12em;
+      color: var(--muted2); white-space: nowrap;
+    }
+    .g-by-text strong {
+      color: var(--mint); font-weight: 500;
     }
 
     /* footer note */
@@ -562,30 +553,22 @@
 
   <div class="g-inner">
 
-    <!-- Chris brand top -->
-    <div class="g-brand">
-      <span class="g-brand-dot"></span>
-      <span class="g-brand-name">christiangtzb.com</span>
-      <span class="g-brand-sep">·</span>
-      <span class="g-brand-label">Portal de Reportes</span>
-    </div>
+    <!-- eyebrow -->
+    <div class="g-eyebrow">Reporte de campaña · Meta Ads · Mayo 2026</div>
 
-    <!-- service card -->
-    <div class="g-card">
-      <div class="g-card-from">
-        <span class="g-card-from-lbl">Preparado por</span>
-        <span class="g-card-from-val">Christian Gutiérrez</span>
-      </div>
-      <div class="g-card-arrow">→</div>
-      <div class="g-card-to">
-        <span class="g-card-from-lbl">Cliente</span>
-        <div class="g-logo" data-text="Lasso">Lasso</div>
+    <!-- main heading -->
+    <div class="g-heading">
+      <span class="g-heading-pre">Resultados de</span>
+      <div class="g-logo" data-text="Lasso">Lasso</div>
+      <div class="g-by">
+        <span class="g-by-line"></span>
+        <span class="g-by-text">por <strong>christiangtzb</strong></span>
+        <span class="g-by-line"></span>
       </div>
     </div>
 
     <div class="g-sub">
-      Reporte de campaña Meta Ads · Mayo 2026<br/>
-      <span class="g-badge">Acceso restringido · Solo personal autorizado</span>
+      Acceso restringido · Solo personal autorizado
     </div>
 
     <form id="gForm" onsubmit="return false">
