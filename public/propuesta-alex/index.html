@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Propuesta Easy Super — Adquisición de usuarios &amp; descargas</title>
+  <meta name="description" content="Propuesta de campañas de paid media en redes sociales para generar usuarios y descargas de Easy Super, la app para hacer tu lista del súper." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a0b0a;
+      --bg2:       #131815;
+      --card:      rgba(20, 28, 23, 0.7);
+      --hair:      rgba(255,255,255,0.12);
+      --hair2:     rgba(255,255,255,0.06);
+      --mint:      #7fd99c;
+      --mint-s:    #c9e8d2;
+      --mint-d:    #4fae74;
+      --text:      #ffffff;
+      --muted:     rgba(255,255,255,0.72);
+      --muted2:    rgba(255,255,255,0.50);
+      --muted3:    rgba(255,255,255,0.32);
+      --amber:     #f5b544;
+      --font: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+      --mono: "DM Mono", monospace;
+      --maxw: 1080px;
+      --pad: clamp(1.25rem, 5vw, 3rem);
+    }
+
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    body {
+      font-family: var(--font);
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(ellipse 110% 70% at 50% -8%, rgba(34,64,45,0.55), transparent 60%),
+        radial-gradient(ellipse 90% 60% at 85% 30%, rgba(24,48,34,0.4), transparent 62%),
+        linear-gradient(180deg, #0b120d 0%, #0a0b0a 55%, #0b110d 100%);
+      background-attachment: fixed;
+      color: var(--text); line-height: 1.5; overflow-x: hidden;
+    }
+    body::after {
+      content: ''; position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+      opacity: 0.22; mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    ::selection { background: var(--mint-s); color: var(--bg); }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    .back-nav {
+      position: fixed; top: 1.25rem; left: 1.5rem; z-index: 100;
+      display: inline-flex; align-items: center; gap: .55rem;
+      font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--muted3); background: rgba(10,11,10,.7); border: 1px solid var(--hair);
+      padding: 7px 14px; border-radius: 8px; backdrop-filter: blur(10px);
+      transition: color .2s, border-color .2s;
+    }
+    .back-nav:hover { color: var(--mint); border-color: rgba(127,217,156,.3); }
+
+    .w { max-width: var(--maxw); margin: 0 auto; padding-inline: var(--pad); }
+    section { padding: clamp(64px, 10vw, 112px) 0; }
+    .div { height: 1px; background: linear-gradient(90deg, transparent, var(--hair), transparent); }
+
+    .r { opacity: 0; transform: translateY(26px); transition: opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1); }
+    .r.on { opacity: 1; transform: translateY(0); }
+    .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}.d5{transition-delay:.4s}.d6{transition-delay:.48s}
+
+    .mono { font-family: var(--mono); }
+    .slabel { font-family: var(--mono); font-size: 10px; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--mint); display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+    .slabel::after { content:''; flex: 0 0 48px; height: 1px; background: rgba(127,217,156,.35); }
+    .stitle { font-size: clamp(2rem, 4.5vw, 3.1rem); font-weight: 800; letter-spacing: -.04em; line-height: 1.04; }
+    .sdesc { margin-top: 1rem; color: var(--muted); font-size: 1rem; max-width: 580px; line-height: 1.7; }
+    .shead { margin-bottom: 3rem; }
+
+    /* ════ HERO ════ */
+    #hero { min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; padding: 96px 0 60px; }
+    .h-grid { position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+      background-size: 62px 62px; mask-image: radial-gradient(ellipse 90% 90% at 50% 45%, black, transparent 100%); }
+    .h-wrap { position: relative; z-index: 2; display: grid; grid-template-columns: 1.25fr .75fr; gap: 3rem; align-items: center; }
+    @media (max-width: 880px){ .h-wrap { grid-template-columns: 1fr; } .phone-hero { display:none; } }
+    .h-eye { display: flex; align-items: center; gap: 12px; margin-bottom: 1.8rem; flex-wrap: wrap; }
+    .h-badge { font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--mint); border: 1px solid rgba(127,217,156,.35); padding: 5px 12px; border-radius: 999px; }
+    .h-date { font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted3); }
+    .h-sep { width: 34px; height: 1px; background: var(--muted3); }
+    .h-title { font-size: clamp(2.6rem, 6.5vw, 5rem); font-weight: 800; letter-spacing: -.045em; line-height: .96; margin-bottom: 1.6rem; }
+    .ht2 { display: block; background: linear-gradient(115deg, var(--mint-s) 0%, var(--mint) 45%, var(--mint-d) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      background-size: 200% 100%; animation: shimmer 5s ease-in-out infinite; }
+    @keyframes shimmer { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+    .h-lead { font-size: 1.08rem; color: var(--muted); max-width: 540px; line-height: 1.75; margin-bottom: 2.2rem; }
+    .h-cta { display: flex; gap: .8rem; flex-wrap: wrap; margin-bottom: 2.8rem; }
+    .btn { display: inline-flex; align-items: center; gap: .55rem; font-family: var(--font);
+      font-size: .98rem; font-weight: 600; padding: 15px 28px; border-radius: 999px; border: 1px solid transparent;
+      cursor: pointer; transition: transform .2s, background .2s, border-color .2s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--mint); color: var(--bg); }
+    .btn-primary:hover { background: var(--mint-s); }
+    .btn-ghost { border-color: var(--hair); color: var(--text); }
+    .btn-ghost:hover { border-color: rgba(127,217,156,.4); color: var(--mint); }
+    .h-stats { display: flex; gap: 2.4rem; flex-wrap: wrap; }
+    .hs { display: flex; flex-direction: column; gap: 5px; }
+    .hs-v { font-family: var(--mono); font-size: 1.55rem; font-weight: 500; color: var(--mint); }
+    .hs-k { font-family: var(--mono); font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted3); }
+
+    /* ════ phone frame ════ */
+    .phone-hero { display: flex; justify-content: center; }
+    .phone {
+      width: 250px; border-radius: 34px; padding: 10px; background: linear-gradient(160deg, #1a231d, #0d120f);
+      border: 1px solid var(--hair); box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(127,217,156,.08);
+      position: relative;
+    }
+    .phone::before { content:''; position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
+      width: 90px; height: 6px; border-radius: 999px; background: rgba(255,255,255,.15); z-index: 3; }
+    .phone img { border-radius: 26px; width: 100%; }
+    .phone-glow { position: absolute; inset: -40px; z-index: -1;
+      background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(127,217,156,.18), transparent 70%); }
+
+    /* ════ grid cards ════ */
+    .grid { display: grid; gap: 1.1rem; }
+    .g2 { grid-template-columns: repeat(2, 1fr); }
+    .g3 { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 820px){ .g2,.g3 { grid-template-columns: 1fr; } }
+    .card { background: var(--card); border: 1px solid var(--hair); border-radius: 18px; padding: 1.8rem;
+      backdrop-filter: blur(8px); transition: border-color .25s, transform .25s; }
+    .card:hover { border-color: rgba(127,217,156,.28); transform: translateY(-3px); }
+    .card h3 { font-size: 1.2rem; font-weight: 700; letter-spacing: -.02em; margin: .9rem 0 .55rem; }
+    .card p { color: var(--muted); font-size: .95rem; line-height: 1.65; }
+    .card .ico { font-size: 1.5rem; }
+
+    /* ════ metrics ════ */
+    .metrics { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.1rem; }
+    @media (max-width: 900px){ .metrics { grid-template-columns: repeat(2,1fr); } }
+    .metric { border: 1px solid var(--hair); border-radius: 16px; padding: 1.6rem 1.4rem; background: var(--card); }
+    .metric .v { font-family: var(--mono); font-size: 2.1rem; font-weight: 500; color: var(--mint); letter-spacing: -.02em; }
+    .metric .k { color: var(--muted2); font-size: .86rem; margin-top: .5rem; line-height: 1.4; }
+
+    /* ════ CHARTS ════ */
+    .charts { display: grid; grid-template-columns: 1.3fr .7fr; gap: 1.1rem; }
+    @media (max-width: 860px){ .charts { grid-template-columns: 1fr; } }
+    .chart { background: var(--card); border: 1px solid var(--hair); border-radius: 18px; padding: 1.6rem 1.7rem; }
+    .chart h4 { font-size: 1.05rem; font-weight: 700; letter-spacing: -.01em; }
+    .chart .csub { color: var(--muted3); font-size: .82rem; margin-top: .2rem; margin-bottom: 1.3rem; font-family: var(--mono); }
+    .chart svg { width: 100%; height: auto; display: block; }
+    .axis { display: flex; justify-content: space-between; margin-top: .6rem; }
+    .axis span { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; color: var(--muted3); text-transform: uppercase; }
+
+    /* bar chart */
+    .bars { display: flex; align-items: flex-end; gap: 1.4rem; height: 180px; padding-top: 1rem; }
+    .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: .7rem; height: 100%; justify-content: flex-end; }
+    .bar { width: 100%; max-width: 62px; border-radius: 8px 8px 0 0; background: linear-gradient(180deg, var(--mint), var(--mint-d));
+      position: relative; transition: height 1.1s cubic-bezier(.16,1,.3,1); }
+    .bar.ghost { background: linear-gradient(180deg, rgba(127,217,156,.28), rgba(127,217,156,.08)); }
+    .bar .val { position: absolute; top: -1.5rem; left: 50%; transform: translateX(-50%); font-family: var(--mono); font-size: 11px; color: var(--mint); white-space: nowrap; }
+    .bar-lbl { font-family: var(--mono); font-size: 10px; color: var(--muted2); letter-spacing: .04em; text-align: center; }
+
+    /* donut */
+    .donut-wrap { display: flex; align-items: center; gap: 1.6rem; flex-wrap: wrap; }
+    .donut { width: 132px; height: 132px; border-radius: 50%; flex: 0 0 auto;
+      background: conic-gradient(var(--mint) 0 55%, var(--mint-d) 55% 90%, rgba(255,255,255,.18) 90% 100%);
+      -webkit-mask: radial-gradient(circle 40px at 50% 50%, transparent 98%, #000 100%);
+      mask: radial-gradient(circle 40px at 50% 50%, transparent 98%, #000 100%); }
+    .legend { display: flex; flex-direction: column; gap: .6rem; }
+    .lg { display: flex; align-items: center; gap: .55rem; font-size: .88rem; color: var(--muted); }
+    .dot { width: 11px; height: 11px; border-radius: 3px; flex: 0 0 auto; }
+    .lg .mono { color: var(--muted3); font-size: .78rem; margin-left: .2rem; }
+
+    /* channels chips */
+    .chips { display: flex; flex-wrap: wrap; gap: .6rem; }
+    .chip { font-family: var(--mono); font-size: 12px; letter-spacing: .04em; color: var(--muted);
+      border: 1px solid var(--hair); border-radius: 999px; padding: 8px 15px; transition: border-color .2s, color .2s; }
+    .chip:hover { border-color: rgba(127,217,156,.4); color: var(--mint); }
+
+    /* flow */
+    .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 1rem; }
+    @media (max-width: 820px){ .flow { grid-template-columns: 1fr; } }
+    .step { padding: 1.5rem 1.3rem; border: 1px solid var(--hair); border-radius: 16px; background: var(--card); }
+    .step .n { font-family: var(--mono); font-size: 11px; color: var(--mint); letter-spacing: .12em; }
+    .step h4 { font-size: 1.05rem; font-weight: 700; margin: .7rem 0 .4rem; }
+    .step p { color: var(--muted2); font-size: .88rem; line-height: 1.55; }
+
+    /* author */
+    .author { display: flex; gap: 1.6rem; align-items: center; border: 1px solid var(--hair); border-radius: 20px;
+      padding: 1.6rem 1.8rem; background: var(--card); margin-top: 2rem; flex-wrap: wrap; }
+    .author img { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; object-position: center top;
+      border: 1px solid rgba(127,217,156,.3); background: #dce8de; flex: 0 0 auto; }
+    .author .who { flex: 1; min-width: 220px; }
+    .author .nm { font-size: 1.2rem; font-weight: 700; }
+    .author .rl { font-family: var(--mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--mint); margin: .3rem 0 .6rem; }
+    .author .bio { color: var(--muted); font-size: .92rem; line-height: 1.6; }
+
+    /* pricing */
+    .price-card { position: relative; display: flex; flex-direction: column; }
+    .price-card.feat { border-color: rgba(127,217,156,.45); background: linear-gradient(180deg, rgba(127,217,156,.07), var(--card)); }
+    .price-tag { position: absolute; top: -11px; right: 20px; font-family: var(--mono); font-size: 9px; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--bg); background: var(--mint); padding: 4px 11px; border-radius: 999px; }
+    .price-name { font-family: var(--mono); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--mint); }
+    .price-amt { font-size: 2.3rem; font-weight: 800; letter-spacing: -.03em; margin: .7rem 0 .05rem; }
+    .price-amt span { font-size: .95rem; font-weight: 400; color: var(--muted3); }
+    .price-sub { color: var(--muted2); font-size: .85rem; margin-bottom: 1.3rem; }
+    .price-list { list-style: none; display: flex; flex-direction: column; gap: .7rem; margin-top: .3rem; flex: 1; }
+    .price-list li { color: var(--muted); font-size: .9rem; line-height: 1.5; display: flex; gap: .6rem; align-items: flex-start; }
+    .price-list li::before { content: '→'; color: var(--mint); flex: 0 0 auto; }
+    .price-card .btn { margin-top: 1.5rem; justify-content: center; }
+    .note { margin-top: 1.6rem; border: 1px dashed rgba(245,181,68,.4); border-radius: 14px; padding: 1.1rem 1.3rem;
+      background: rgba(245,181,68,.05); color: var(--muted); font-size: .92rem; line-height: 1.6; display: flex; gap: .8rem; align-items: flex-start; }
+    .note b { color: var(--amber); font-weight: 700; }
+    .note .i { color: var(--amber); }
+
+    .cta-band { text-align: center; border: 1px solid var(--hair); border-radius: 24px; padding: clamp(2.4rem,6vw,4rem);
+      background: radial-gradient(ellipse 80% 120% at 50% 0%, rgba(127,217,156,.08), transparent 70%); }
+    .cta-band h2 { font-size: clamp(1.8rem,4vw,2.8rem); font-weight: 800; letter-spacing: -.03em; }
+    .cta-band p { color: var(--muted); max-width: 480px; margin: 1rem auto 2rem; line-height: 1.7; }
+
+    footer { padding: 3rem 0; text-align: center; }
+    footer .mono { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted3); }
+    footer a:hover { color: var(--mint); }
+  </style>
+</head>
+<body>
+  <a href="/" class="back-nav">← christiangtzb.com</a>
+
+  <!-- ═══════ HERO ═══════ -->
+  <section id="hero">
+    <div class="h-grid"></div>
+    <div class="w h-wrap">
+      <div class="h-c">
+        <div class="h-eye r on">
+          <span class="h-badge">Propuesta para Alex · Easy Super</span>
+          <span class="h-sep"></span>
+          <span class="h-date">Christian Gutiérrez</span>
+        </div>
+        <h1 class="h-title r on d1">
+          Más descargas.<br />Más usuarios.
+          <span class="ht2">Easy Super en manos de todos.</span>
+        </h1>
+        <p class="h-lead r on d2">
+          Campañas de paid media en redes sociales diseñadas para llevar tu app —la forma
+          más fácil de hacer la lista del súper— a miles de nuevos usuarios. Estrategia,
+          creativos y optimización enfocados en un objetivo: instalaciones que se activan.
+        </p>
+        <div class="h-cta r on d3">
+          <a href="#paquetes" class="btn btn-primary">Ver paquetes ↓</a>
+          <a href="#proyeccion" class="btn btn-ghost">Ver proyección</a>
+        </div>
+        <div class="h-stats r on d4">
+          <div class="hs"><span class="hs-v">+17k</span><span class="hs-k">descargas proyectadas / 6 meses</span></div>
+          <div class="hs"><span class="hs-v">Meta · TikTok</span><span class="hs-k">canales de pauta</span></div>
+          <div class="hs"><span class="hs-v">Desde $12k</span><span class="hs-k">honorario mensual (MXN)</span></div>
+        </div>
+      </div>
+      <div class="phone-hero r on d3">
+        <div class="phone">
+          <div class="phone-glow"></div>
+          <img src="/images/app-easysuper.jpeg" alt="App EasySuper en la App Store" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="div"></div>
+
+  <!-- ═══════ OBJETIVO ═══════ -->
+  <section id="objetivo">
+    <div class="w">
+      <div class="shead r">
+        <div class="slabel">01 — El objetivo</div>
+        <h2 class="stitle">Convertir descargas<br />en usuarios activos.</h2>
+        <p class="sdesc">Una gran app no crece sola. El reto no es solo que la descarguen, sino atraer al usuario correcto: quien hace súper cada semana y necesita organizar su lista. Ahí entra el paid media bien ejecutado.</p>
+      </div>
+      <div class="grid g3">
+        <div class="card r d1"><div class="ico">📲</div><h3>Descargas</h3><p>Volumen de instalaciones en iOS y Android al menor costo por instalación posible.</p></div>
+        <div class="card r d2"><div class="ico">🎯</div><h3>Usuarios correctos</h3><p>Audiencias de personas que sí usan la app: hogares que compran despensa, foodies y familias.</p></div>
+        <div class="card r d3"><div class="ico">🔁</div><h3>Activación</h3><p>Optimización hacia el evento que importa: que abran la app y creen su primera lista.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="div"></div>
+
+  <!-- ═══════ ESTRATEGIA ═══════ -->
+  <section id="estrategia">
+    <div class="w">
+      <div class="shead r">
+        <div class="slabel">02 — La estrategia</div>
+        <h2 class="stitle">Paid media pensado<br />para app installs.</h2>
+        <p class="sdesc">No es solo "poner anuncios". Es un sistema de adquisición: campañas de instalación optimizadas por eventos, creativos que se prueban en ciclos y audiencias que se refinan cada semana.</p>
+      </div>
+      <div class="grid g2">
+        <div class="card r d1"><div class="ico">🚀</div><h3>Campañas de instalación</h3><p>Advantage+ App Campaigns en Meta y App Install en TikTok, optimizadas hacia instalación y activación, no solo clics.</p></div>
+        <div class="card r d2"><div class="ico">🎬</div><h3>Producción de creativos</h3><p>Videos y estáticos hechos para detener el scroll: la app en acción, hooks de ahorro de tiempo y demos reales de la lista.</p></div>
+        <div class="card r d3"><div class="ico">🧪</div><h3>Testing continuo</h3><p>Ciclos de prueba de hooks, formatos y audiencias. Escalamos lo que funciona, cortamos lo que no.</p></div>
+        <div class="card r d4"><div class="ico">📈</div><h3>Optimización semanal</h3><p>Ajuste de presupuesto, pujas y segmentación con base en costo por instalación y retención.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="div"></div>
+
+  <!-- ═══════ PROYECCIÓN (CHARTS) ═══════ -->
+  <section id="proyeccion">
+    <div class="w">
+      <div class="shead r">
+        <div class="slabel">03 — Proyección</div>
+        <h2 class="stitle">Cómo se ve el crecimiento.</h2>
+        <p class="sdesc">Escenario de referencia con la inversión mínima en pauta. Las cifras se afinan con datos reales una vez que corren las primeras campañas.</p>
+      </div>
+
+      <div class="charts">
+        <!-- descargas acumuladas -->
+        <div class="chart r d1">
+          <h4>Descargas acumuladas</h4>
+          <div class="csub">Proyección a 6 meses · escenario base</div>
+          <svg viewBox="0 0 300 130" preserveAspectRatio="none" role="img" aria-label="Gráfica de crecimiento de descargas">
+            <defs>
+              <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="rgba(127,217,156,0.42)" />
+                <stop offset="100%" stop-color="rgba(127,217,156,0)" />
+              </linearGradient>
+            </defs>
+            <line x1="10" y1="120" x2="290" y2="120" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+            <path d="M10,115 L66,106 L122,92 L178,72 L234,46 L290,15 L290,120 L10,120 Z" fill="url(#area)"/>
+            <polyline points="10,115 66,106 122,92 178,72 234,46 290,15" fill="none" stroke="#7fd99c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="290" cy="15" r="4" fill="#7fd99c"/>
+          </svg>
+          <div class="axis"><span>M1</span><span>M2</span><span>M3</span><span>M4</span><span>M5</span><span>M6</span></div>
+        </div>
+
+        <!-- mix de canales -->
+        <div class="chart r d2">
+          <h4>Mix de canales</h4>
+          <div class="csub">Distribución de pauta</div>
+          <div class="donut-wrap">
+            <div class="donut" role="img" aria-label="Distribución: Meta 55%, TikTok 35%, Google 10%"></div>
+            <div class="legend">
+              <div class="lg"><span class="dot" style="background:#7fd99c"></span> Meta <span class="mono">55%</span></div>
+              <div class="lg"><span class="dot" style="background:#4fae74"></span> TikTok <span class="mono">35%</span></div>
+              <div class="lg"><span class="dot" style="background:rgba(255,255,255,.35)"></span> Google <span class="mono">10%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="charts" style="margin-top:1.1rem">
+        <!-- instalaciones por presupuesto -->
+        <div class="chart r d1">
+          <h4>Instalaciones estimadas / mes</h4>
+          <div class="csub">Según inversión en pauta (MXN)</div>
+          <div class="bars" data-bars>
+            <div class="bar-col"><div class="bar" style="height:0" data-h="45%"><span class="val">~1,000</span></div><div class="bar-lbl">$10k</div></div>
+            <div class="bar-col"><div class="bar" style="height:0" data-h="68%"><span class="val">~1,650</span></div><div class="bar-lbl">$15k</div></div>
+            <div class="bar-col"><div class="bar" style="height:0" data-h="92%"><span class="val">~2,300</span></div><div class="bar-lbl">$20k</div></div>
+          </div>
+        </div>
+
+        <!-- CPI trend -->
+        <div class="chart r d2">
+          <h4>Costo por instalación</h4>
+          <div class="csub">Tendencia esperada al optimizar</div>
+          <svg viewBox="0 0 300 100" preserveAspectRatio="none" role="img" aria-label="Costo por instalación decreciente">
+            <line x1="10" y1="90" x2="290" y2="90" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+            <polyline points="10,20 66,34 122,45 178,56 234,66 290,74" fill="none" stroke="#7fd99c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="10" cy="20" r="3.5" fill="rgba(255,255,255,.4)"/>
+            <circle cx="290" cy="74" r="4" fill="#7fd99c"/>
+          </svg>
+          <div class="axis"><span>$28</span><span></span><span></span><span></span><span></span><span>$12</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="div"></div>
+
+  <!-- ═══════ EXPERIENCIA ═══════ -->
+  <section id="experiencia">
+    <div class="w">
+      <div class="shead r">
+        <div class="slabel">04 — Nuestra experiencia</div>
+        <h2 class="stitle">Ya lo hemos hecho crecer.</h2>
+        <p class="sdesc">Datos de referencia de campañas de performance gestionadas. Son las cifras con las que trabajamos y el estándar que buscamos replicar en Easy Super.</p>
+      </div>
+      <div class="metrics r d1">
+        <div class="metric"><div class="v">+$2.5M</div><div class="k">MXN en pauta gestionada</div></div>
+        <div class="metric"><div class="v">3.8x</div><div class="k">ROAS promedio en campañas</div></div>
+        <div class="metric"><div class="v">-32%</div><div class="k">reducción de costo por resultado</div></div>
+        <div class="metric"><div class="v">+40k</div><div class="k">leads &amp; registros generados</div></div>
+      </div>
+      <div class="author r d2">
+        <img src="/images/portrait.png" alt="Christian Gutiérrez" />
+        <div class="who">
+          <div class="nm">Christian Gutiérrez</div>
+          <div class="rl">Growth &amp; Performance Marketing</div>
+          <div class="bio">Gestiono campañas de paid media para startups y negocios en México, con foco en adquisición medible y reducción de costo por resultado. Cada peso de pauta se rastrea, se prueba y se optimiza.</div>
+        </div>
+      </div>
+      <p style="color:var(--muted3);font-size:.82rem;margin-top:1.2rem" class="mono r d3">Cifras acumuladas de proyectos gestionados · ajustables a los datos reales que quieras mostrar.</p>
+    </div>
+  </section>
+
+  <div class="div"></div>
+
+  <!-- ═══════ PAQUETES ═══════ -->
+  <section id="paquetes">
+    <div class="w">
+      <div class="shead r">
+        <div class="slabel">05 — Paquetes</div>
+        <h2 class="stitle">Tres formas de arrancar.</h2>
+        <p class="sdesc">El honorario cubre estrategia, gestión, creativos y reportes. La inversión en pauta (medios) es adicional y va directo a las plataformas.</p>
+      </div>
+      <div class="grid g3">
+        <div class="card price-card r d1">
+          <div class="price-name">Arranque</div>
+          <div class="price-amt">$12,000<span> MXN / mes</span></div>
+          <div class="price-sub">Honorario de gestión</div>
+          <ul class="price-list">
+            <li>1 canal de pauta (Meta)</li>
+            <li>Campaña de instalación + retargeting básico</li>
+            <li>Hasta 4 creativos / mes</li>
+            <li>Optimización semanal</li>
+            <li>Reporte mensual de resultados</li>
+          </ul>
+          <a href="#cta" class="btn btn-ghost">Elegir Arranque</a>
+        </div>
+        <div class="card price-card feat r d2">
+          <span class="price-tag">Recomendado</span>
+          <div class="price-name">Crecimiento</div>
+          <div class="price-amt">$15,000<span> MXN / mes</span></div>
+          <div class="price-sub">Honorario de gestión</div>
+          <ul class="price-list">
+            <li>2 canales (Meta + TikTok)</li>
+            <li>Instalación + activación + retargeting</li>
+            <li>Hasta 8 creativos / mes</li>
+            <li>Testing A/B de hooks y audiencias</li>
+            <li>Optimización + reporte quincenal</li>
+          </ul>
+          <a href="#cta" class="btn btn-primary">Elegir Crecimiento</a>
+        </div>
+        <div class="card price-card r d3">
+          <div class="price-name">Escala</div>
+          <div class="price-amt">$18,000<span> MXN / mes</span></div>
+          <div class="price-sub">Honorario de gestión</div>
+          <ul class="price-list">
+            <li>3 canales (Meta + TikTok + Google)</li>
+            <li>Full funnel: adquisición + retención</li>
+            <li>Creativos ilimitados por sprint</li>
+            <li>Testing avanzado + panel en vivo</li>
+            <li>Reporte semanal + llamada estratégica</li>
+          </ul>
+          <a href="#cta" class="btn btn-ghost">Elegir Escala</a>
+        </div>
+      </div>
+      <div class="note r d1">
+        <span class="i">◆</span>
+        <div>
+          <b>Inversión mínima en pauta: $10,000 MXN / mes.</b>
+          Este monto se suma al honorario y va directo a las plataformas (Meta, TikTok, Google).
+          A mayor inversión en pauta, mayor volumen de descargas — el honorario se mantiene fijo según el paquete.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="div"></div>
+
+  <!-- ═══════ PROCESO ═══════ -->
+  <section id="proceso">
+    <div class="w">
+      <div class="shead r">
+        <div class="slabel">06 — Cómo trabajamos</div>
+        <h2 class="stitle">Del kickoff a<br />las primeras descargas.</h2>
+      </div>
+      <div class="flow r d1">
+        <div class="step"><div class="n">01</div><h4>Kickoff</h4><p>Definimos objetivo de descargas, audiencias y mensajes clave de Easy Super.</p></div>
+        <div class="step"><div class="n">02</div><h4>Setup &amp; tracking</h4><p>Configuramos campañas, eventos de instalación/activación y creativos iniciales.</p></div>
+        <div class="step"><div class="n">03</div><h4>Lanzamiento</h4><p>Salen las campañas y arranca la fase de aprendizaje y primeros datos.</p></div>
+        <div class="step"><div class="n">04</div><h4>Optimizar &amp; escalar</h4><p>Refinamos lo que funciona y subimos presupuesto para crecer descargas.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="div"></div>
+
+  <!-- ═══════ CTA ═══════ -->
+  <section id="cta">
+    <div class="w">
+      <div class="cta-band r">
+        <h2>¿Arrancamos con Easy Super?</h2>
+        <p>Elige un paquete y en una llamada de 30 minutos definimos objetivo, audiencias y fecha de lanzamiento.</p>
+        <div class="h-cta" style="justify-content:center;">
+          <a href="mailto:christian.gutierrez@leadsales.io" class="btn btn-primary">Agendar llamada</a>
+          <a href="#paquetes" class="btn btn-ghost">Ver paquetes de nuevo</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="w">
+      <div class="mono">Propuesta Easy Super · para Alex · Christian Gutiérrez · <a href="https://christiangtzb.com">christiangtzb.com</a></div>
+    </div>
+  </footer>
+
+  <script>
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('on');
+          e.target.querySelectorAll?.('[data-h]').forEach((b) => { b.style.height = b.dataset.h; });
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.14 });
+    document.querySelectorAll('.r:not(.on)').forEach((el) => io.observe(el));
+  </script>
+</body>
+</html>

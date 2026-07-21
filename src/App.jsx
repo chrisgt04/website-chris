@@ -8,6 +8,7 @@ import Services from "./components/Services";
 import Results from "./components/Results";
 import Clients from "./components/Clients";
 import Tech from "./components/Tech";
+import AdsLanding from "./components/ads/AdsLanding";
 
 // Secciones siguientes (se reconstruirán al estilo del brief una por una):
 // import Specialties from "./components/Specialties";
@@ -19,9 +20,14 @@ import Tech from "./components/Tech";
 // import Footer from "./components/Footer";
 
 export default function App() {
+  const isAds =
+    typeof window !== "undefined" &&
+    window.location.pathname.replace(/\/$/, "") === "/ads";
+
   const lenisRef = useRef(null);
 
   useEffect(() => {
+    if (isAds) return; // la landing /ads no usa smooth-scroll global
     const lenis = new Lenis({
       lerp: 0.09, // suavidad / inercia tipo Apple
       smoothWheel: true,
@@ -55,6 +61,8 @@ export default function App() {
       lenis.destroy();
     };
   }, []);
+
+  if (isAds) return <AdsLanding />;
 
   return (
     <>

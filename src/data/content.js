@@ -29,7 +29,7 @@ export const hero = {
   ],
   primary: { label: "Hablemos por WhatsApp", href: "https://wa.me/528180502810" },
   secondary: { label: "Ver resultados", href: "#resultados" },
-  portrait: "/images/portrait.png",
+  portrait: "/images/hero-nuevo.png",
   watermark: "C",
   dockLabel: "He trabajado con:",
   clients: [

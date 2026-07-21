@@ -1,7 +1,17 @@
 {
   "rewrites": [
     {
-      "source": "/((?!lasso-reports).*)",
+      "source": "/((?!.*\\.).*)",
+      "has": [{ "type": "host", "value": "propuesta-alex.christiangtzb.com" }],
+      "destination": "/propuesta-alex/index.html"
+    },
+    {
+      "source": "/((?!.*\\.).*)",
+      "has": [{ "type": "host", "value": "propuesta-terraza-loredo.christiangtzb.com" }],
+      "destination": "/propuesta-terraza-loredo/index.html"
+    },
+    {
+      "source": "/((?!lasso-reports|propuesta-alex|propuesta-terraza-loredo).*)",
       "destination": "/index.html"
     }
   ]
