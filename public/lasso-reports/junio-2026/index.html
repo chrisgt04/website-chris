@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lasso — Reporte Junio 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* ── Hybrid: Chris dark-green + Lasso navy ── */
+      --bg:        #060c12;
+      --bg2:       #0b1624;
+      --card:      #0f1d2e;
+      --card2:     rgba(12,23,40,0.85);
+      --hair:      rgba(255,255,255,0.08);
+      --hair2:     rgba(255,255,255,0.04);
+
+      /* ── Chris mint (primary accent) ── */
+      --mint:      #7fd99c;
+      --mint-s:    #c9e8d2;
+      --mint-d:    rgba(127,217,156,0.1);
+
+      /* ── Lasso blue (secondary accent) ── */
+      --blue:      #3b6ff5;
+      --blue-b:    #2563eb;
+      --blue-s:    #7b9ce0;
+      --blue-d:    rgba(59,111,245,0.12);
+
+      /* ── Text ── */
+      --text:      #f0f0ee;
+      --muted:     rgba(240,240,238,0.55);
+      --muted2:    rgba(240,240,238,0.32);
+
+      /* ── States ── */
+      --green:     #4ade80;
+      --red:       #f87171;
+      --orange:    #f97316;
+
+      --font: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+      --mono: "DM Mono", monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9998; opacity: 0.28;
+    }
+
+    /* ════════════════════════════════════════
+       BACK NAV
+    ════════════════════════════════════════ */
+    .back-nav {
+      position: fixed; top: 1.25rem; left: 1.5rem; z-index: 100;
+      display: flex; align-items: center; gap: .55rem;
+      font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--muted2); text-decoration: none;
+      background: rgba(6,12,18,.85); border: 1px solid var(--hair);
+      padding: 6px 14px; border-radius: 6px;
+      backdrop-filter: blur(8px);
+      transition: color .2s, border-color .2s;
+    }
+    .back-nav:hover { color: var(--mint); border-color: rgba(127,217,156,.25); }
+
+    #gate { display: none; }
+
+    /* ════════════════════════════════════════
+       REPORT
+    ════════════════════════════════════════ */
+    #report { opacity: 1; }
+
+    /* layout */
+    .w { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+    section { padding: 96px 0; }
+    .div { height: 1px; background: linear-gradient(90deg, transparent, var(--hair), transparent); margin: 0 2rem; }
+
+    /* reveal */
+    .r { opacity: 0; transform: translateY(26px); transition: opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1); }
+    .r.on { opacity: 1; transform: translateY(0); }
+    .d1{transition-delay:.1s} .d2{transition-delay:.2s} .d3{transition-delay:.3s} .d4{transition-delay:.4s}
+
+    /* type helpers */
+    .mono { font-family: var(--mono); }
+    .slabel {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--mint); display: flex; align-items: center; gap: 10px; margin-bottom: .9rem;
+    }
+    .slabel::after { content:''; flex: 0 0 48px; height: 1px; background: rgba(127,217,156,.3); }
+    .stitle { font-size: clamp(2rem,4vw,3rem); font-weight: 800; letter-spacing: -.04em; line-height: 1.05; }
+    .sdesc { margin-top: .85rem; color: var(--muted); font-size: .92rem; max-width: 520px; line-height: 1.75; }
+    .shead { margin-bottom: 3.5rem; }
+
+    /* ════ HERO ════ */
+    #hero {
+      min-height: 100vh; display: flex; align-items: center;
+      position: relative; overflow: hidden; padding: 0;
+    }
+    .h-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 100% 70% at 50% -8%, rgba(59,111,245,.09) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 55% at 10% 90%, rgba(127,217,156,.05) 0%, transparent 55%);
+    }
+    .h-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black, transparent 100%);
+    }
+    .h-c { position: relative; z-index: 2; width: 100%; }
+
+    .h-eye {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 2rem;
+    }
+    .h-badge {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--blue-s); border: 1px solid rgba(59,111,245,.3); padding: 5px 12px; border-radius: 3px;
+    }
+    .h-sep { width: 40px; height: 1px; background: var(--muted2); }
+    .h-date { font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted2); }
+
+    .h-title { font-size: clamp(3.5rem,9vw,8.5rem); font-weight: 800; letter-spacing: -.045em; line-height: .9; margin-bottom: 2rem; }
+    .ht1 { display: block; color: var(--text); }
+    .ht2 {
+      display: block;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-s) 40%, var(--mint) 80%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      background-size: 200% 100%;
+      animation: shimmer 4s ease-in-out infinite;
+    }
+    @keyframes shimmer { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+
+    .h-lead { font-size: 1.05rem; color: var(--muted); max-width: 500px; line-height: 1.75; margin-bottom: 3rem; }
+
+    .h-stats { display: flex; gap: 2.5rem; flex-wrap: wrap; }
+    .hs { display: flex; flex-direction: column; gap: 4px; }
+    .hs-v { font-family: var(--mono); font-size: 1.6rem; font-weight: 500; color: var(--text); }
+    .hs-v.m { color: var(--mint); }
+    .hs-v.b { color: var(--blue-s); }
+    .hs-k { font-family: var(--mono); font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted2); }
+
+    .cursor { display: inline-block; width: 3px; height: .82em; background: var(--blue-s); margin-left: 3px; vertical-align: text-top; animation: blink .9s step-end infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    .h-scroll { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; z-index: 2; }
+    .h-sbar { width: 1px; height: 48px; background: linear-gradient(to bottom, transparent, var(--blue-s), transparent); animation: sp 2.2s ease-in-out infinite; }
+    @keyframes sp { 0%,100%{opacity:.3;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.1)} }
+
+    /* ════ 15-DAY CONTEXT BANNER ════ */
+    .context-banner {
+      background: linear-gradient(135deg, rgba(59,111,245,.08), rgba(127,217,156,.05));
+      border: 1px solid rgba(59,111,245,.2);
+      border-radius: 12px; padding: 1.25rem 1.75rem;
+      display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+    .cb-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 8px var(--blue); animation: pls 2s infinite; flex-shrink: 0; }
+    @keyframes pls { 0%,100%{box-shadow:0 0 4px var(--blue)} 50%{box-shadow:0 0 14px var(--blue)} }
+    .cb-text { font-size: .85rem; color: var(--muted); line-height: 1.6; }
+    .cb-text strong { color: var(--text); }
+    .cb-stats { display: flex; gap: 1.5rem; margin-left: auto; flex-wrap: wrap; }
+    .cb-s { display: flex; flex-direction: column; gap: 2px; }
+    .cb-sv { font-family: var(--mono); font-size: 1rem; font-weight: 500; color: var(--blue-s); }
+    .cb-sk { font-family: var(--mono); font-size: 8px; letter-spacing: .15em; text-transform: uppercase; color: var(--muted2); }
+
+    /* ════ STAT GRID ════ */
+    .sg { display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 1px; background: var(--hair); border: 1px solid var(--hair); border-radius: 16px; overflow: hidden; }
+    .sc { background: var(--card); padding: 1.6rem 1.5rem; position: relative; overflow: hidden; }
+    .sc::after { content:''; position:absolute; inset:0; background: radial-gradient(circle at 80% 20%, rgba(59,111,245,.04), transparent 55%); pointer-events:none; }
+    .sc-l { font-family:var(--mono); font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted2); margin-bottom:.6rem; }
+    .sc-v { font-size:2rem; font-weight:800; letter-spacing:-.04em; line-height:1; margin-bottom:.3rem; }
+    .sc-v.m { color:var(--mint); }
+    .sc-v.b { color:var(--blue-s); }
+    .sc-v.g { color:var(--green); }
+    .sc-s { font-size:.75rem; color:var(--muted2); }
+    .sc.feat { background: linear-gradient(135deg, rgba(59,111,245,.07), var(--card)); }
+
+    /* ════ MRR HERO ════ */
+    .mrr-block {
+      background: var(--card); border: 1px solid var(--hair);
+      border-radius: 20px; padding: 2.5rem; position: relative; overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .mrr-block::before {
+      content:''; position:absolute; inset:0;
+      background:
+        radial-gradient(ellipse 80% 100% at 100% 50%, rgba(59,111,245,.06), transparent 60%),
+        radial-gradient(ellipse 50% 60% at 0% 0%, rgba(127,217,156,.05), transparent 55%);
+      pointer-events:none;
+    }
+    .mrr-rel { position:relative; z-index:1; }
+    .mrr-hdr { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:2rem; flex-wrap:wrap; gap:1.5rem; }
+    .mrr-big { font-size:clamp(2.8rem,7vw,5.5rem); font-weight:800; letter-spacing:-.05em; line-height:1; color:var(--mint); }
+    .mrr-big .sl { color:var(--muted2); font-weight:300; font-size:.7em; }
+    .mrr-roasline { font-family:var(--mono); font-size:.78rem; color:var(--blue-s); margin-top:.3rem; }
+    .mrr-title { font-size:1.25rem; font-weight:700; margin-bottom:.35rem; }
+    .mrr-note { font-size:.85rem; color:var(--muted); line-height:1.65; max-width:400px; }
+
+    /* timeline */
+    .mrr-tl { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--hair); border-radius:10px; overflow:hidden; margin-bottom:1.5rem; }
+    @media(max-width:580px){ .mrr-tl{grid-template-columns:1fr 1fr;} }
+    .mt { background:var(--card2); padding:1.25rem 1rem; }
+    .mt.act { background:linear-gradient(135deg,rgba(59,111,245,.1),rgba(59,111,245,.03)); border-left:2px solid var(--blue); }
+    .mt-lbl { font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted2); margin-bottom:.45rem; }
+    .mt-val { font-size:1.3rem; font-weight:800; letter-spacing:-.03em; color:var(--text); }
+    .mt-roas { font-family:var(--mono); font-size:.72rem; color:var(--mint); margin-top:2px; }
+    .mt-note { font-size:.68rem; color:var(--muted2); margin-top:3px; }
+
+    /* mrr bars */
+    .mrr-bars { display:flex; flex-direction:column; gap:.7rem; }
+    .mb-row { display:flex; align-items:center; gap:1rem; }
+    .mb-lbl { font-family:var(--mono); font-size:.72rem; color:var(--muted); min-width:65px; }
+    .mb-trk { flex:1; height:5px; background:var(--hair2); border-radius:3px; overflow:hidden; }
+    .mb-fill { height:100%; border-radius:3px; width:0%; transition:width 1.5s cubic-bezier(.16,1,.3,1); }
+    .mb-fill.b { background:linear-gradient(90deg,rgba(59,111,245,.4),var(--blue)); }
+    .mb-fill.m { background:linear-gradient(90deg,rgba(127,217,156,.4),var(--mint)); }
+    .mb-val { font-family:var(--mono); font-size:.78rem; font-weight:500; min-width:88px; text-align:right; color:var(--text); }
+
+    /* pipeline note */
+    .pipe-note {
+      background:rgba(127,217,156,.04); border:1px solid rgba(127,217,156,.1);
+      border-radius:10px; padding:1.25rem 1.5rem;
+    }
+    .pipe-note-lbl { font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--mint); margin-bottom:.4rem; }
+    .pipe-note p { font-size:.85rem; color:var(--muted); line-height:1.65; }
+
+    /* ════ CAMPAIGNS ════ */
+    .cg { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+    @media(max-width:660px){.cg{grid-template-columns:1fr;}}
+    .cc { background:var(--card); border:1px solid var(--hair); border-radius:12px; padding:1.75rem; position:relative; overflow:hidden; }
+    .cc.prim { border-color:rgba(59,111,245,.2); }
+    .cc.prim::after { content:'PRINCIPAL'; position:absolute; top:.85rem; right:.85rem; font-family:var(--mono); font-size:8px; letter-spacing:.18em; color:var(--blue-s); border:1px solid rgba(59,111,245,.25); padding:2px 7px; border-radius:2px; }
+    .cc-name { font-family:var(--mono); font-size:.78rem; color:var(--muted2); margin-bottom:.35rem; }
+    .cc-obj { font-size:.95rem; font-weight:700; margin-bottom:1.25rem; }
+    .cc-spend { font-size:1.8rem; font-weight:800; letter-spacing:-.04em; color:var(--blue-s); margin-bottom:1.25rem; }
+    .cr { display:flex; justify-content:space-between; align-items:center; padding:.4rem 0; border-bottom:1px solid var(--hair2); }
+    .cr:last-child{border-bottom:none;}
+    .cr .k{font-size:.75rem;color:var(--muted2);}
+    .cr .v{font-family:var(--mono);font-size:.82rem;font-weight:500;}
+    .cr .v.m{color:var(--mint);}
+    .cr .v.b{color:var(--blue-s);}
+
+    /* ════ FUNNEL ════ */
+    .fw { display:grid; grid-template-columns:1fr 1fr; gap:4rem; }
+    @media(max-width:768px){.fw{grid-template-columns:1fr;}}
+    .fss { display:flex; flex-direction:column; gap:.6rem; }
+    .fs { background:var(--card); border:1px solid var(--hair); border-radius:10px; padding:1rem 1.25rem; display:flex; align-items:center; gap:.9rem; transition:border-color .3s; }
+    .fs:hover{border-color:rgba(59,111,245,.2);}
+    .fs.win{border-color:rgba(74,222,128,.2);background:linear-gradient(135deg,rgba(74,222,128,.04),var(--card));}
+    .fs-n{font-size:1.5rem;font-weight:800;letter-spacing:-.04em;min-width:48px;}
+    .fs-n.b{color:var(--blue-s);}
+    .fs-n.g{color:var(--green);}
+    .fs-i{flex:1;}
+    .fs-name{font-weight:600;font-size:.88rem;}
+    .fs-pct{font-family:var(--mono);font-size:.7rem;color:var(--muted2);}
+    .fs-bar{height:3px;background:var(--hair2);border-radius:2px;margin-top:6px;overflow:hidden;}
+    .fs-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,rgba(59,111,245,.4),var(--blue));width:0%;transition:width 1.3s cubic-bezier(.16,1,.3,1);}
+    .fs.win .fs-fill{background:linear-gradient(90deg,#16a34a,var(--green));}
+
+    .cvs{display:flex;flex-direction:column;gap:1.1rem;}
+    .cv{background:var(--card);border:1px solid var(--hair);border-radius:10px;padding:1.1rem 1.4rem;}
+    .cv.win{border-color:rgba(74,222,128,.2);background:linear-gradient(135deg,rgba(74,222,128,.04),var(--card));}
+    .cv-a{font-family:var(--mono);font-size:.7rem;color:var(--muted2);margin-bottom:.3rem;}
+    .cv-r{font-size:2rem;font-weight:800;letter-spacing:-.04em;color:var(--blue-s);line-height:1;}
+    .cv.win .cv-r{color:var(--green);}
+    .cv-d{font-size:.72rem;color:var(--muted2);margin-top:2px;}
+
+    /* ════ CLOSES ════ */
+    .clg{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.4rem;margin-bottom:1.75rem;}
+    .clc{background:var(--card);border:1px solid var(--hair);border-radius:12px;padding:1.6rem;position:relative;overflow:hidden;transition:transform .35s cubic-bezier(.22,1,.36,1),border-color .3s;}
+    .clc:hover{transform:translateY(-4px);border-color:rgba(74,222,128,.25);}
+    .clc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),#16a34a);}
+    .cl-badge{font-family:var(--mono);font-size:8px;letter-spacing:.18em;color:var(--green);border:1px solid rgba(74,222,128,.25);padding:2px 7px;border-radius:2px;display:inline-block;margin-bottom:.9rem;}
+    .cl-name{font-size:1rem;font-weight:700;margin-bottom:.2rem;}
+    .cl-biz{font-size:.78rem;color:var(--muted2);margin-bottom:1.1rem;}
+    .cl-rev{font-size:1.7rem;font-weight:800;letter-spacing:-.04em;color:var(--green);}
+    .cl-sub{font-family:var(--mono);font-size:.7rem;color:var(--muted2);margin-top:1px;}
+    .cl-mrr{font-family:var(--mono);font-size:.7rem;color:var(--mint);background:rgba(127,217,156,.08);border:1px solid rgba(127,217,156,.15);padding:2px 7px;border-radius:3px;display:inline-block;margin-top:.5rem;}
+    .cl-src{position:absolute;bottom:.8rem;right:.9rem;font-family:var(--mono);font-size:7px;color:var(--muted2);letter-spacing:.12em;}
+
+    .rvg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--hair);border:1px solid var(--hair);border-radius:12px;overflow:hidden;}
+    @media(max-width:560px){.rvg{grid-template-columns:1fr;}}
+    .rv{background:var(--card);padding:1.6rem 1.5rem;}
+    .rv.feat{background:linear-gradient(135deg,rgba(74,222,128,.04),var(--card));}
+    .rv-l{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted2);margin-bottom:.6rem;}
+    .rv-v{font-size:1.7rem;font-weight:800;letter-spacing:-.04em;}
+    .rv-v.m{color:var(--mint);}
+    .rv-v.g{color:var(--green);}
+    .rv-v.b{color:var(--blue-s);}
+    .rv-s{font-size:.72rem;color:var(--muted2);margin-top:3px;}
+
+    /* ════ TABLE ════ */
+    .tw{border-radius:12px;border:1px solid var(--hair);overflow:hidden;}
+    table{width:100%;border-collapse:collapse;font-size:.78rem;}
+    thead{background:var(--card2);}
+    thead th{padding:.75rem .9rem;text-align:left;font-family:var(--mono);font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted2);font-weight:400;border-bottom:1px solid var(--hair);white-space:nowrap;}
+    tbody tr{border-bottom:1px solid var(--hair2);transition:background .2s;}
+    tbody tr:last-child{border-bottom:none;}
+    tbody tr:hover{background:rgba(255,255,255,.015);}
+    tbody tr.won{background:rgba(74,222,128,.025);}
+    tbody tr.won:hover{background:rgba(74,222,128,.045);}
+    tbody td{padding:.75rem .9rem;white-space:nowrap;}
+
+    .dot{display:inline-block;width:7px;height:7px;border-radius:50%;}
+    .dot.on{background:var(--mint);box-shadow:0 0 5px var(--mint);}
+    .dot.ff{background:var(--blue-s);box-shadow:0 0 5px var(--blue-s);}
+    .dot.off{background:var(--muted2);}
+
+    .tag{display:inline-block;font-family:var(--mono);font-size:8px;letter-spacing:.1em;padding:2px 6px;border-radius:2px;text-transform:uppercase;}
+    .t-won{background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.2);}
+    .t-trial{background:rgba(59,111,245,.1);color:var(--blue-s);border:1px solid rgba(59,111,245,.2);}
+    .t-demo{background:rgba(127,217,156,.08);color:var(--mint);border:1px solid rgba(127,217,156,.18);}
+    .t-sql{background:rgba(255,255,255,.04);color:var(--muted);border:1px solid var(--hair);}
+    .t-mql{background:transparent;color:var(--muted2);border:1px solid var(--hair2);}
+    .t-out{background:rgba(248,113,113,.07);color:var(--red);border:1px solid rgba(248,113,113,.15);}
+
+    .rv-cell{font-family:var(--mono);font-size:.82rem;font-weight:600;color:var(--green);}
+    .mrr-cell{font-family:var(--mono);font-size:.7rem;color:var(--mint);}
+
+    /* ════ FOOTER ════ */
+    footer{padding:4rem 0;text-align:center;border-top:1px solid var(--hair2);}
+    .ft-logo{font-size:1.4rem;font-weight:800;letter-spacing:-.03em;background:linear-gradient(135deg,var(--blue-s),var(--mint));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.5rem;}
+    .ft-sub{font-size:.75rem;color:var(--muted2);}
+
+    @media(max-width:768px){section{padding:56px 0;}.h-title{font-size:3rem;}.h-stats{gap:1.5rem;}}
+    @media(max-width:500px){.w{padding:0 1.25rem;}}
+
+    /* ════ AD SETS & CREATIVES ════ */
+    .asm{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.75rem;}
+    @media(max-width:720px){.asm{grid-template-columns:1fr;}}
+    .asc{background:var(--card);border:1px solid var(--hair);border-radius:12px;padding:1.5rem;position:relative;overflow:hidden;}
+    .asc.win{border-color:rgba(127,217,156,.25);background:linear-gradient(135deg,rgba(127,217,156,.04),var(--card));}
+    .asc.win::before{content:'MEJOR CPL';position:absolute;top:.85rem;right:.85rem;font-family:var(--mono);font-size:8px;letter-spacing:.18em;color:var(--mint);border:1px solid rgba(127,217,156,.25);padding:2px 7px;border-radius:2px;}
+    .asc-name{font-family:var(--mono);font-size:.72rem;color:var(--muted2);margin-bottom:.3rem;}
+    .asc-spend{font-size:1.5rem;font-weight:800;letter-spacing:-.04em;color:var(--blue-s);margin-bottom:.2rem;}
+    .asc-cpl{font-family:var(--mono);font-size:.8rem;color:var(--muted);margin-bottom:1rem;}
+    .asc-cpl strong{color:var(--text);}
+    .asc-bar-wrap{height:4px;background:var(--hair2);border-radius:2px;overflow:hidden;margin-bottom:.75rem;}
+    .asc-bar{height:100%;border-radius:2px;width:0%;transition:width 1.4s cubic-bezier(.16,1,.3,1);}
+    .asc-bar.best{background:linear-gradient(90deg,rgba(127,217,156,.4),var(--mint));}
+    .asc-bar.mid{background:linear-gradient(90deg,rgba(59,111,245,.4),var(--blue));}
+    .asc-bar.low{background:linear-gradient(90deg,rgba(249,115,22,.3),var(--orange));}
+    .asc-leads{display:flex;gap:1.25rem;}
+    .asc-l{display:flex;flex-direction:column;gap:2px;}
+    .asc-lv{font-family:var(--mono);font-size:1rem;font-weight:500;color:var(--text);}
+    .asc-lk{font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);}
+    .asc-note{font-size:.75rem;color:var(--muted);margin-top:.85rem;line-height:1.6;}
+
+    .crv-g{display:flex;flex-direction:column;gap:1rem;}
+    .crv{background:var(--card);border:1px solid var(--hair);border-radius:12px;padding:1.5rem;display:flex;align-items:flex-start;gap:1.25rem;position:relative;overflow:hidden;}
+    .crv.star{border-color:rgba(127,217,156,.22);}
+    .crv.star::after{content:'★ TOP CREATIVO';position:absolute;top:.85rem;right:.85rem;font-family:var(--mono);font-size:8px;letter-spacing:.18em;color:var(--mint);border:1px solid rgba(127,217,156,.22);padding:2px 7px;border-radius:2px;}
+    .crv.paused{opacity:.5;}
+    .crv-rank{font-size:1.8rem;font-weight:800;letter-spacing:-.04em;color:var(--hair);min-width:2.5rem;line-height:1;}
+    .crv.star .crv-rank{color:var(--mint);}
+    .crv-body{flex:1;}
+    .crv-type{display:flex;gap:.5rem;align-items:center;margin-bottom:.35rem;}
+    .crv-fmt{font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue-s);border:1px solid rgba(59,111,245,.2);padding:2px 7px;border-radius:2px;}
+    .crv-fmt.vid{color:var(--mint);border-color:rgba(127,217,156,.2);}
+    .crv-paused-tag{font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);border:1px solid rgba(248,113,113,.2);padding:2px 7px;border-radius:2px;}
+    .crv-hook{font-size:.95rem;font-weight:700;margin-bottom:.3rem;}
+    .crv-desc{font-size:.78rem;color:var(--muted);line-height:1.6;margin-bottom:.75rem;}
+    .crv-metrics{display:flex;gap:1.25rem;flex-wrap:wrap;}
+    .crv-m{display:flex;flex-direction:column;gap:2px;}
+    .crv-mv{font-family:var(--mono);font-size:.82rem;font-weight:500;color:var(--text);}
+    .crv-mk{font-family:var(--mono);font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);}
+
+    .ins-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.25rem;margin-top:1.75rem;}
+    @media(max-width:700px){.ins-row{grid-template-columns:1fr;}}
+    .ins{background:var(--card);border:1px solid var(--hair);border-radius:12px;padding:1.5rem;}
+    .ins-icon{font-size:1.25rem;margin-bottom:.65rem;}
+    .ins-title{font-size:.88rem;font-weight:700;margin-bottom:.4rem;}
+    .ins-desc{font-size:.78rem;color:var(--muted);line-height:1.65;}
+    .ins-desc strong{color:var(--text);}
+
+    /* ════ ICP ════ */
+    .icp-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:2rem;margin-bottom:1.75rem;}
+    @media(max-width:768px){.icp-grid{grid-template-columns:1fr;}}
+    .icp-card{background:var(--card);border:1px solid rgba(59,111,245,.2);border-radius:16px;padding:2rem;position:relative;overflow:hidden;}
+    .icp-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 80% at 50% -10%,rgba(59,111,245,.07),transparent 60%);pointer-events:none;}
+    .icp-rel{position:relative;z-index:1;}
+    .icp-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,rgba(59,111,245,.15),rgba(59,111,245,.25));border:1px solid rgba(59,111,245,.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:.9rem;}
+    .icp-name{font-size:1.1rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.12rem;}
+    .icp-title{font-family:var(--mono);font-size:.7rem;color:var(--blue-s);margin-bottom:1.15rem;letter-spacing:.1em;}
+    .icp-attr{display:flex;flex-direction:column;gap:.6rem;}
+    .icp-a{display:flex;gap:.8rem;align-items:flex-start;}
+    .icp-a-icon{font-size:.85rem;margin-top:.05rem;flex-shrink:0;}
+    .icp-a-k{font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);margin-bottom:.12rem;}
+    .icp-a-v{font-size:.8rem;color:var(--text);line-height:1.5;}
+    .icp-right{display:flex;flex-direction:column;gap:1.25rem;}
+    .icp-section{background:var(--card);border:1px solid var(--hair);border-radius:12px;padding:1.35rem;}
+    .icp-section-title{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--mint);margin-bottom:.8rem;display:flex;align-items:center;gap:8px;}
+    .icp-section-title::after{content:'';flex:0 0 28px;height:1px;background:rgba(127,217,156,.2);}
+    .ind-tags{display:flex;flex-wrap:wrap;gap:.45rem;}
+    .ind-tag{font-family:var(--mono);font-size:8px;letter-spacing:.1em;padding:3px 9px;border-radius:3px;text-transform:uppercase;}
+    .ind-tag.hot{background:rgba(59,111,245,.12);color:var(--blue-s);border:1px solid rgba(59,111,245,.22);}
+    .ind-tag.warm{background:rgba(127,217,156,.08);color:var(--mint);border:1px solid rgba(127,217,156,.18);}
+    .ind-tag.cold{background:rgba(255,255,255,.04);color:var(--muted2);border:1px solid var(--hair2);}
+    .geo-rows{display:flex;flex-direction:column;gap:.5rem;}
+    .geo-r{display:flex;align-items:center;gap:.8rem;}
+    .geo-city{font-size:.8rem;font-weight:600;min-width:100px;}
+    .geo-bar-w{flex:1;height:4px;background:var(--hair2);border-radius:2px;overflow:hidden;}
+    .geo-fill{height:100%;border-radius:2px;width:0%;transition:width 1.4s cubic-bezier(.16,1,.3,1);background:linear-gradient(90deg,rgba(59,111,245,.4),var(--blue));}
+    .geo-fill.top{background:linear-gradient(90deg,rgba(127,217,156,.4),var(--mint));}
+    .geo-stat{font-family:var(--mono);font-size:.7rem;color:var(--muted2);min-width:80px;text-align:right;}
+    .pain-signal{background:linear-gradient(135deg,rgba(59,111,245,.06),rgba(127,217,156,.04));border:1px solid rgba(59,111,245,.18);border-radius:12px;padding:1.5rem;margin-top:1.25rem;}
+    .ps-pre{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--blue-s);text-transform:uppercase;margin-bottom:.45rem;}
+    .ps-hook{font-size:1.35rem;font-weight:800;letter-spacing:-.04em;color:var(--text);margin-bottom:.45rem;line-height:1.25;}
+    .ps-hook em{color:var(--mint);font-style:normal;}
+    .ps-desc{font-size:.8rem;color:var(--muted);line-height:1.65;}
+    .ps-desc strong{color:var(--text);}
+    .behav-list{display:flex;flex-direction:column;gap:.6rem;}
+    .bh{display:flex;gap:.7rem;align-items:flex-start;}
+    .bh-dot{width:5px;height:5px;border-radius:50%;background:var(--blue-s);margin-top:.4rem;flex-shrink:0;}
+    .bh-text{font-size:.8rem;color:var(--muted);line-height:1.55;}
+    .bh-text strong{color:var(--text);}
+  </style>
+</head>
+<body>
+
+<!-- back nav -->
+<a class="back-nav" href="/lasso-reports/">← Reportes</a>
+
+<!-- ══════ REPORT ══════ -->
+<div id="report">
+  <section id="hero"><div class="h-bg"></div><div class="h-grid"></div>
+    <div class="w h-c">
+      <div class="h-eye r" style="opacity:1;transform:none"><span class="h-badge">Lasso · Meta Ads</span><span class="h-sep"></span><span class="h-date">1–30 Junio 2026 · mes completo</span></div>
+      <h1 class="h-title r" style="opacity:1;transform:none;transition-delay:.06s"><span class="ht1">Reporte</span><span class="ht2">Junio 2026<span class="cursor"></span></span></h1>
+      <p class="h-lead r" style="opacity:1;transform:none;transition-delay:.12s">Primer mes completo de campaña en Meta Ads tras el arranque de mayo. Los planes son MRR: cada cierre regresa mes con mes.</p>
+      <div class="h-stats r" style="opacity:1;transform:none;transition-delay:.18s">
+        <div class="hs"><span class="hs-v b">$11,334</span><span class="hs-k">Gasto mes (MXN)</span></div>
+        <div class="hs"><span class="hs-v">59</span><span class="hs-k">Leads vía Meta</span></div>
+        <div class="hs"><span class="hs-v m">$8,289</span><span class="hs-k">MRR generado</span></div>
+        <div class="hs"><span class="hs-v b">8.8×</span><span class="hs-k">ROAS a 12 meses</span></div>
+      </div>
+    </div><div class="h-scroll"><div class="h-sbar"></div></div>
+  </section><div class="div"></div>
+  <section><div class="w">
+    <div class="shead"><div class="slabel r">01 — La historia real</div><h2 class="stitle r d1">$11,334 invertidos una vez.<br/>$8,289 que regresan cada mes.</h2><p class="sdesc r d2">Los planes son MRR. El gasto fue en mes completo. El ingreso se repite mes con mes.</p></div>
+    <div class="context-banner r d1"><div class="cb-dot"></div><div class="cb-text"><strong>Primer mes completo</strong> tras el arranque de mayo (15 días).<br/>La campaña de leads corrió en CDMX y Guadalajara; Bajío y Riviera aportaron volumen antes de pausarse.</div><div class="cb-stats"><div class="cb-s"><span class="cb-sv">mes completo</span><span class="cb-sk">Periodo</span></div><div class="cb-s"><span class="cb-sv">$378/día</span><span class="cb-sk">Prom. diario</span></div><div class="cb-s"><span class="cb-sv">$173</span><span class="cb-sk">CPL</span></div></div></div>
+    <div class="mrr-block r d2"><div class="mrr-rel">
+      <div class="mrr-hdr"><div><div style="font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:var(--muted2);text-transform:uppercase;margin-bottom:.4rem">MRR generado</div><div class="mrr-title">Ingreso mensual recurrente</div><div class="mrr-note">4 cierres en junio. Esos clientes pagan cada mes. La inversión de $11,334 MXN se recupera en los primeros meses — y sigue componiéndose.</div></div><div><div class="mrr-big">$8,289<span class="sl">/mo</span></div><div class="mrr-roasline">mes 1 → ROAS 0.73×</div></div></div>
+      <div class="mrr-tl r d3"><div class="mt act"><div class="mt-lbl">Mes 1 (hoy)</div><div class="mt-val">$8,289</div><div class="mt-roas">0.73× ROAS</div><div class="mt-note">Recuperando gasto</div></div><div class="mt"><div class="mt-lbl">Mes 3</div><div class="mt-val">$24,867</div><div class="mt-roas">2.19× ROAS</div><div class="mt-note">Acumulado</div></div><div class="mt"><div class="mt-lbl">Mes 6</div><div class="mt-val">$49,734</div><div class="mt-roas">4.39× ROAS</div><div class="mt-note">Acumulado</div></div><div class="mt"><div class="mt-lbl">Mes 12</div><div class="mt-val">$99,468</div><div class="mt-roas">8.78× ROAS</div><div class="mt-note">Acumulado</div></div></div><div class="mrr-bars r d4" id="mrrBars"><div class="mb-row"><span class="mb-lbl">Inversión</span><div class="mb-trk"><div class="mb-fill b" data-w="11.39"></div></div><span class="mb-val">$11,334</span></div><div class="mb-row"><span class="mb-lbl">Mes 1</span><div class="mb-trk"><div class="mb-fill m" data-w="8.33"></div></div><span class="mb-val">$8,289</span></div><div class="mb-row"><span class="mb-lbl">Mes 3</span><div class="mb-trk"><div class="mb-fill m" data-w="25.00"></div></div><span class="mb-val">$24,867</span></div><div class="mb-row"><span class="mb-lbl">Mes 6</span><div class="mb-trk"><div class="mb-fill m" data-w="50.00"></div></div><span class="mb-val">$49,734</span></div><div class="mb-row"><span class="mb-lbl">Mes 12</span><div class="mb-trk"><div class="mb-fill m" data-w="100.00"></div></div><span class="mb-val">$99,468</span></div></div>
+    </div></div>
+    <div class="pipe-note r d3"><div class="pipe-note-lbl">Pipeline activo — potencial adicional</div><p>Además de los 3 cierres, quedaron leads calientes: <strong style='color:var(--text)'>Leah (Café Trigali)</strong> interesada en Growth, <strong style='color:var(--text)'>Rafael (La Trinchera)</strong> probando Pro y <strong style='color:var(--text)'>Vanessa (Supra)</strong> en trial de Pro — parte del pipeline que maduró en julio.</p></div>
+  </div></section><div class="div"></div>
+  <section><div class="w"><div class="shead"><div class="slabel r">02 — Meta Ads</div><h2 class="stitle r d1">Junio en plataforma</h2></div>
+    <div class="sg r d2">
+      <div class="sc feat"><div class="sc-l">Gasto total</div><div class="sc-v b" data-count="11334.01" data-pre="$" data-suf=" MXN">$0</div><div class="sc-s">mes completo · 2 campañas</div></div>
+      <div class="sc"><div class="sc-l">Impresiones</div><div class="sc-v" data-count="168388" data-comma>0</div><div class="sc-s">168K visualizaciones</div></div>
+      <div class="sc"><div class="sc-l">Alcance</div><div class="sc-v" data-count="111407" data-comma>0</div><div class="sc-s">Personas alcanzadas</div></div>
+      <div class="sc"><div class="sc-l">Clicks totales</div><div class="sc-v" data-count="4204" data-comma>0</div><div class="sc-s">CTR promedio 2.50%</div></div>
+      <div class="sc"><div class="sc-l">Leads (Pixel)</div><div class="sc-v g" data-count="59">0</div><div class="sc-s">Registrados en Meta</div></div>
+      <div class="sc feat"><div class="sc-l">CPL</div><div class="sc-v" data-count="173.12" data-pre="$" data-suf=" MXN">$0</div><div class="sc-s">Costo por lead</div></div>
+      <div class="sc"><div class="sc-l">CPM</div><div class="sc-v" data-count="67.31" data-pre="$" data-suf=" MXN">$0</div><div class="sc-s">Por 1,000 impresiones</div></div>
+      <div class="sc"><div class="sc-l">CPC</div><div class="sc-v" data-count="2.70" data-pre="$" data-suf=" MXN">$0</div><div class="sc-s">Costo por click</div></div>
+    </div></div></section><div class="div"></div>
+  <section><div class="w"><div class="shead"><div class="slabel r">03 — Campañas</div><h2 class="stitle r d1">Desglose por campaña</h2></div>
+    <div class="cg"><div class="cc prim r"><div class="cc-name">LASSO | CDMX | V1</div><div class="cc-obj">Generación de Leads</div><div class="cc-spend">$10,214 MXN</div><div class="cr"><span class="k">Impresiones</span><span class="v ">64,217</span></div><div class="cr"><span class="k">Alcance</span><span class="v ">36,616</span></div><div class="cr"><span class="k">Clicks</span><span class="v ">1,361</span></div><div class="cr"><span class="k">CTR</span><span class="v ">2.12%</span></div><div class="cr"><span class="k">CPM</span><span class="v ">$159.05 MXN</span></div><div class="cr"><span class="k">CPC</span><span class="v ">$7.50 MXN</span></div><div class="cr"><span class="k">Leads generados</span><span class="v m">59</span></div><div class="cr"><span class="k">CPL</span><span class="v b">$173.12 MXN</span></div></div><div class="cc r d1"><div class="cc-name">Nueva campaña de Tráfico</div><div class="cc-obj">Tráfico a Landing</div><div class="cc-spend">$1,120 MXN</div><div class="cr"><span class="k">Impresiones</span><span class="v ">104,171</span></div><div class="cr"><span class="k">Alcance</span><span class="v ">74,791</span></div><div class="cr"><span class="k">Clicks</span><span class="v ">2,843</span></div><div class="cr"><span class="k">CTR</span><span class="v ">2.73%</span></div><div class="cr"><span class="k">CPM</span><span class="v ">$10.75 MXN</span></div><div class="cr"><span class="k">CPC</span><span class="v ">$0.39 MXN</span></div><div class="cr"><span class="k">Landing views</span><span class="v ">2,083</span></div><div class="cr"><span class="k">Costo / vista</span><span class="v ">$0.54 MXN</span></div></div></div></div></section><div class="div"></div>
+  <section><div class="w"><div class="shead"><div class="slabel r">04 — Conjuntos &amp; Creativos</div><h2 class="stitle r d1">¿Qué funcionó y por qué?</h2><p class="sdesc r d2">Datos reales del administrador de Meta Ads — mes completo.</p></div>
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted2);margin-bottom:1rem;" class="r d1">Conjuntos de anuncios — eficiencia por CPL</div>
+    <div class="asm r d2"><div class="asc win r"><div class="asc-name">CONJUNTO | CDMX</div><div class="asc-spend">$4,116 MXN</div><div class="asc-cpl">CPL: <strong>$158.30 MXN</strong></div><div class="asc-bar-wrap"><div class="asc-bar best" data-w="100"></div></div><div class="asc-leads"><div class="asc-l"><span class="asc-lv">26</span><span class="asc-lk">Leads</span></div><div class="asc-l"><span class="asc-lv" style="color:var(--mint)">$158</span><span class="asc-lk">CPL</span></div></div><div class="asc-note">Mejor combinación del mes: mayor volumen (26 leads) y mejor CPL ($158). CDMX arranca como el mercado a escalar.</div></div><div class="asc r d1"><div class="asc-name">CONJUNTO | Guadalajara</div><div class="asc-spend">$3,410 MXN</div><div class="asc-cpl">CPL: <strong>$200.62 MXN</strong></div><div class="asc-bar-wrap"><div class="asc-bar mid" data-w="65"></div></div><div class="asc-leads"><div class="asc-l"><span class="asc-lv">17</span><span class="asc-lk">Leads</span></div><div class="asc-l"><span class="asc-lv" style="color:var(--blue-s)">$201</span><span class="asc-lk">CPL</span></div></div><div class="asc-note">Buen volumen (17 leads) con CPL más alto ($201). Mercado sólido que en julio bajó su CPL a $129.</div></div><div class="asc r d2"><div class="asc-name">CONJUNTO | Bajío</div><div class="asc-spend">$2,023 MXN</div><div class="asc-cpl">CPL: <strong>$168.59 MXN</strong></div><div class="asc-bar-wrap"><div class="asc-bar mid" data-w="46"></div></div><div class="asc-leads"><div class="asc-l"><span class="asc-lv">12</span><span class="asc-lk">Leads</span></div><div class="asc-l"><span class="asc-lv" style="color:var(--blue-s)">$169</span><span class="asc-lk">CPL</span></div></div><div class="asc-note">12 leads a CPL competitivo antes de pausarse. Audiencia chica; se concentró el gasto en CDMX y GDL.</div></div><div class="asc r d3"><div class="asc-name">CONJUNTO | Riviera</div><div class="asc-spend">$664 MXN</div><div class="asc-cpl">CPL: <strong>$166.11 MXN</strong></div><div class="asc-bar-wrap"><div class="asc-bar mid" data-w="15"></div></div><div class="asc-leads"><div class="asc-l"><span class="asc-lv">4</span><span class="asc-lk">Leads</span></div><div class="asc-l"><span class="asc-lv" style="color:var(--blue-s)">$166</span><span class="asc-lk">CPL</span></div></div><div class="asc-note">4 leads con presupuesto mínimo y buen CPL. Zona turística con potencial, pausada para concentrar.</div></div></div>
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted2);margin:2rem 0 1rem;" class="r d1">Creativos — ranking por performance</div>
+    <div class="crv-g r d2"><div class="crv star"><div class="crv-rank">01</div><div class="crv-body"><div class="crv-type"><span class="crv-fmt vid">Video</span></div><div class="crv-hook">&quot;Perdí el 40% de mis clientes y no me di cuenta&quot;</div><div class="crv-desc">Hook de pérdida. Máximo volumen del mes (27 leads) y CPL muy competitivo ($131). Este ángulo se volvió el caballo de batalla y en julio escaló a 57 leads.</div><div class="crv-metrics"><div class="crv-m"><span class="crv-mv" style=color:var(--green)>27</span><span class="crv-mk">Leads</span></div><div class="crv-m"><span class="crv-mv" style=color:var(--mint)>$131 MXN</span><span class="crv-mk">CPL</span></div><div class="crv-m"><span class="crv-mv">$3,535 MXN</span><span class="crv-mk">Gasto</span></div></div></div></div><div class="crv"><div class="crv-rank" style="color:var(--blue-s)">02</div><div class="crv-body"><div class="crv-type"><span class="crv-fmt vid">Video</span></div><div class="crv-hook">&quot;¿Conoces de verdad a tus mejores clientes?&quot;</div><div class="crv-desc">Hook de curiosidad. Prácticamente empatado en volumen (26 leads) y con el mejor CPL del mes ($118). Video educativo que califica bien — fuerte complemento del de pérdida.</div><div class="crv-metrics"><div class="crv-m"><span class="crv-mv" style=color:var(--blue-s)>26</span><span class="crv-mk">Leads</span></div><div class="crv-m"><span class="crv-mv" style=color:var(--mint)>$118 MXN</span><span class="crv-mk">CPL</span></div><div class="crv-m"><span class="crv-mv">$3,068 MXN</span><span class="crv-mk">Gasto</span></div></div></div></div><div class="crv"><div class="crv-rank" style="color:var(--muted2)">03</div><div class="crv-body"><div class="crv-type"><span class="crv-fmt">Imagen</span></div><div class="crv-hook">&quot;Retén 5% más de tus clientes y dobla tus ganancias&quot;</div><div class="crv-desc">Promesa con dato concreto, pero en imagen estática el CPL se dispara ($602 para 6 leads). Confirma desde junio que el formato video es el que convierte.</div><div class="crv-metrics"><div class="crv-m"><span class="crv-mv" style=color:var(--muted)>6</span><span class="crv-mk">Leads</span></div><div class="crv-m"><span class="crv-mv" style=color:var(--orange)>$602 MXN</span><span class="crv-mk">CPL</span></div><div class="crv-m"><span class="crv-mv">$3,610 MXN</span><span class="crv-mk">Gasto</span></div></div></div></div><div class="crv paused"><div class="crv-rank" style="color:var(--muted2)">04</div><div class="crv-body"><div class="crv-type"><span class="crv-fmt">Imagen</span><span class="crv-paused-tag">Pausado</span></div><div class="crv-hook">&quot;Tus mejores clientes se van — y no lo sabes&quot;</div><div class="crv-desc">Pausado. Mismo ángulo de pérdida que el ganador pero en imagen; sin la fuerza narrativa del video.</div><div class="crv-metrics"></div></div></div></div><div class="ins-row r d3"><div class="ins"><div class="ins-icon">📍</div><div class="ins-title">CDMX arranca como ancla</div><div class="ins-desc">CDMX combinó <strong>más volumen (26 leads) y mejor CPL ($158)</strong>. Guadalajara aportó 17 leads. La base sobre la que julio escaló a 60 leads en CDMX.</div></div><div class="ins"><div class="ins-icon">🎬</div><div class="ins-title">Video 9 de cada 10 leads</div><div class="ins-desc">Los dos videos concentran <strong>53 de 59 leads</strong>. La imagen 'Retén 5%' quedó a $602 de CPL. La conclusión: invertir en video con hooks fuertes.</div></div><div class="ins"><div class="ins-icon">⚡</div><div class="ins-title">Pérdida y curiosidad, empatados</div><div class="ins-desc">'Perdí 40%' (27 leads · $131) y '¿Conoces?' (26 · $118) casi empatan. Junio dejó dos hooks ganadores; julio confirmó que la <strong>pérdida escala mejor</strong>.</div></div></div></div></section><div class="div"></div>
+  <section><div class="w"><div class="shead"><div class="slabel r">05 — ICP</div><h2 class="stitle r d1">Quién está<br/>levantando la mano</h2><p class="sdesc r d2">Perfil real de los 69 leads del mes — giro, ciudad y tamaño directo del formulario.</p></div>
+    <div class="icp-grid r d2"><div class="icp-card"><div class="icp-rel">
+      <div class="icp-avatar">🧑‍💼</div><div class="icp-name">El Dueño-Operador</div><div class="icp-title">ARQUETIPO · JUNIO 2026</div>
+      <div class="icp-attr">
+        <div class="icp-a"><span class="icp-a-icon">🍽️</span><div><div class="icp-a-k">Giro dominante</div><div class="icp-a-v">Restaurante / comida (46% de los leads), seguido de cafetería / postres y fitness / wellness. Negocios de contacto frecuente con el cliente.</div></div></div>
+        <div class="icp-a"><span class="icp-a-icon">👤</span><div><div class="icp-a-k">Rol</div><div class="icp-a-v">87% son Dueño/Director — deciden directo, sin proceso de compra largo.</div></div></div>
+        <div class="icp-a"><span class="icp-a-icon">🏪</span><div><div class="icp-a-k">Tamaño</div><div class="icp-a-v">80% tiene 1-2 locales. Negocio pequeño, sin sistema formal de lealtad — listo para el primer paso.</div></div></div>
+        <div class="icp-a"><span class="icp-a-icon">📍</span><div><div class="icp-a-k">Geografía</div><div class="icp-a-v">CDMX concentra el volumen; presencia nacional con foco en el centro del país.</div></div></div>
+        <div class="icp-a"><span class="icp-a-icon">🎯</span><div><div class="icp-a-k">Trigger</div><div class="icp-a-v">Ya siente que pierde clientes sin saber por qué. El mensaje de pérdida activa ese dolor y genera urgencia.</div></div></div>
+      </div>
+    </div></div>
+    <div class="icp-right">
+      <div class="icp-section"><div class="icp-section-title">Giros representados</div><div class="ind-tags"><span class="ind-tag hot">Restaurante / comida ×32</span><span class="ind-tag hot">Cafetería / postres ×12</span><span class="ind-tag warm">Fitness / wellness ×7</span><span class="ind-tag warm">Servicios ×6</span><span class="ind-tag warm">Retail / tienda ×6</span><span class="ind-tag warm">Belleza / estética ×5</span><span class="ind-tag cold">Otros ×1</span></div></div>
+      <div class="icp-section"><div class="icp-section-title">Leads por ciudad</div><div class="geo-rows"><div class="geo-r"><span class="geo-city">CDMX</span><div class="geo-bar-w"><div class="geo-fill top" data-w="100"></div></div><span class="geo-stat">12 leads</span></div><div class="geo-r"><span class="geo-city">Querétaro</span><div class="geo-bar-w"><div class="geo-fill" data-w="67"></div></div><span class="geo-stat">8 leads</span></div><div class="geo-r"><span class="geo-city">Edo. de México</span><div class="geo-bar-w"><div class="geo-fill" data-w="58"></div></div><span class="geo-stat">7 leads</span></div><div class="geo-r"><span class="geo-city">Guadalajara / Jal.</span><div class="geo-bar-w"><div class="geo-fill" data-w="50"></div></div><span class="geo-stat">6 leads</span></div><div class="geo-r"><span class="geo-city">Veracruz</span><div class="geo-bar-w"><div class="geo-fill" data-w="25"></div></div><span class="geo-stat">3 leads</span></div></div></div>
+      <div class="icp-section"><div class="icp-section-title">Señales de calificación</div><div class="behav-list">
+        <div class="bh"><div class="bh-dot"></div><div class="bh-text"><strong>87% decisores.</strong> La mayoría son dueños/directores — el mensaje llega a quien firma.</div></div>
+        <div class="bh"><div class="bh-dot"></div><div class="bh-text"><strong>90% con local físico.</strong> Piso de contacto diario con el cliente — el caso de uso natural de la lealtad.</div></div>
+        <div class="bh"><div class="bh-dot"></div><div class="bh-text"><strong>Sin sistema previo.</strong> Predomina el negocio de 1-2 locales sin CRM ni puntos — no hay migración, es el primer paso.</div></div>
+      </div></div>
+    </div></div>
+    <div class="pain-signal r d3"><div class="ps-pre">Señal de dolor confirmada por la campaña</div><div class="ps-hook">"¿Y si estoy <em>perdiendo</em> a mis mejores clientes<br/>sin saberlo?"</div><div class="ps-desc">Desde junio, los dos creativos de video de pérdida y curiosidad se llevaron casi todos los leads con CPL de $118–$131. El ICP <strong>ya siente el problema</strong> de perder clientes; el mensaje solo lo nombra. La imagen aspiracional quedó muy por detrás.</div></div>
+  </div></section><div class="div"></div>
+  <section><div class="w"><div class="shead"><div class="slabel r">06 — Embudo</div><h2 class="stitle r d1">De lead a cliente</h2><p class="sdesc r d2">70 contactos en CRM — 59 atribuibles a Meta · 1 vía Friends &amp; Family.</p></div>
+    <div class="fw"><div class="fss r">
+      <div class="fs"><span class="fs-n b">70</span><div class="fs-i"><div class="fs-name">Leads totales (CRM)</div><div class="fs-pct">100%</div><div class="fs-bar"><div class="fs-fill" data-w="100"></div></div></div></div>
+      <div class="fs"><span class="fs-n b">59</span><div class="fs-i"><div class="fs-name">Atribuibles a Meta (Pixel)</div><div class="fs-pct">84%</div><div class="fs-bar"><div class="fs-fill" data-w="84"></div></div></div></div>
+      <div class="fs"><span class="fs-n b">60</span><div class="fs-i"><div class="fs-name">Decisores (dueño/director)</div><div class="fs-pct">87%</div><div class="fs-bar"><div class="fs-fill" data-w="87"></div></div></div></div>
+      <div class="fs win"><span class="fs-n g">4</span><div class="fs-i"><div class="fs-name">Cierre ganado</div><div class="fs-pct">5.7% del total</div><div class="fs-bar"><div class="fs-fill" data-w="5.7"></div></div></div></div>
+    </div>
+    <div class="cvs r d2">
+      <div class="cv"><div class="cv-a">Meta → CRM</div><div class="cv-r">84%</div><div class="cv-d">59 de 70 vinieron de la campaña</div></div>
+      <div class="cv"><div class="cv-a">Lead → Decisor</div><div class="cv-r">87%</div><div class="cv-d">60 son quien firma</div></div>
+      <div class="cv win"><div class="cv-a">Tasa de cierre ✓</div><div class="cv-r">5.7%</div><div class="cv-d">4 clientes nuevos con MRR</div></div>
+    </div></div></div></section><div class="div"></div>
+  <section><div class="w"><div class="shead"><div class="slabel r">07 — Cierres</div><h2 class="stitle r d1">4 deals ganados</h2><p class="sdesc r d2">Cada deal genera MRR — ingresos que se acumulan mes a mes.</p></div>
+    <div class="clg"><div class="clc r"><div class="cl-badge">✓ Ganado · Meta</div><div class="cl-name">Alejandro</div><div class="cl-biz">Terraza Loredo</div><div class="cl-rev">$1,292</div><div class="cl-sub">Growth Plan</div><div class="cl-mrr">$1,292 / mes MRR</div><div class="cl-src">CDMX</div></div><div class="clc r d1"><div class="cl-badge">✓ Ganado · Meta</div><div class="cl-name">Emily Giordano</div><div class="cl-biz">Casa Söma</div><div class="cl-rev">$1,499</div><div class="cl-sub">Growth Plan</div><div class="cl-mrr">$1,499 / mes MRR</div><div class="cl-src">CDMX</div></div><div class="clc r d2"><div class="cl-badge">✓ Ganado · Meta</div><div class="cl-name">Leonardo</div><div class="cl-biz">Froyú</div><div class="cl-rev">$1,499</div><div class="cl-sub">Growth Plan</div><div class="cl-mrr">$1,499 / mes MRR</div><div class="cl-src">Valladolid</div></div><div class="clc r d3"><div class="cl-badge">✓ Ganado · F&F</div><div class="cl-name">Andrea Beceiro</div><div class="cl-biz">Renew</div><div class="cl-rev">$3,999</div><div class="cl-sub">Pro Plan</div><div class="cl-mrr">$3,999 / mes MRR</div><div class="cl-src">—</div></div></div>
+    <div class="rvg r d3">
+      <div class="rv"><div class="rv-l">MRR Growth (3 cierres)</div><div class="rv-v b" data-count="4290" data-pre="$" data-suf=" MXN">$0</div><div class="rv-s">Recurrente mensual</div></div>
+      <div class="rv"><div class="rv-l">MRR Pro / F&amp;F (1)</div><div class="rv-v m" data-count="3999" data-pre="$" data-suf=" MXN">$0</div><div class="rv-s">Recurrente mensual</div></div>
+      <div class="rv feat"><div class="rv-l">MRR total mensual</div><div class="rv-v g" data-count="8289" data-pre="$" data-suf=" MXN">$0</div><div class="rv-s">Recurrente cada mes</div></div>
+    </div></div></section><div class="div"></div>
+  <section><div class="w"><div class="shead"><div class="slabel r">08 — Detalle de leads</div><h2 class="stitle r d1">Pipeline completo — 70 contactos</h2></div>
+    <div class="tw r d2"><table><thead><tr><th>Nombre</th><th>Negocio</th><th>Ciudad</th><th>Tipo de negocio</th><th>Suc.</th><th>Fuente</th><th>Etapa</th><th>Registro</th><th>MRR</th></tr></thead><tbody><tr class="won"><td>Andrea Beceiro</td><td>Renew</td><td>—</td><td>Recomendada por Elías</td><td>—</td><td><span class="dot ff"></span> F&amp;F</td><td><span class="tag t-won">Ganado</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">F&amp;F</td><td><span class="rv-cell">$3,999</span> <span class="mrr-cell">/mo</span></td></tr><tr><td>Johanna Vázquez</td><td>VIVRÉ Beauty</td><td>Guadalajara</td><td>Spa / uñas y pestañas</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">01 jun</td><td>—</td></tr><tr><td>Nohemí</td><td>Óptica Anahí</td><td>Tepic</td><td>Óptica / salud</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">01 jun</td><td>—</td></tr><tr><td>Alejandro Elizondo</td><td>El Tazón</td><td>Ecatepec</td><td>Cafetería</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">01 jun</td><td>—</td></tr><tr><td>Fabián Meneses</td><td>La Naranja</td><td>Estado de México</td><td>Alimentos</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">02 jun</td><td>—</td></tr><tr><td>Diana</td><td>D Almendra Keto</td><td>Guadalajara</td><td>Repostería keto</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">02 jun</td><td>—</td></tr><tr><td>Carlos</td><td>Frederi&#x27;s Marisquería</td><td>CDMX</td><td>Restaurante</td><td>No tengo sucursal</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">02 jun</td><td>—</td></tr><tr><td>Jorge V</td><td>ZDM Zapatería</td><td>Oaxaca / Monterrey</td><td>Zapatería</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">03 jun</td><td>—</td></tr><tr><td>Argelia</td><td>MAJO Boutique</td><td>Cuautitlán Izcalli</td><td>Boutique de ropa</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">03 jun</td><td>—</td></tr><tr><td>Leah Shilo</td><td>Café Trigali</td><td>CDMX</td><td>Cafetería</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">04 jun</td><td>—</td></tr><tr><td>Gina Martínez</td><td>YOEL</td><td>Atlacomulco</td><td>Restaurante y cafetería</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">04 jun</td><td>—</td></tr><tr><td>Gloria Flores</td><td>La Piccola Italia</td><td>Querétaro</td><td>Restaurante</td><td>3-5</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">05 jun</td><td>—</td></tr><tr><td>Alejandro Villaseñor</td><td>Bosch Car Service</td><td>Puebla / Tlaxcala</td><td>Taller automotriz</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">06 jun</td><td>—</td></tr><tr><td>Enrique</td><td>Vicaro</td><td>Bacalar</td><td>Restaurante</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">07 jun</td><td>—</td></tr><tr><td>Rafael Jauriga</td><td>La Trinchera</td><td>Comalcalco</td><td>Restaurante</td><td>No tengo sucursal</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">07 jun</td><td>—</td></tr><tr><td>Paola</td><td>V&amp;P</td><td>Ensenada</td><td>Estética</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">07 jun</td><td>—</td></tr><tr><td>Raúl</td><td>Siete Lenguas</td><td>Puerto Morelos</td><td>Restaurante</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">09 jun</td><td>—</td></tr><tr><td>Fernando Palafox</td><td>América Wellness</td><td>Monterrey / Guadalajara</td><td>Servicios de salud</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">10 jun</td><td>—</td></tr><tr><td>Rebeca Quintero</td><td>Albercas Inovapools</td><td>Guadalajara / Ocotlán</td><td>Tienda y servicios</td><td>3-5</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">11 jun</td><td>—</td></tr><tr><td>Leydi Romero</td><td>Sandalias Turquesa</td><td>Mérida</td><td>Boutique</td><td>No tengo sucursal</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">11 jun</td><td>—</td></tr><tr><td>Pedro Damián González</td><td>Sea Lounge Vacations</td><td>Veracruz</td><td>Agencia de viajes</td><td>10</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">11 jun</td><td>—</td></tr><tr><td>Eduardo Sánchez</td><td>Cabo</td><td>Veracruz</td><td>Restaurante</td><td>5-10</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">12 jun</td><td>—</td></tr><tr><td>José Ernesto</td><td>La Campestre</td><td>Morelia</td><td>Tienda</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">12 jun</td><td>—</td></tr><tr><td>Cristina Pacheco</td><td>Danna Capelli</td><td>Querétaro</td><td>Extensiones capilares</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">12 jun</td><td>—</td></tr><tr><td>Sara Sánchez</td><td>Don Cafetín</td><td>CDMX</td><td>Cafetería con comida</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">12 jun</td><td>—</td></tr><tr><td>Nayeli</td><td>Amitab</td><td>Guadalajara</td><td>Escuela de medicina indígena</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">12 jun</td><td>—</td></tr><tr><td>Elyssa</td><td>Zaatar</td><td>Villahermosa</td><td>Dark kitchen</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">12 jun</td><td>—</td></tr><tr><td>Tanya</td><td>Flores</td><td>Las Vigas, Ver.</td><td>Cafetería</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">13 jun</td><td>—</td></tr><tr><td>Sandra Carrillo</td><td>Al Sartén Cocina Express</td><td>Ciudad Obregón</td><td>Restaurante</td><td>No tengo sucursal</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">13 jun</td><td>—</td></tr><tr><td>Libia</td><td>Café Colombia</td><td>Acapulco</td><td>Restaurante / cafetería</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">13 jun</td><td>—</td></tr><tr><td>Josué Mendoza</td><td>Óptica</td><td>Pachuca</td><td>Óptica</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">13 jun</td><td>—</td></tr><tr><td>Jaret Torres</td><td>Pachamama</td><td>San Luis Potosí</td><td>Restaurante</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">13 jun</td><td>—</td></tr><tr><td>Omar</td><td>Café del Toro</td><td>Morelia</td><td>Café y artesanías</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">15 jun</td><td>—</td></tr><tr><td>Israel</td><td>Fuchoko</td><td>Toluca</td><td>Entretenimiento infantil</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">15 jun</td><td>—</td></tr><tr><td>Rubén Huerta</td><td>Méxicol Restaurante</td><td>Colombia</td><td>Restaurante</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">16 jun</td><td>—</td></tr><tr><td>Andrea Morteo</td><td>Cuore Italiano</td><td>San Pedro Cholula</td><td>Gelatería</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">17 jun</td><td>—</td></tr><tr><td>Iván Calderón</td><td>Derian</td><td>Morelia</td><td>Restaurante</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">17 jun</td><td>—</td></tr><tr><td>Tomás Valles</td><td>Artesana</td><td>USA</td><td>Panadería / restaurante</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">17 jun</td><td>—</td></tr><tr><td>Jorge Chinchillas</td><td>Gallo +52</td><td>Querétaro</td><td>Restaurante</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">18 jun</td><td>—</td></tr><tr><td>Marely Andrade</td><td>Marisquería Náutica</td><td>CDMX</td><td>Restaurante de mariscos</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">18 jun</td><td>—</td></tr><tr><td>Juan Pablo</td><td>Corteza</td><td>CDMX</td><td>Restaurante / cafetería</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">18 jun</td><td>—</td></tr><tr><td>José Carlos</td><td>Bigroll Sushi</td><td>Mazatlán</td><td>Restaurante</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">18 jun</td><td>—</td></tr><tr><td>David García</td><td>Aguachiles del Estado</td><td>Tepic</td><td>Dark kitchen</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">19 jun</td><td>—</td></tr><tr><td>Nelly Cabrera</td><td>Té Cuento</td><td>CDMX</td><td>Casa de té / restaurante</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">19 jun</td><td>—</td></tr><tr><td>Baravray</td><td>Vintage</td><td>Mérida</td><td>Salón de belleza</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">20 jun</td><td>—</td></tr><tr><td>Diana Andrea López</td><td>KUNO Café</td><td>Acapulco</td><td>Cafetería</td><td>No tengo sucursal</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">21 jun</td><td>—</td></tr><tr><td>Norman Montiel</td><td>San Ángel Repostería</td><td>Querétaro</td><td>Repostería dark kitchen</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">22 jun</td><td>—</td></tr><tr><td>Janet</td><td>Las Delicias de la 16</td><td>CDMX</td><td>Negocio de comida</td><td>No tengo sucursal</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">22 jun</td><td>—</td></tr><tr><td>Gerardo</td><td>El Cande</td><td>Pachuca</td><td>Taquería</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">22 jun</td><td>—</td></tr><tr><td>Aaron Hernández</td><td>Taquería Super Taco</td><td>CDMX</td><td>Restaurante</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">23 jun</td><td>—</td></tr><tr><td>Monse</td><td>Le Château</td><td>Puebla</td><td>Cafetería</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">23 jun</td><td>—</td></tr><tr><td>Alfonso Bórquez</td><td>BYB Grill Express</td><td>Navojoa</td><td>Restaurante</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">24 jun</td><td>—</td></tr><tr><td>Óscar</td><td>Mariscos García</td><td>Piedras Negras</td><td>Restaurante</td><td>3-5</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">24 jun</td><td>—</td></tr><tr><td>Daniel Saucedo</td><td>Mariscos Los Primos</td><td>Santa Clara</td><td>Restaurante</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">26 jun</td><td>—</td></tr><tr><td>Carlos</td><td>Tackitto Metepec</td><td>Toluca / Metepec</td><td>Taquería</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">26 jun</td><td>—</td></tr><tr><td>Saray Sánchez</td><td>Antolina</td><td>CDMX</td><td>Restaurante</td><td>No tengo sucursal</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">26 jun</td><td>—</td></tr><tr class="won"><td>Alejandro</td><td>Terraza Loredo</td><td>CDMX</td><td>Restaurante</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-won">Ganado</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">26 jun</td><td><span class="rv-cell">$1,292</span> <span class="mrr-cell">/mo</span></td></tr><tr><td>Vanessa</td><td>The Boss</td><td>Durango</td><td>Barbería / spa</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">27 jun</td><td>—</td></tr><tr><td>Griselda Jiménez</td><td>Perfect Salón &amp; Spa</td><td>Querétaro</td><td>Salón de belleza</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">27 jun</td><td>—</td></tr><tr><td>Diana Ambriz</td><td>Pilates Garden</td><td>Ciudad Juárez</td><td>Gimnasio / fitness</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">28 jun</td><td>—</td></tr><tr class="won"><td>Emily Giordano</td><td>Casa Söma</td><td>CDMX</td><td>Estudio boutique</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-won">Ganado</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">28 jun</td><td><span class="rv-cell">$1,499</span> <span class="mrr-cell">/mo</span></td></tr><tr><td>Samuel</td><td>El Olimpo</td><td>Cuautitlán Izcalli</td><td>Gimnasio</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">29 jun</td><td>—</td></tr><tr><td>Brian Saucedo</td><td>Fresa Deleite</td><td>Guadalajara</td><td>Repostería</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">29 jun</td><td>—</td></tr><tr><td>Eduardo</td><td>Salón Fitness</td><td>Querétaro</td><td>Fitness</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">29 jun</td><td>—</td></tr><tr class="won"><td>Leonardo</td><td>Froyú</td><td>Valladolid</td><td>Heladería</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-won">Ganado</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">29 jun</td><td><span class="rv-cell">$1,499</span> <span class="mrr-cell">/mo</span></td></tr><tr><td>Rodrigo</td><td>Casa Elemento</td><td>CDMX</td><td>Gimnasio</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">29 jun</td><td>—</td></tr><tr><td>Annel</td><td>Stiliza</td><td>Querétaro</td><td>Pilates</td><td>3-5</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">29 jun</td><td>—</td></tr><tr><td>Ángel Guajardo</td><td>Elefante Azul</td><td>Atizapán</td><td>Cafetería</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">30 jun</td><td>—</td></tr><tr><td>Carlos Antonio Becerra</td><td>Neora</td><td>Tapachula</td><td>Fitness / servicios</td><td>10</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">30 jun</td><td>—</td></tr><tr><td>Tifanny</td><td>Move Di Fyah</td><td>Querétaro</td><td>Estudio de baile</td><td>1-2</td><td><span class="dot on"></span> Meta</td><td><span class="tag t-mql">Lead</span></td><td class="mono" style="font-size:.7rem;color:var(--muted2)">30 jun</td><td>—</td></tr></tbody></table></div></div></section>
+  <footer><div class="ft-logo">Lasso × christiangtzb</div><div class="ft-sub">Reporte Junio 2026 · mes completo · Confidencial · christiangtzb.com</div></footer></div><!-- /report -->
+
+<script>
+/* ──── auth check ──── */
+if (sessionStorage.getItem('lasso_auth') !== '1') {
+  window.location.replace('/lasso-reports/');
+}
+
+/* ──── reveal on load ──── */
+document.addEventListener('DOMContentLoaded', initReveal);
+
+/* ──── reveal ──── */
+function initReveal() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('#report .r').forEach(el => obs.observe(el));
+
+  /* bars */
+  const barObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.style.width = e.target.dataset.w + '%'; barObs.unobserve(e.target); } });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.fs-fill, .mb-fill, .asc-bar, .geo-fill').forEach(b => barObs.observe(b));
+
+  /* counters */
+  const cntObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { animCount(e.target); cntObs.unobserve(e.target); } });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('[data-count]').forEach(el => cntObs.observe(el));
+}
+
+/* ──── counter ──── */
+function animCount(el) {
+  const target  = parseFloat(el.dataset.count);
+  const pre     = el.dataset.pre  || '';
+  const suf     = el.dataset.suf  || '';
+  const comma   = el.hasAttribute('data-comma');
+  const dec     = target % 1 !== 0;
+  const t0      = performance.now();
+  const dur     = 1400;
+  const fmt = n => {
+    let v = dec ? n.toFixed(2) : Math.round(n);
+    if (comma || dec) {
+      v = parseFloat(v).toLocaleString('en-US', { minimumFractionDigits: dec ? 2 : 0, maximumFractionDigits: dec ? 2 : 0 });
+    }
+    return pre + v + suf;
+  };
+  const tick = now => {
+    const p = Math.min((now - t0) / dur, 1);
+    const e = 1 - Math.pow(1 - p, 4);
+    el.textContent = fmt(e * target);
+    if (p < 1) requestAnimationFrame(tick);
+    else el.textContent = fmt(target);
+  };
+  requestAnimationFrame(tick);
+}
+</script>
+
+</body>
+</html>
