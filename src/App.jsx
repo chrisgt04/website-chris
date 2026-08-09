@@ -11,6 +11,8 @@ import Tech from "./components/Tech";
 import AdsLanding from "./components/ads/AdsLanding";
 import InmobiliariasLanding from "./components/ads/InmobiliariasLanding";
 import FormularioPage from "./components/ads/FormularioPage";
+import SuscripcionLanding from "./components/ads/SuscripcionLanding";
+import SuscripcionFormularioPage from "./components/ads/SuscripcionFormularioPage";
 
 // Secciones siguientes (se reconstruirán al estilo del brief una por una):
 // import Specialties from "./components/Specialties";
@@ -29,7 +31,10 @@ export default function App() {
   const isAds = path === "/ads";
   const isInmobiliarias = path === "/inmobiliarias";
   const isFormulario = path === "/formulario";
-  const isLanding = isAds || isInmobiliarias || isFormulario;
+  const isSuscripcion = path === "/suscripcion";
+  const isSuscripcionForm = path === "/suscripcion/formulario";
+  const isLanding =
+    isAds || isInmobiliarias || isFormulario || isSuscripcion || isSuscripcionForm;
 
   const lenisRef = useRef(null);
 
@@ -69,6 +74,8 @@ export default function App() {
     };
   }, []);
 
+  if (isSuscripcionForm) return <SuscripcionFormularioPage />;
+  if (isSuscripcion) return <SuscripcionLanding />;
   if (isFormulario) return <FormularioPage />;
   if (isInmobiliarias) return <InmobiliariasLanding />;
   if (isAds) return <AdsLanding />;

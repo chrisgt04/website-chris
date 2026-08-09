@@ -1,22 +1,23 @@
 import { motion } from "motion/react";
 import CostViz from "./CostViz";
 import {
-  inmoLanding,
-  inmoEnemy,
-  inmoStats,
-  inmoCostViz,
-  inmoTrust,
-  inmoPress,
-  inmoModel,
-  inmoWhy,
-  inmoSteps,
-  inmoFit,
-  inmoFaq,
-  inmoWhoami,
-  inmoCta,
-} from "../../data/ads-inmobiliarias";
+  suscLanding,
+  suscEnemy,
+  suscStats,
+  suscCostViz,
+  suscTrust,
+  suscPress,
+  suscModel,
+  suscWhy,
+  suscSteps,
+  suscFit,
+  suscFaq,
+  suscWhoami,
+  suscCta,
+} from "../../data/ads-suscripcion";
 
 const ease = [0.22, 1, 0.36, 1];
+const FORM_URL = "/suscripcion/formulario";
 
 function Segments({ parts }) {
   return parts.map((p, i) => (
@@ -26,7 +27,7 @@ function Segments({ parts }) {
   ));
 }
 
-export default function InmobiliariasLanding() {
+export default function SuscripcionLanding() {
   return (
     <>
       <div className="vignette" />
@@ -37,7 +38,7 @@ export default function InmobiliariasLanding() {
           <a className="ads-brand" href="/">
             christiangtzb
           </a>
-          <a className="btn btn-mint ads-nav-cta" href="/formulario">
+          <a className="btn btn-mint ads-nav-cta" href={FORM_URL}>
             Aplicar
           </a>
         </div>
@@ -49,44 +50,44 @@ export default function InmobiliariasLanding() {
           <div className="shell">
             <div className="ads-hero-top">
               <div className="ads-hero-copy">
-            <motion.span
-              className="hero-kicker"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease }}
-            >
-              <span className="dot" />
-              {inmoLanding.kicker}
-            </motion.span>
+                <motion.span
+                  className="hero-kicker"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, ease }}
+                >
+                  <span className="dot" />
+                  {suscLanding.kicker}
+                </motion.span>
 
-            <motion.h1
-              className="ads-title"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease, delay: 0.05 }}
-            >
-              <Segments parts={inmoLanding.title} />
-            </motion.h1>
+                <motion.h1
+                  className="ads-title"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, ease, delay: 0.05 }}
+                >
+                  <Segments parts={suscLanding.title} />
+                </motion.h1>
 
-            <motion.p
-              className="ads-sub"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease, delay: 0.12 }}
-            >
-              <Segments parts={inmoLanding.sub} />
-            </motion.p>
+                <motion.p
+                  className="ads-sub"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, ease, delay: 0.12 }}
+                >
+                  <Segments parts={suscLanding.sub} />
+                </motion.p>
 
-            <motion.div
-              className="ads-hero-cta"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease, delay: 0.18 }}
-            >
-              <a className="btn btn-mint" href="/formulario">
-                {inmoLanding.cta}
-              </a>
-            </motion.div>
+                <motion.div
+                  className="ads-hero-cta"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, ease, delay: 0.18 }}
+                >
+                  <a className="btn btn-mint" href={FORM_URL}>
+                    {suscLanding.cta}
+                  </a>
+                </motion.div>
               </div>
 
               <motion.figure
@@ -96,13 +97,11 @@ export default function InmobiliariasLanding() {
                 transition={{ duration: 0.7, ease, delay: 0.24 }}
               >
                 <img
-                  src={inmoPress.images[1]}
-                  alt="Christian Gutiérrez en El Financiero · Bloomberg — Panorama Inmobiliario"
+                  src={suscPress.images[1]}
+                  alt="Christian Gutiérrez en El Financiero · Bloomberg"
                   loading="lazy"
                 />
-                <figcaption>
-                  📰 Publicado en El Financiero · Bloomberg — Panorama Inmobiliario
-                </figcaption>
+                <figcaption>📰 Publicado en El Financiero · Bloomberg</figcaption>
               </motion.figure>
             </div>
           </div>
@@ -111,22 +110,22 @@ export default function InmobiliariasLanding() {
         {/* ENEMIGO COMÚN */}
         <section className="ads-section ads-enemy">
           <div className="shell">
-            <span className="services-kicker">{inmoEnemy.kicker}</span>
+            <span className="services-kicker">{suscEnemy.kicker}</span>
             <h2 className="ads-h2">
-              <Segments parts={inmoEnemy.title} />
+              <Segments parts={suscEnemy.title} />
             </h2>
-            <p className="ads-enemy-desc">{inmoEnemy.desc}</p>
+            <p className="ads-enemy-desc">{suscEnemy.desc}</p>
           </div>
         </section>
 
         {/* STATS CON CLIENTES */}
         <section className="ads-section ads-section-alt">
           <div className="shell">
-            <span className="services-kicker">{inmoStats.kicker}</span>
-            <h2 className="ads-h2">{inmoStats.title}</h2>
-            <p className="ads-sub ads-sub-left">{inmoStats.sub}</p>
+            <span className="services-kicker">{suscStats.kicker}</span>
+            <h2 className="ads-h2">{suscStats.title}</h2>
+            <p className="ads-sub ads-sub-left">{suscStats.sub}</p>
             <div className="ads-stats">
-              {inmoStats.items.map((s) => (
+              {suscStats.items.map((s) => (
                 <div className="ads-stat" key={s.lab}>
                   <span className="ads-stat-icon">{s.icon}</span>
                   <span className="ads-stat-val">{s.val}</span>
@@ -140,11 +139,11 @@ export default function InmobiliariasLanding() {
         {/* CONFIANZA / LOGOS */}
         <section className="ads-section">
           <div className="shell">
-            <span className="services-kicker">{inmoTrust.kicker}</span>
-            <h2 className="ads-h2">{inmoTrust.title}</h2>
-            <p className="ads-sub ads-sub-left">{inmoTrust.sub}</p>
+            <span className="services-kicker">{suscTrust.kicker}</span>
+            <h2 className="ads-h2">{suscTrust.title}</h2>
+            <p className="ads-sub ads-sub-left">{suscTrust.sub}</p>
             <div className="ads-who-chips" style={{ marginTop: "1.4rem" }}>
-              {inmoTrust.chips.map((c) => (
+              {suscTrust.chips.map((c) => (
                 <span className="ads-chip" key={c}>
                   {c}
                 </span>
@@ -156,12 +155,12 @@ export default function InmobiliariasLanding() {
         {/* EL MODELO / SIN HONORARIOS */}
         <section className="ads-section ads-section-alt">
           <div className="shell">
-            <span className="services-kicker">{inmoModel.kicker}</span>
+            <span className="services-kicker">{suscModel.kicker}</span>
             <h2 className="ads-h2">
-              <Segments parts={inmoModel.title} />
+              <Segments parts={suscModel.title} />
             </h2>
             <div className="ads-cards">
-              {inmoModel.parts.map((c) => (
+              {suscModel.parts.map((c) => (
                 <div className="ads-card" key={c.title}>
                   <span className="ads-card-icon">{c.icon}</span>
                   <h3>{c.title}</h3>
@@ -172,17 +171,17 @@ export default function InmobiliariasLanding() {
 
             <div className="ads-contrast">
               <div className="ads-contrast-card">
-                <h4>{inmoModel.contrast.old.name}</h4>
+                <h4>{suscModel.contrast.old.name}</h4>
                 <ul className="ads-contrast-list is-old">
-                  {inmoModel.contrast.old.points.map((p) => (
+                  {suscModel.contrast.old.points.map((p) => (
                     <li key={p}>{p}</li>
                   ))}
                 </ul>
               </div>
               <div className="ads-contrast-card is-neo">
-                <h4>{inmoModel.contrast.neo.name}</h4>
+                <h4>{suscModel.contrast.neo.name}</h4>
                 <ul className="ads-contrast-list is-neo">
-                  {inmoModel.contrast.neo.points.map((p) => (
+                  {suscModel.contrast.neo.points.map((p) => (
                     <li key={p}>{p}</li>
                   ))}
                 </ul>
@@ -191,11 +190,11 @@ export default function InmobiliariasLanding() {
 
             <div className="ads-costviz">
               <div className="ads-costviz-head">
-                <span className="services-kicker">{inmoCostViz.kicker}</span>
-                <h3 className="ads-costviz-title">{inmoCostViz.title}</h3>
+                <span className="services-kicker">{suscCostViz.kicker}</span>
+                <h3 className="ads-costviz-title">{suscCostViz.title}</h3>
               </div>
-              <CostViz data={inmoCostViz} />
-              <p className="ads-costviz-cap">{inmoCostViz.caption}</p>
+              <CostViz data={suscCostViz} />
+              <p className="ads-costviz-cap">{suscCostViz.caption}</p>
             </div>
           </div>
         </section>
@@ -203,10 +202,10 @@ export default function InmobiliariasLanding() {
         {/* POR QUÉ COMISIÓN */}
         <section className="ads-section">
           <div className="shell">
-            <span className="services-kicker">{inmoWhy.kicker}</span>
-            <h2 className="ads-h2">{inmoWhy.title}</h2>
+            <span className="services-kicker">{suscWhy.kicker}</span>
+            <h2 className="ads-h2">{suscWhy.title}</h2>
             <div className="ads-cards">
-              {inmoWhy.cards.map((c) => (
+              {suscWhy.cards.map((c) => (
                 <div className="ads-card" key={c.title}>
                   <span className="ads-card-icon">{c.icon}</span>
                   <h3>{c.title}</h3>
@@ -220,10 +219,10 @@ export default function InmobiliariasLanding() {
         {/* CÓMO FUNCIONA */}
         <section className="ads-section ads-section-alt">
           <div className="shell">
-            <span className="services-kicker">{inmoSteps.kicker}</span>
-            <h2 className="ads-h2">{inmoSteps.title}</h2>
+            <span className="services-kicker">{suscSteps.kicker}</span>
+            <h2 className="ads-h2">{suscSteps.title}</h2>
             <div className="ads-steps">
-              {inmoSteps.steps.map((s) => (
+              {suscSteps.steps.map((s) => (
                 <div className="ads-step" key={s.num}>
                   <span className="ads-step-num">{s.num}</span>
                   <div>
@@ -241,21 +240,21 @@ export default function InmobiliariasLanding() {
         {/* ¿PARA QUIÉN ES? */}
         <section className="ads-section">
           <div className="shell">
-            <span className="services-kicker">{inmoFit.kicker}</span>
-            <h2 className="ads-h2">{inmoFit.title}</h2>
+            <span className="services-kicker">{suscFit.kicker}</span>
+            <h2 className="ads-h2">{suscFit.title}</h2>
             <div className="ads-fit">
               <div className="ads-fit-card is-yes">
-                <h4>{inmoFit.yes.title}</h4>
+                <h4>{suscFit.yes.title}</h4>
                 <ul>
-                  {inmoFit.yes.points.map((p) => (
+                  {suscFit.yes.points.map((p) => (
                     <li key={p}>{p}</li>
                   ))}
                 </ul>
               </div>
               <div className="ads-fit-card is-no">
-                <h4>{inmoFit.no.title}</h4>
+                <h4>{suscFit.no.title}</h4>
                 <ul>
-                  {inmoFit.no.points.map((p) => (
+                  {suscFit.no.points.map((p) => (
                     <li key={p}>{p}</li>
                   ))}
                 </ul>
@@ -267,10 +266,10 @@ export default function InmobiliariasLanding() {
         {/* MINI-FAQ / OBJECIONES */}
         <section className="ads-section ads-section-alt">
           <div className="shell">
-            <span className="services-kicker">{inmoFaq.kicker}</span>
-            <h2 className="ads-h2">{inmoFaq.title}</h2>
+            <span className="services-kicker">{suscFaq.kicker}</span>
+            <h2 className="ads-h2">{suscFaq.title}</h2>
             <div className="ads-faq">
-              {inmoFaq.items.map((f) => (
+              {suscFaq.items.map((f) => (
                 <div className="ads-faq-item" key={f.q}>
                   <h3>{f.q}</h3>
                   <p>{f.a}</p>
@@ -280,16 +279,16 @@ export default function InmobiliariasLanding() {
           </div>
         </section>
 
-        {/* CTA — aplicar (link a /formulario) */}
+        {/* CTA — aplicar */}
         <section className="ads-section">
           <div className="shell">
             <div className="ads-cta-band">
-              <h2>¿Califica tu inmobiliaria?</h2>
+              <h2>¿Califica tu negocio?</h2>
               <p>
                 Cupo limitado. Contesta el formulario (60 seg) y, si calificas, te
                 contacto por WhatsApp en menos de 24 h.
               </p>
-              <a className="btn btn-mint" href="/formulario">
+              <a className="btn btn-mint" href={FORM_URL}>
                 Aplicar ahora →
               </a>
             </div>
@@ -300,18 +299,18 @@ export default function InmobiliariasLanding() {
         <section className="ads-section ads-section-alt">
           <div className="shell">
             <div className="ads-author">
-              <img src={inmoWhoami.portrait} alt={inmoWhoami.name} />
+              <img src={suscWhoami.portrait} alt={suscWhoami.name} />
               <div>
-                <div className="ads-author-name">{inmoWhoami.name}</div>
-                <div className="ads-author-role">{inmoWhoami.role}</div>
-                <p className="ads-author-bio">{inmoWhoami.bio}</p>
+                <div className="ads-author-name">{suscWhoami.name}</div>
+                <div className="ads-author-role">{suscWhoami.role}</div>
+                <p className="ads-author-bio">{suscWhoami.bio}</p>
               </div>
             </div>
 
             <div className="ads-cta-band">
-              <h2>{inmoCta.title}</h2>
-              <p>{inmoCta.sub}</p>
-              <a className="btn btn-mint" href="/formulario">
+              <h2>{suscCta.title}</h2>
+              <p>{suscCta.sub}</p>
+              <a className="btn btn-mint" href={FORM_URL}>
                 Aplicar ahora
               </a>
             </div>

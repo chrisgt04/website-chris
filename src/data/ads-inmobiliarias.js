@@ -137,7 +137,7 @@ export const inmoCostViz = {
   kicker: "Cero riesgo para ti",
   title: "Lo que pagas cada mes.",
   caption:
-    "Una agencia te cobra vendas o no. Conmigo pagas $0 de honorario hasta que se cierra una venta — ahí gano un % de tu comisión.",
+    "Empiezas a vender desde el primer mes. No pagas honorario — solo un % de cada venta que se cierra.",
   months: ["Mes 1", "Mes 2", "Mes 3", "Mes 4", "Mes 5", "Mes 6"],
   rows: [
     {
@@ -154,15 +154,15 @@ export const inmoCostViz = {
     },
     {
       label: "Este modelo",
-      sublabel: "$0 hasta que vendes",
+      sublabel: "vendes desde el mes 1 · solo % por venta",
       neo: true,
       cells: [
-        { on: false, tag: "$0" },
-        { on: false, tag: "$0" },
-        { on: false, tag: "$0" },
-        { on: false, tag: "$0" },
-        { on: false, tag: "$0" },
-        { on: true, tag: "% al vender" },
+        { on: true, tag: "🎯 1ª venta" },
+        { on: true, tag: "%" },
+        { on: true, tag: "%" },
+        { on: true, tag: "%" },
+        { on: true, tag: "%" },
+        { on: true, tag: "%" },
       ],
     },
   ],

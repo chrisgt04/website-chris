@@ -1,31 +1,30 @@
 import { useState, useMemo } from "react";
-import {
-  WHATSAPP_NUMBER,
-  WEBHOOK_URL,
-  inmoForm,
-  inmoScoring,
-} from "../../data/ads-inmobiliarias";
 
-// Sin asesores que cierren, el modelo por comisión no funciona → descalifica.
-export function isDisqualified(a) {
-  return a.asesores === "No, aún no";
-}
+// Formulario matón genérico y reutilizable entre verticales.
+// Props:
+//   config: { steps, contact, consent }  (del data file)
+//   scoring: mapa de puntos por respuesta
+//   disqualify: (answers) => bool
+//   source: string (ej. "landing-suscripcion")
+//   webhookUrl, whatsappNumber: strings
+//   summaryFields: [{ key, label }]  para el resumen de WhatsApp
+//   copy: { disqMsg, doneMsg, waIntro, waDisqIntro }
 
-export function computeScore(a) {
+function computeScore(answers, scoring) {
   let s = 0;
-  for (const key of Object.keys(inmoScoring)) {
-    const val = a[key];
-    const pts = val != null ? inmoScoring[key][val] : undefined;
+  for (const key of Object.keys(scoring)) {
+    const val = answers[key];
+    const pts = val != null ? scoring[key][val] : undefined;
     if (typeof pts === "number") s += pts;
   }
   return s;
 }
 
-export function tierOf(a) {
-  if (isDisqualified(a)) return "C";
-  const s = computeScore(a);
-  if (s >= 70) return "A";
-  if (s >= 40) return "B";
+function tierOf(answers, scoring, disqualify) {
+  if (disqualify(answers)) return "C";
+  const s = computeScore(answers, scoring);
+  if (s >= 75) return "A";
+  if (s >= 45) return "B";
   return "C";
 }
 
@@ -40,34 +39,21 @@ function utmFromUrl() {
   return out;
 }
 
-function summaryText(a) {
-  return [
-    `Inmobiliaria: ${a.empresa || "-"}`,
-    `Ciudad: ${a.ciudad || "-"}`,
-    `Tipo: ${a.tipo || "-"}`,
-    `Inventario: ${a.inventario || "-"}`,
-    `Ticket: ${a.ticket || "-"}`,
-    `Asesores: ${a.asesores || "-"}`,
-    `Ventas/mes: ${a.ventas_mes || "-"}`,
-    `Pauta/mes: ${a.pauta || "-"}`,
-    `Empezar: ${a.urgencia || "-"}`,
-  ].join(" | ");
-}
-
-function buildWhatsappHref(a) {
-  const text = isDisqualified(a)
-    ? `Hola Christian, aún no tengo un equipo que cierre los leads pero me interesa el modelo por comisión. Inmobiliaria: ${a.empresa || "-"}.`
-    : `Hola Christian, quiero aplicar al modelo de ads por comisión. ${summaryText(a)}`;
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
-}
-
-export default function InmoForm() {
-  const totalChoiceSteps = inmoForm.steps.length;
-  // Pantallas: 0 = datos de contacto · 1..N = preguntas · N+1 = envío.
-  const submitStep = totalChoiceSteps + 1;
+export default function LeadForm({
+  config,
+  scoring,
+  disqualify,
+  source,
+  webhookUrl,
+  whatsappNumber,
+  summaryFields,
+  copy,
+}) {
+  const totalChoiceSteps = config.steps.length;
+  const submitStep = totalChoiceSteps + 1; // 0 = contacto · 1..N = preguntas · N+1 = envío
   const totalSteps = totalChoiceSteps + 2;
   const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState({ whatsapp: "+52 " }); // clave país preseleccionada
+  const [answers, setAnswers] = useState({ whatsapp: "+52 " });
   const [website, setWebsite] = useState(""); // honeypot
   const [status, setStatus] = useState("idle"); // idle | sending | done | error
 
@@ -79,7 +65,6 @@ export default function InmoForm() {
     setAnswers((prev) => ({ ...prev, [id]: value }));
     setStep((s) => Math.min(s + 1, submitStep));
   };
-
   const setField = (id, value) =>
     setAnswers((prev) => ({ ...prev, [id]: value }));
 
@@ -89,11 +74,17 @@ export default function InmoForm() {
     phoneDigits.length >= 10 &&
     answers.email?.trim() &&
     answers.empresa?.trim() &&
-    answers.ciudad?.trim() &&
     answers.consent;
 
-  const disq = isDisqualified(answers);
-  const whatsappHref = useMemo(() => buildWhatsappHref(answers), [answers]);
+  const disq = disqualify(answers);
+
+  const whatsappHref = useMemo(() => {
+    const summary = summaryFields
+      .map(({ key, label }) => `${label}: ${answers[key] || "-"}`)
+      .join(" | ");
+    const text = disq ? copy.waDisqIntro : `${copy.waIntro} ${summary}`;
+    return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+  }, [answers, disq, summaryFields, copy, whatsappNumber]);
 
   const submit = async () => {
     if (!contactComplete || status === "sending") return;
@@ -102,9 +93,9 @@ export default function InmoForm() {
     }
     const payload = {
       ...answers,
-      lead_score: computeScore(answers),
-      tier: tierOf(answers),
-      source: "landing-inmobiliarias",
+      lead_score: computeScore(answers, scoring),
+      tier: tierOf(answers, scoring, disqualify),
+      source,
       submitted_at: new Date().toISOString(),
       website, // honeypot — n8n descarta si viene lleno
       ...utmFromUrl(),
@@ -113,7 +104,7 @@ export default function InmoForm() {
     try {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 10000);
-      const res = await fetch(WEBHOOK_URL, {
+      const res = await fetch(webhookUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -127,7 +118,7 @@ export default function InmoForm() {
     }
   };
 
-  // Pantalla de error — no perder el lead: fallback a WhatsApp con resumen.
+  // Error — no perder el lead: fallback a WhatsApp.
   if (status === "error") {
     return (
       <div className="ads-form-card ads-form-done">
@@ -144,18 +135,14 @@ export default function InmoForm() {
     );
   }
 
-  // Pantalla de éxito.
+  // Éxito.
   if (status === "done") {
     const firstName = answers.nombre?.split(" ")[0] || "";
     return (
       <div className="ads-form-card ads-form-done">
         <span className="ads-done-icon">{disq ? "📩" : "✅"}</span>
         <h3>{disq ? `Gracias, ${firstName}.` : `¡Recibido, ${firstName}!`}</h3>
-        <p>
-          {disq
-            ? "El modelo por comisión funciona mejor cuando ya tienes quién cierre los leads. Te dejé un WhatsApp para ver cómo llegar ahí de la forma correcta."
-            : "Recibí tu aplicación. Te escribo por WhatsApp en menos de 24 h con los siguientes pasos."}
-        </p>
+        <p>{disq ? copy.disqMsg : copy.doneMsg}</p>
         <a className="btn btn-mint" href={whatsappHref} target="_blank" rel="noreferrer">
           {disq ? "Escribir por WhatsApp" : "Adelantar por WhatsApp"}
         </a>
@@ -163,7 +150,7 @@ export default function InmoForm() {
     );
   }
 
-  // Paso 1 — datos de la persona (primero).
+  // Paso 1 — datos de la persona.
   if (step === 0) {
     return (
       <div className="ads-form-card">
@@ -172,11 +159,9 @@ export default function InmoForm() {
         </div>
         <span className="ads-step-count">Paso 1 de {totalSteps}</span>
         <h3 className="ads-q">Empecemos por tus datos</h3>
-        <p className="ads-hint">
-          Para contactarte con tu contexto listo. Toma 60 segundos.
-        </p>
+        <p className="ads-hint">Para contactarte con tu contexto listo. Toma 60 segundos.</p>
         <div className="ads-fields">
-          {inmoForm.contact.map((f) => (
+          {config.contact.map((f) => (
             <label key={f.id} className="ads-field">
               <span>{f.label}</span>
               <input
@@ -188,7 +173,6 @@ export default function InmoForm() {
               />
             </label>
           ))}
-          {/* honeypot anti-spam (oculto) */}
           <input
             type="text"
             className="ads-hp"
@@ -204,16 +188,12 @@ export default function InmoForm() {
               checked={!!answers.consent}
               onChange={(e) => setField("consent", e.target.checked)}
             />
-            <span>{inmoForm.consent}</span>
+            <span>{config.consent}</span>
           </label>
         </div>
         <div className="ads-form-nav">
           <span aria-hidden="true" />
-          <button
-            className="btn btn-mint"
-            disabled={!contactComplete}
-            onClick={() => setStep(1)}
-          >
+          <button className="btn btn-mint" disabled={!contactComplete} onClick={() => setStep(1)}>
             Continuar →
           </button>
         </div>
@@ -231,8 +211,8 @@ export default function InmoForm() {
         <span className="ads-step-count">Último paso</span>
         <h3 className="ads-q">¡Todo listo!</h3>
         <p className="ads-hint">
-          Tengo lo necesario para revisar tu caso. Envía tu aplicación y te
-          escribo por WhatsApp en menos de 24 h.
+          Tengo lo necesario para revisar tu caso. Envía tu aplicación y te escribo
+          por WhatsApp en menos de 24 h.
         </p>
         <div className="ads-form-nav">
           <button className="ads-back" onClick={() => setStep((s) => s - 1)}>
@@ -250,8 +230,8 @@ export default function InmoForm() {
     );
   }
 
-  // Pasos de opción múltiple (preguntas de calificación).
-  const current = inmoForm.steps[step - 1];
+  // Preguntas de calificación.
+  const current = config.steps[step - 1];
   return (
     <div className="ads-form-card">
       <div className="ads-progress">

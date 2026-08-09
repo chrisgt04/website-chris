@@ -3,35 +3,34 @@ import LeadForm from "./LeadForm";
 import {
   WEBHOOK_URL,
   WHATSAPP_NUMBER,
-  inmoForm,
-  inmoScoring,
-} from "../../data/ads-inmobiliarias";
+  suscForm,
+  suscScoring,
+} from "../../data/ads-suscripcion";
 
 const ease = [0.22, 1, 0.36, 1];
 
 const SUMMARY_FIELDS = [
-  { key: "empresa", label: "Inmobiliaria" },
-  { key: "ciudad", label: "Ciudad" },
+  { key: "empresa", label: "Producto" },
   { key: "tipo", label: "Tipo" },
-  { key: "inventario", label: "Inventario" },
-  { key: "ticket", label: "Ticket" },
-  { key: "asesores", label: "Asesores" },
-  { key: "ventas_mes", label: "Ventas/mes" },
+  { key: "cobro", label: "Cobro" },
+  { key: "facturacion", label: "Factura/mes" },
+  { key: "precio_plan", label: "Plan" },
+  { key: "convierte", label: "Convierte" },
   { key: "pauta", label: "Pauta/mes" },
   { key: "urgencia", label: "Empezar" },
 ];
 
 const COPY = {
   disqMsg:
-    "El modelo por comisión funciona mejor cuando ya tienes quién cierre los leads. Te dejé un WhatsApp para ver cómo llegar ahí de la forma correcta.",
+    "El modelo funciona mejor cuando ya cobras de forma recurrente. Te dejé un WhatsApp para ver cómo llegar ahí de la forma correcta.",
   doneMsg:
     "Recibí tu aplicación. Te escribo por WhatsApp en menos de 24 h con los siguientes pasos.",
-  waIntro: "Hola Christian, quiero aplicar al modelo de ads por comisión.",
+  waIntro: "Hola Christian, quiero aplicar al modelo de ads por comisión para mi negocio de suscripción.",
   waDisqIntro:
-    "Hola Christian, aún no tengo un equipo que cierre los leads pero me interesa el modelo por comisión.",
+    "Hola Christian, aún no cobro de forma recurrente pero me interesa el modelo por comisión.",
 };
 
-export default function FormularioPage() {
+export default function SuscripcionFormularioPage() {
   return (
     <>
       <div className="vignette" />
@@ -39,7 +38,7 @@ export default function FormularioPage() {
 
       <header className="ads-nav">
         <div className="shell ads-nav-inner">
-          <a className="ads-brand" href="/inmobiliarias">
+          <a className="ads-brand" href="/suscripcion">
             ← Volver
           </a>
           <a className="ads-brand" href="/">
@@ -58,7 +57,7 @@ export default function FormularioPage() {
               transition={{ duration: 0.6, ease }}
             >
               <span className="dot" />
-              {inmoForm.kicker}
+              {suscForm.kicker}
             </motion.span>
 
             <motion.h1
@@ -67,7 +66,7 @@ export default function FormularioPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease, delay: 0.05 }}
             >
-              {inmoForm.title}
+              {suscForm.title}
             </motion.h1>
 
             <motion.p
@@ -76,15 +75,15 @@ export default function FormularioPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease, delay: 0.12 }}
             >
-              {inmoForm.sub}
+              {suscForm.sub}
             </motion.p>
 
             <div className="ads-form-page-card">
               <LeadForm
-                config={inmoForm}
-                scoring={inmoScoring}
-                disqualify={(a) => a.asesores === "No, aún no"}
-                source="landing-inmobiliarias"
+                config={suscForm}
+                scoring={suscScoring}
+                disqualify={(a) => a.cobro === "Todavía no cobro"}
+                source="landing-suscripcion"
                 webhookUrl={WEBHOOK_URL}
                 whatsappNumber={WHATSAPP_NUMBER}
                 summaryFields={SUMMARY_FIELDS}
@@ -98,7 +97,7 @@ export default function FormularioPage() {
       <footer className="ads-footer">
         <div className="shell ads-footer-inner">
           <span>© {new Date().getFullYear()} christiangtzb</span>
-          <a href="/inmobiliarias">Ver la propuesta completa →</a>
+          <a href="/suscripcion">Ver la propuesta completa →</a>
         </div>
       </footer>
     </>
