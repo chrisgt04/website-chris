@@ -9,6 +9,8 @@ import Results from "./components/Results";
 import Clients from "./components/Clients";
 import Tech from "./components/Tech";
 import AdsLanding from "./components/ads/AdsLanding";
+import InmobiliariasLanding from "./components/ads/InmobiliariasLanding";
+import FormularioPage from "./components/ads/FormularioPage";
 
 // Secciones siguientes (se reconstruirán al estilo del brief una por una):
 // import Specialties from "./components/Specialties";
@@ -20,14 +22,19 @@ import AdsLanding from "./components/ads/AdsLanding";
 // import Footer from "./components/Footer";
 
 export default function App() {
-  const isAds =
-    typeof window !== "undefined" &&
-    window.location.pathname.replace(/\/$/, "") === "/ads";
+  const path =
+    typeof window !== "undefined"
+      ? window.location.pathname.replace(/\/$/, "")
+      : "";
+  const isAds = path === "/ads";
+  const isInmobiliarias = path === "/inmobiliarias";
+  const isFormulario = path === "/formulario";
+  const isLanding = isAds || isInmobiliarias || isFormulario;
 
   const lenisRef = useRef(null);
 
   useEffect(() => {
-    if (isAds) return; // la landing /ads no usa smooth-scroll global
+    if (isLanding) return; // las landings de ads no usan smooth-scroll global
     const lenis = new Lenis({
       lerp: 0.09, // suavidad / inercia tipo Apple
       smoothWheel: true,
@@ -62,6 +69,8 @@ export default function App() {
     };
   }, []);
 
+  if (isFormulario) return <FormularioPage />;
+  if (isInmobiliarias) return <InmobiliariasLanding />;
   if (isAds) return <AdsLanding />;
 
   return (

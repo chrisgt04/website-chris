@@ -15,6 +15,26 @@
       href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Meta Pixel — pon el ID real en FB_PIXEL_ID para activarlo.
+         Mientras sea el placeholder no se dispara nada (producción limpia).
+         El evento "Lead" se manda en el submit del formulario /inmobiliarias y /ads. -->
+    <script>
+      var FB_PIXEL_ID = 'TU_PIXEL_ID';
+      if (FB_PIXEL_ID && FB_PIXEL_ID !== 'TU_PIXEL_ID') {
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', FB_PIXEL_ID);
+        fbq('track', 'PageView');
+      }
+    </script>
+    <!-- End Meta Pixel -->
   </head>
   <body>
     <div id="root"></div>
