@@ -53,7 +53,7 @@ export const bio = {
     {
       n: "01",
       title: "Hoy — Tech Lead a los 24",
-      desc: "Lidero +100 flujos de operación en una de las startups más reconocidas de México. Equipo a cargo, conferencias de IA para más de 100 personas — y apenas voy en los 24.",
+      desc: "Lidero +100 flujos de operación en una de las startups más reconocidas de México. Equipo a cargo, conferencias de IA para +1,000 personas con Grupo PISSA — y apenas voy en los 24.",
       photo: "/images/01.PNG",
     },
     {
@@ -97,8 +97,8 @@ export const bio = {
 
 export const services = {
   kicker: "Cómo te ayudo",
-  title: "Cuatro formas de meterle tracción a tu negocio.",
-  sub: "Desde aumentar tus ventas sin que pagues un peso fijo, hasta un agente de IA que prospecta por ti. Cada una se diseñó para un momento distinto de tu negocio.",
+  title: "Tres formas de meterle tracción a tu negocio.",
+  sub: "Desde aumentar tus ventas sin que pagues un peso fijo, hasta automatizaciones empresariales que eliminan el trabajo manual. Cada una se diseñó para un momento distinto de tu negocio.",
   items: [
     {
       icon: "📈",
@@ -118,7 +118,7 @@ export const services = {
       variant: "silver",
       desc: "Acompaño a fundadores y equipos a integrar IA en su operación. Sesiones 1-1 o mentoría para equipos de más de 10 personas — con casos reales, no teoría.",
       tags: ["1-1", "Mentoría equipos +10", "IA práctica"],
-      cta: { label: "Solicitar consultoría", href: "https://wa.me/528180502810", external: true },
+      cta: { label: "Ver sesiones 1-1", href: "/consultoria" },
     },
     {
       icon: "⚙️",
@@ -129,17 +129,6 @@ export const services = {
       desc: "Diseño e implemento automatizaciones empresariales con Unifai. Conecto datos, ventas y operación en flujos que eliminan el trabajo manual.",
       tags: ["Unifai", "Procesos empresariales", "Llave en mano"],
       cta: { label: "Conocer Unifai →", href: "https://www.unifai.com.mx/", external: true },
-    },
-    {
-      icon: "🤖",
-      name: "Clivia",
-      tag: "Próximamente · El producto clave",
-      price: "Próximamente",
-      variant: "mint",
-      desc: "Un agente de IA que vende por ti: llamadas, videollamadas, WhatsApp y correos a tus prospectos. Sin que toques un solo botón. El producto al que estoy apostando todo.",
-      tags: ["Agente IA", "Multi-canal", "Próximamente"],
-      cta: { label: "Únete a la lista", href: "https://wa.me/528180502810", external: true },
-      featured: true,
     },
   ],
 };
@@ -415,6 +404,268 @@ export const press = {
       href: "#",
     },
   ],
+};
+
+// ============================================================
+//  PORTAFOLIO — CV visual estilo Tech Lead (/portafolio)
+//  Reutiliza about, bio.timeline, specialties, stack, portfolio,
+//  stats, press y conferences desde los componentes.
+// ============================================================
+export const portafolio = {
+  name: "Christian Gutiérrez",
+  role: "Tech Lead",
+  org: "LeadSales",
+  formalTitle: "Automation Manager · Tech Lead",
+  tagline:
+    "Ingeniero de datos, software y automatización. Construyo agentes de IA autónomos, pipelines sobre data lakes y sistemas full-stack — de la query al deploy.",
+  availability: "Disponible para proyectos · 2026",
+  location: "Monterrey, MX",
+
+  // Herramientas que orbitan el nombre en el hero.
+  // Dos anillos: interno (core) + externo (infra / data / tooling).
+  orbit: {
+    inner: [
+      { label: "Python", ic: "🐍" },
+      { label: "TypeScript", ic: "🔷" },
+      { label: "SQL", ic: "🗃️" },
+      { label: "Claude · LLM", ic: "🤖" },
+      { label: "n8n", ic: "⚙️" },
+    ],
+    outer: [
+      { label: "React", ic: "⚛️" },
+      { label: "PostgreSQL", ic: "🐘" },
+      { label: "AWS", ic: "☁️" },
+      { label: "Docker", ic: "🐳" },
+      { label: "BigQuery", ic: "📊" },
+      { label: "MCP", ic: "🧩" },
+      { label: "REST · APIs", ic: "🔌" },
+    ],
+  },
+
+  // Medidores de competencia (niveles curados para la barra animada).
+  skills: [
+    {
+      label: "Data Engineering & Data Lakes",
+      level: 95,
+      note: "PostgreSQL · BigQuery · S3 · dbt · Spark · ETL",
+    },
+    {
+      label: "Automatización & APIs",
+      level: 94,
+      note: "n8n · webhooks · REST · HubSpot / Intercom API · cron",
+    },
+    {
+      label: "Agentes de IA autónomos & LLMs",
+      level: 93,
+      note: "Claude · MCP · RAG · embeddings · tool-calling · multi-agente",
+    },
+    {
+      label: "Lenguajes & Software",
+      level: 92,
+      note: "Python · JS / TypeScript · React · Node · SQL · Bash",
+    },
+    {
+      label: "Análisis & BI",
+      level: 90,
+      note: "Tableau · Pandas · NumPy · Jupyter · A/B testing",
+    },
+    {
+      label: "Infra & DevOps",
+      level: 84,
+      note: "AWS · Docker · Linux · CI/CD · Vercel · SSH",
+    },
+  ],
+
+  // Banda de métricas técnicas (numéricas para el count-up).
+  metrics: [
+    { value: 100, suffix: "+", label: "Flujos de automatización en producción" },
+    { value: 100, suffix: "%", label: "Procesos sin trabajo manual" },
+    { value: 24, suffix: "/7", label: "Agentes de IA operando" },
+    { value: 15, suffix: "+", label: "APIs / sistemas integrados" },
+  ],
+
+  // Stack técnico completo, agrupado por disciplina.
+  stackGroups: [
+    {
+      title: "Lenguajes",
+      items: [
+        { ic: "🐍", nm: "Python", sub: "Data · automatización · scripting" },
+        { ic: "🟨", nm: "JavaScript", sub: "Web · APIs" },
+        { ic: "🔷", nm: "TypeScript", sub: "Tipado · apps" },
+        { ic: "🗃️", nm: "SQL", sub: "Queries · modelado" },
+        { ic: "💻", nm: "Bash", sub: "Shell · automatización" },
+        { ic: "🌐", nm: "HTML / CSS", sub: "Frontend" },
+      ],
+    },
+    {
+      title: "Bases de datos",
+      items: [
+        { ic: "🐘", nm: "PostgreSQL", sub: "Relacional" },
+        { ic: "🐬", nm: "MySQL", sub: "Relacional" },
+        { ic: "📊", nm: "BigQuery", sub: "Data warehouse" },
+        { ic: "🔴", nm: "Redis", sub: "Cache · colas" },
+        { ic: "🍃", nm: "MongoDB", sub: "NoSQL" },
+        { ic: "🟢", nm: "Supabase", sub: "Postgres + Auth" },
+        { ic: "🪶", nm: "SQLite", sub: "Embebida" },
+      ],
+    },
+    {
+      title: "Data Lakes & Big Data",
+      items: [
+        { ic: "🪣", nm: "Amazon S3", sub: "Data lake" },
+        { ic: "❄️", nm: "Snowflake", sub: "Warehouse" },
+        { ic: "✨", nm: "Apache Spark", sub: "Procesamiento" },
+        { ic: "🔧", nm: "dbt", sub: "Transformación" },
+        { ic: "🌬️", nm: "Airflow", sub: "Orquestación" },
+        { ic: "🧱", nm: "ETL / ELT", sub: "Pipelines" },
+        { ic: "📦", nm: "Parquet", sub: "Columnar" },
+      ],
+    },
+    {
+      title: "Análisis & BI",
+      items: [
+        { ic: "📈", nm: "Tableau", sub: "Dashboards" },
+        { ic: "🐼", nm: "Pandas", sub: "Data wrangling" },
+        { ic: "🔢", nm: "NumPy", sub: "Cómputo numérico" },
+        { ic: "📓", nm: "Jupyter", sub: "Notebooks" },
+        { ic: "🧪", nm: "A/B testing", sub: "Experimentos" },
+        { ic: "🎯", nm: "Atribución", sub: "Multi-touch" },
+      ],
+    },
+    {
+      title: "IA & Agentes autónomos",
+      items: [
+        { ic: "🤖", nm: "Claude / Anthropic API", sub: "LLM" },
+        { ic: "🧠", nm: "Agentes autónomos", sub: "Loop · memoria" },
+        { ic: "🧩", nm: "MCP", sub: "Model Context Protocol" },
+        { ic: "🔎", nm: "RAG", sub: "Retrieval + contexto" },
+        { ic: "🧬", nm: "Embeddings / Vector DB", sub: "Búsqueda semántica" },
+        { ic: "🛠️", nm: "Tool-calling", sub: "Acciones" },
+        { ic: "✍️", nm: "Prompt engineering", sub: "Diseño" },
+      ],
+    },
+    {
+      title: "Software & APIs",
+      items: [
+        { ic: "⚛️", nm: "React", sub: "Frontend" },
+        { ic: "💨", nm: "Vite", sub: "Build" },
+        { ic: "🟩", nm: "Node.js", sub: "Backend" },
+        { ic: "🔌", nm: "REST / Webhooks", sub: "Integración" },
+        { ic: "⚙️", nm: "n8n", sub: "Orquestación" },
+        { ic: "🟠", nm: "HubSpot / Intercom API", sub: "CRM · soporte" },
+      ],
+    },
+    {
+      title: "Infra & DevOps",
+      items: [
+        { ic: "☁️", nm: "AWS", sub: "EC2 · S3 · SSM" },
+        { ic: "🐳", nm: "Docker", sub: "Contenedores" },
+        { ic: "🐧", nm: "Linux", sub: "Servidores" },
+        { ic: "🐙", nm: "Git / GitHub Actions", sub: "CI/CD" },
+        { ic: "▲", nm: "Vercel", sub: "Deploy" },
+        { ic: "🌐", nm: "Nginx", sub: "Reverse proxy" },
+        { ic: "🔐", nm: "SSH", sub: "Infra segura" },
+      ],
+    },
+  ],
+
+  // Lo que construyo (tarjetas de capacidad técnica).
+  build: [
+    {
+      ic: "🧠",
+      title: "Agentes de IA autónomos",
+      featured: true,
+      desc: "Agentes que razonan, usan herramientas y actúan solos: orquestados en n8n sobre Claude, con memoria, RAG y tool-calling. Entra un evento por webhook y el agente resuelve la conversación de punta a punta.",
+      tags: ["Claude", "Agentes", "MCP", "RAG", "Tool-calling"],
+    },
+    {
+      ic: "⚛️",
+      title: "Software full-stack",
+      desc: "Interfaces en React + Vite y backends en Node con APIs REST. Del diseño de la UI al deploy en Vercel — dashboards, landings y paneles internos.",
+      tags: ["React", "Vite", "Node", "REST", "Vercel"],
+    },
+    {
+      ic: "🗄️",
+      title: "Pipelines de datos & data lakes",
+      desc: "Ingesta, limpieza y modelado con SQL y Python. Data lakes en S3, warehouses en BigQuery, transformación con dbt y dashboards en Tableau.",
+      tags: ["SQL", "Python", "BigQuery", "S3", "dbt", "Tableau"],
+    },
+    {
+      ic: "⚙️",
+      title: "Sistemas de automatización",
+      desc: "+100 flujos en producción que conectan CRM, mensajería y herramientas internas. Webhooks, colas, reintentos y lógica determinista — cero trabajo manual.",
+      tags: ["n8n", "Webhooks", "HubSpot", "WhatsApp API", "cron"],
+    },
+    {
+      ic: "🔌",
+      title: "Integraciones & APIs",
+      desc: "Sincronización entre sistemas vía REST y webhooks: HubSpot, Intercom, Slack, Meta, Calendly. APIs idempotentes y contratos claros entre servicios.",
+      tags: ["REST", "Webhooks", "HubSpot", "Intercom", "Slack"],
+    },
+    {
+      ic: "☁️",
+      title: "Infra & cloud",
+      desc: "Despliegue y operación en AWS y Vercel: contenedores Docker, servidores Linux, CI/CD con GitHub Actions y acceso seguro por SSH/VPN.",
+      tags: ["AWS", "Docker", "Linux", "GitHub Actions", "SSH"],
+    },
+  ],
+
+  education: {
+    degree: "Ing. en Data Analysis",
+    school: "Tec de Monterrey",
+    focus: "Concentración: IA para los Negocios",
+  },
+
+  links: {
+    linkedin: "https://www.linkedin.com/in/christiangtzb",
+    linkedinLabel: "linkedin.com/in/christiangtzb",
+    email: "hola@christiangtzb.com",
+    whatsapp: "https://wa.me/528180502810",
+  },
+
+  // Cierre: el diferenciador — ingeniería + producto + inteligencia comercial.
+  combine: {
+    eyebrow: "El diferenciador",
+    title: "Ingeniería + Producto + Inteligencia comercial",
+    intro:
+      "Mi ventaja no es solo escribir código: es entender el negocio que hay detrás y liderar a quienes lo construyen. Vengo del marketing y las ventas, aprendí a hacer producto, me volví ingeniero y hoy lidero equipos de automatización. Combino cosas que pocos perfiles reúnen.",
+    pillars: [
+      {
+        ic: "🛠️",
+        title: "Ingeniería",
+        desc: "Data engineering, agentes de IA, software full-stack e infraestructura. Del modelado de datos y el diseño de sistemas hasta el deploy en producción.",
+        tags: ["Data Eng", "IA", "Full-stack", "Infra", "APIs", "Cloud"],
+      },
+      {
+        ic: "🧭",
+        title: "Producto",
+        desc: "Traduzco negocio en producto: discovery, priorización, definición de métricas, UX y roadmap. Decido qué construir, qué no y por qué.",
+        tags: ["Discovery", "Métricas", "UX", "Roadmap", "Estrategia"],
+      },
+      {
+        ic: "📈",
+        title: "Inteligencia comercial",
+        desc: "Vengo del marketing y las ventas: performance marketing, paid media, growth, CRM y atribución. Sé de dónde vienen los ingresos y cómo moverlos.",
+        tags: ["Paid Media", "Growth", "Ventas", "CRM", "Atribución"],
+      },
+    ],
+    lead: {
+      ic: "👥",
+      title: "Liderando equipos de automatización",
+      desc: "Como Tech Lead dirijo la operación de automatización: +100 flujos en producción, mentoría técnica al equipo, estándares de calidad y code review, y conferencias de IA para +100 personas. Convierto procesos manuales en sistemas que el equipo mantiene y escala.",
+      tags: ["Tech Lead", "Equipos", "Mentoría", "+100 flujos", "Estándares", "Conferencias"],
+    },
+    proof: [
+      "+$11M MXN en ventas generadas desde ads",
+      "22x ROAS máximo · ↓85% CPL",
+      "+100 flujos de automatización en producción",
+      "Equipo de automatización a cargo",
+      "Conferencias de IA para +100 personas",
+      "2× columnista en El Financiero · Bloomberg",
+    ],
+    closing:
+      "Ingeniero que piensa como product manager, entiende el negocio como comercial y lidera al equipo. Ahí está la diferencia.",
+  },
 };
 
 export const contact = {

@@ -4,3 +4,5 @@ dist
 *.local
 .vite
 .vercel
+.env*
+.vercel.old-team-backup

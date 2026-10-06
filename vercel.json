@@ -11,7 +11,17 @@
       "destination": "/propuesta-terraza-loredo/index.html"
     },
     {
-      "source": "/((?!lasso-reports|propuesta-alex|propuesta-terraza-loredo).*)",
+      "source": "/((?!.*\\.).*)",
+      "has": [{ "type": "host", "value": "propuesta-magno.christiangtzb.com" }],
+      "destination": "/propuesta-magno/index.html"
+    },
+    {
+      "source": "/((?!.*\\.).*)",
+      "has": [{ "type": "host", "value": "propuesta-magno-lasso.christiangtzb.com" }],
+      "destination": "/propuesta-magno-lasso/index.html"
+    },
+    {
+      "source": "/((?!lasso-reports|propuesta-alex|propuesta-terraza-loredo|propuesta-magno|propuesta-magno-lasso).*)",
       "destination": "/index.html"
     }
   ]

@@ -13,6 +13,8 @@ import InmobiliariasLanding from "./components/ads/InmobiliariasLanding";
 import FormularioPage from "./components/ads/FormularioPage";
 import SuscripcionLanding from "./components/ads/SuscripcionLanding";
 import SuscripcionFormularioPage from "./components/ads/SuscripcionFormularioPage";
+import ConsultoriaLanding from "./components/ads/ConsultoriaLanding";
+import Portafolio from "./components/portafolio/Portafolio";
 
 // Secciones siguientes (se reconstruirán al estilo del brief una por una):
 // import Specialties from "./components/Specialties";
@@ -33,8 +35,15 @@ export default function App() {
   const isFormulario = path === "/formulario";
   const isSuscripcion = path === "/suscripcion";
   const isSuscripcionForm = path === "/suscripcion/formulario";
+  const isPortafolio = path === "/portafolio";
+  const isConsultoria = path === "/consultoria";
   const isLanding =
-    isAds || isInmobiliarias || isFormulario || isSuscripcion || isSuscripcionForm;
+    isAds ||
+    isInmobiliarias ||
+    isFormulario ||
+    isSuscripcion ||
+    isSuscripcionForm ||
+    isConsultoria;
 
   const lenisRef = useRef(null);
 
@@ -79,6 +88,18 @@ export default function App() {
   if (isFormulario) return <FormularioPage />;
   if (isInmobiliarias) return <InmobiliariasLanding />;
   if (isAds) return <AdsLanding />;
+  if (isConsultoria) return <ConsultoriaLanding />;
+
+  if (isPortafolio)
+    return (
+      <>
+        <div className="vignette" />
+        <div className="grain" />
+        <main>
+          <Portafolio />
+        </main>
+      </>
+    );
 
   return (
     <>

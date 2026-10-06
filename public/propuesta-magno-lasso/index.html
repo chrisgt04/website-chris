@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Propuesta Magno Building Group — por Lasso</title>
+  <meta name="description" content="Propuesta integral para Magno Building Group por Lasso: páginas web, Facebook Ads y posicionamiento SEO en Google para todos los negocios del grupo en Puerto Vallarta." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #eef3fb;
+      --card:      #ffffff;
+      --hair:      #e2e9f3;
+      --hair2:     #eef2f7;
+      --mint:      #2563d4;   /* brand-600 (acento principal) */
+      --mint-s:    #7fb0fb;   /* brand light */
+      --mint-d:    #1e4ea8;   /* brand-700 deep */
+      --brand-b:   #3379f1;   /* brand-500 */
+      --navy:      #062338;
+      --navy2:     #0a3251;
+      --text:      #062338;
+      --muted:     #334155;
+      --muted2:    #475569;
+      --muted3:    #94a3b8;
+      --amber:     #f97316;
+      --wa:        #25d366;
+      --font: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+      --mono: "DM Mono", monospace;
+      --maxw: 1080px;
+      --pad: clamp(1.25rem, 5vw, 3rem);
+    }
+
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    body {
+      font-family: var(--font);
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(ellipse 110% 70% at 50% -8%, rgba(51,121,241,0.10), transparent 60%),
+        radial-gradient(ellipse 90% 60% at 85% 30%, rgba(37,99,212,0.06), transparent 62%),
+        linear-gradient(180deg, #f3f7fd 0%, #eef3fb 55%, #f3f7fd 100%);
+      background-attachment: fixed;
+      color: var(--text); line-height: 1.5; overflow-x: hidden;
+    }
+    ::selection { background: var(--mint-s); color: #fff; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    .lasso-mark { width: 30px; height: 28px; flex: 0 0 auto;
+      background: url(/images/lasso-logo.png) left center / auto 28px no-repeat; }
+    .brand { display: inline-flex; align-items: center; gap: 9px; }
+    .brand .bt { font-weight: 800; font-size: 1.15rem; letter-spacing: -.02em; }
+
+    .back-nav {
+      position: fixed; top: 1.25rem; left: 1.5rem; z-index: 100;
+      display: inline-flex; align-items: center; gap: .55rem;
+      font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--muted3); background: rgba(255,255,255,.82); border: 1px solid var(--hair);
+      padding: 7px 14px; border-radius: 8px; backdrop-filter: blur(10px);
+      transition: color .2s, border-color .2s;
+    }
+    .back-nav:hover { color: var(--mint); border-color: rgba(37,99,212,.35); }
+
+    .w { max-width: var(--maxw); margin: 0 auto; padding-inline: var(--pad); }
+    section { padding: clamp(56px, 9vw, 104px) 0; }
+    .div { height: 1px; background: linear-gradient(90deg, transparent, var(--hair), transparent); }
+
+    .r { opacity: 0; transform: translateY(26px); transition: opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1); }
+    .r.on { opacity: 1; transform: translateY(0); }
+    .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}.d5{transition-delay:.4s}.d6{transition-delay:.48s}
+
+    .mono { font-family: var(--mono); }
+    .slabel { font-family: var(--mono); font-size: 10px; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--mint); display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+    .slabel::after { content:''; flex: 0 0 48px; height: 1px; background: rgba(37,99,212,.3); }
+    .stitle { font-size: clamp(2rem, 4.5vw, 3.1rem); font-weight: 800; letter-spacing: -.04em; line-height: 1.04; color: var(--navy); }
+    .sdesc { margin-top: 1rem; color: var(--muted); font-size: 1rem; max-width: 600px; line-height: 1.7; }
+    .shead { margin-bottom: 3rem; }
+
+    /* ════ HERO (banda navy estilo Lasso) ════ */
+    #hero { min-height: 96vh; display: flex; align-items: center; position: relative; overflow: hidden; padding: 96px 0 60px;
+      background: linear-gradient(160deg, #062338 0%, #0a3251 55%, #1e4ea8 100%); color: #fff; }
+    .h-grid { position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 62px 62px; mask-image: radial-gradient(ellipse 90% 90% at 50% 45%, black, transparent 100%); }
+    .h-c { position: relative; z-index: 2; width: 100%; }
+    #hero .brand { margin-bottom: 1.6rem; color: #fff; }
+    #hero .lasso-mark { filter: brightness(0) invert(1); }
+    .h-eye { display: flex; align-items: center; gap: 12px; margin-bottom: 1.6rem; flex-wrap: wrap; }
+    .h-badge { font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+      color: #dbe7fb; border: 1px solid rgba(255,255,255,.28); padding: 5px 12px; border-radius: 999px; }
+    .h-date { font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: #bcd3f5; }
+    .h-sep { width: 34px; height: 1px; background: rgba(255,255,255,.4); }
+    .h-title { font-size: clamp(2.6rem, 7.5vw, 5.4rem); font-weight: 800; letter-spacing: -.045em; line-height: .95; margin-bottom: 1.6rem; color: #fff; }
+    .ht2 { display: block; background: linear-gradient(115deg, #bcd3f5 0%, #7fb0fb 45%, #3379f1 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      background-size: 200% 100%; animation: shimmer 5s ease-in-out infinite; }
+    @keyframes shimmer { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+    .h-lead { font-size: 1.08rem; color: #cfe0fb; max-width: 560px; line-height: 1.75; margin-bottom: 2.2rem; }
+    .h-lead b { color: #fff; }
+    .h-cta { display: flex; gap: .8rem; flex-wrap: wrap; margin-bottom: 2.8rem; }
+    .btn { display: inline-flex; align-items: center; gap: .55rem; font-family: var(--font);
+      font-size: .98rem; font-weight: 600; padding: 15px 28px; border-radius: 999px; border: 1px solid transparent;
+      cursor: pointer; transition: transform .2s, background .2s, border-color .2s, color .2s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--wa); color: #062c14; }
+    .btn-primary:hover { background: #34e07a; }
+    .btn-ghost { border-color: var(--hair); color: var(--text); }
+    .btn-ghost:hover { border-color: rgba(37,99,212,.4); color: var(--mint); }
+    #hero .btn-ghost { border-color: rgba(255,255,255,.32); color: #fff; }
+    #hero .btn-ghost:hover { border-color: #7fb0fb; color: #7fb0fb; }
+    .h-stats { display: flex; gap: 2.4rem; flex-wrap: wrap; }
+    .hs { display: flex; flex-direction: column; gap: 5px; }
+    .hs-v { font-family: var(--mono); font-size: 1.55rem; font-weight: 500; color: #7fb0fb; }
+    .hs-k { font-family: var(--mono); font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: #bcd3f5; }
+
+    /* ════ LOGROS — números grandes ════ */
+    #logros { padding-top: clamp(40px, 6vw, 64px); }
+    .logros-head { font-family: var(--mono); font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--mint); text-align: center; margin-bottom: 2.6rem; }
+    .logros { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1rem; }
+    @media (max-width: 900px){ .logros { grid-template-columns: repeat(2, 1fr); } }
+    .logro { text-align: center; padding: 2rem 1rem; border: 1px solid var(--hair); border-radius: 18px;
+      background: var(--card); box-shadow: 0 1px 3px rgba(6,35,56,.05); transition: border-color .25s, transform .25s, box-shadow .25s; }
+    .logro:hover { border-color: rgba(37,99,212,.35); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(6,35,56,.10); }
+    .logro .lv { font-family: var(--mono); font-weight: 500; font-size: clamp(2.3rem, 4.6vw, 3.4rem); line-height: 1;
+      letter-spacing: -.03em; background: linear-gradient(115deg, var(--brand-b), var(--mint) 55%, var(--mint-d));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .logro .lk { color: var(--muted2); font-size: .9rem; margin-top: .8rem; line-height: 1.45; }
+
+    /* ════ grid cards ════ */
+    .grid { display: grid; gap: 1.1rem; }
+    .g2 { grid-template-columns: repeat(2, 1fr); }
+    .g3 { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 820px){ .g2,.g3 { grid-template-columns: 1fr; } }
+    .card { background: var(--card); border: 1px solid var(--hair); border-radius: 18px; padding: 1.8rem;
+      box-shadow: 0 1px 3px rgba(6,35,56,.05); transition: border-color .25s, transform .25s, box-shadow .25s; }
+    .card:hover { border-color: rgba(37,99,212,.3); transform: translateY(-3px); box-shadow: 0 16px 40px rgba(6,35,56,.10); }
+    .card h3 { font-size: 1.2rem; font-weight: 700; letter-spacing: -.02em; margin: .9rem 0 .55rem; color: var(--navy); }
+    .card p { color: var(--muted); font-size: .95rem; line-height: 1.65; }
+    .card .ico { font-size: 1.7rem; }
+
+    /* sociedad badge */
+    .soc { display: inline-block; font-family: var(--mono); font-size: 8px; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--amber); border: 1px solid rgba(249,115,22,.4); background: rgba(249,115,22,.07);
+      padding: 3px 8px; border-radius: 999px; margin-left: .5rem; vertical-align: middle; }
+
+    /* ════ SCREENSHOT frame ════ */
+    .shot { border: 1px solid var(--hair); border-radius: 16px; overflow: hidden; background: #fff;
+      box-shadow: 0 24px 60px rgba(6,35,56,.14); }
+    .shot-bar { display: flex; align-items: center; gap: 7px; padding: 11px 15px; background: #f1f5fb; border-bottom: 1px solid var(--hair2); }
+    .shot-bar i { width: 10px; height: 10px; border-radius: 50%; display: block; }
+    .shot-bar i:nth-child(1){ background:#ff5f57 } .shot-bar i:nth-child(2){ background:#febc2e } .shot-bar i:nth-child(3){ background:#28c840 }
+    .shot-bar span { font-family: var(--mono); font-size: 10px; color: var(--muted3); margin-left: 10px; letter-spacing: .06em; }
+    .shot img { width: 100%; display: block; }
+    .showcase { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; align-items: start; }
+    @media (max-width: 880px){ .showcase { grid-template-columns: 1fr; } }
+    .cap { font-family: var(--mono); font-size: 11px; color: var(--muted3); letter-spacing: .06em; text-align: center; margin-top: .9rem; }
+
+    /* feat list */
+    .feat-list { list-style: none; display: flex; flex-direction: column; gap: 1.1rem; margin-top: .5rem; }
+    .feat-list li { display: flex; gap: .9rem; align-items: flex-start; }
+    .feat-list .fx { flex: 0 0 auto; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center;
+      background: rgba(37,99,212,.1); color: var(--mint); font-size: 17px; margin-top: 2px; }
+    .feat-list b { font-weight: 700; color: var(--navy); }
+    .feat-list p { color: var(--muted); font-size: .92rem; line-height: 1.55; margin-top: 2px; }
+    .feat-list .kw { font-family: var(--mono); font-size: .82rem; color: var(--mint); }
+    .split { display: grid; grid-template-columns: 1fr .9fr; gap: 2.4rem; align-items: center; }
+    @media (max-width: 880px){ .split { grid-template-columns: 1fr; } }
+
+    /* chips */
+    .chips { display: flex; flex-wrap: wrap; gap: .6rem; }
+    .chip { font-family: var(--mono); font-size: 12px; letter-spacing: .04em; color: var(--muted2);
+      border: 1px solid var(--hair); background: var(--card); border-radius: 999px; padding: 8px 15px; transition: border-color .2s, color .2s; }
+    .chip:hover { border-color: rgba(37,99,212,.4); color: var(--mint); }
+
+    /* lead pipeline */
+    .pipe { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 2rem; }
+    @media (max-width: 820px){ .pipe { grid-template-columns: 1fr; } }
+    .pipe .node { position: relative; text-align: center; padding: 1.5rem 1.1rem; border: 1px solid var(--hair);
+      border-radius: 16px; background: var(--card); box-shadow: 0 1px 3px rgba(6,35,56,.05); transition: border-color .25s, transform .25s; }
+    .pipe .node:hover { border-color: rgba(37,99,212,.3); transform: translateY(-3px); }
+    .pipe .node .pn { font-family: var(--mono); font-size: 10px; color: var(--mint); letter-spacing: .14em; }
+    .pipe .node .pico { font-size: 2rem; margin: .5rem 0 .2rem; }
+    .pipe .node h4 { font-size: .98rem; font-weight: 700; margin: .5rem 0 .35rem; color: var(--navy); }
+    .pipe .node p { color: var(--muted2); font-size: .82rem; line-height: 1.5; }
+    .pipe .node::after { content: '→'; position: absolute; top: 50%; right: -1rem; transform: translateY(-50%);
+      color: var(--mint); font-size: 1.1rem; z-index: 3; }
+    .pipe .node:last-child::after { display: none; }
+    @media (max-width: 820px){ .pipe .node::after { content: '↓'; top: auto; bottom: -1.35rem; right: 50%; transform: translateX(50%); } }
+
+    /* process */
+    .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 1rem; }
+    @media (max-width: 820px){ .flow { grid-template-columns: 1fr; } }
+    .step { padding: 1.5rem 1.3rem; border: 1px solid var(--hair); border-radius: 16px; background: var(--card); box-shadow: 0 1px 3px rgba(6,35,56,.05); }
+    .step .n { font-family: var(--mono); font-size: 11px; color: var(--mint); letter-spacing: .12em; }
+    .step .sico { font-size: 1.6rem; margin-top: .5rem; }
+    .step h4 { font-size: 1.05rem; font-weight: 700; margin: .5rem 0 .4rem; color: var(--navy); }
+    .step p { color: var(--muted2); font-size: .88rem; line-height: 1.55; }
+
+    /* author */
+    .author { display: flex; gap: 1.6rem; align-items: center; border: 1px solid var(--hair); border-radius: 20px;
+      padding: 1.6rem 1.8rem; background: var(--card); box-shadow: 0 1px 3px rgba(6,35,56,.05); flex-wrap: wrap; }
+    .author img { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; object-position: center top;
+      border: 1px solid rgba(37,99,212,.3); background: #dce8fd; flex: 0 0 auto; }
+    .author .who { flex: 1; min-width: 220px; }
+    .author .nm { font-size: 1.2rem; font-weight: 700; color: var(--navy); }
+    .author .rl { font-family: var(--mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--mint); margin: .3rem 0 .6rem; }
+    .author .bio { color: var(--muted); font-size: .92rem; line-height: 1.6; }
+
+    /* pricing */
+    .price-card { position: relative; display: flex; flex-direction: column; }
+    .price-card.feat { border-color: rgba(37,99,212,.45); background: linear-gradient(180deg, rgba(37,99,212,.06), var(--card)); }
+    .price-tag { position: absolute; top: -11px; right: 20px; font-family: var(--mono); font-size: 9px; letter-spacing: .18em;
+      text-transform: uppercase; color: #fff; background: var(--mint); padding: 4px 11px; border-radius: 999px; }
+    .price-name { font-family: var(--mono); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--mint); }
+    .price-amt { font-size: 2.1rem; font-weight: 800; letter-spacing: -.03em; margin: .7rem 0 .05rem; color: var(--navy); }
+    .price-amt span { font-size: .9rem; font-weight: 400; color: var(--muted3); }
+    .price-sub { color: var(--muted2); font-size: .85rem; margin-bottom: 1.3rem; }
+    .price-list { list-style: none; display: flex; flex-direction: column; gap: .7rem; margin-top: .3rem; flex: 1; }
+    .price-list li { color: var(--muted); font-size: .9rem; line-height: 1.5; display: flex; gap: .6rem; align-items: flex-start; }
+    .price-list li::before { content: '→'; color: var(--mint); flex: 0 0 auto; }
+    .price-card .btn { margin-top: 1.5rem; justify-content: center; }
+    .price-card .btn-primary { background: var(--mint); color: #fff; }
+    .price-card .btn-primary:hover { background: var(--brand-b); }
+    .note { margin-top: 1.6rem; border: 1px dashed rgba(249,115,22,.4); border-radius: 14px; padding: 1.1rem 1.3rem;
+      background: rgba(249,115,22,.06); color: var(--muted); font-size: .92rem; line-height: 1.6; display: flex; gap: .8rem; align-items: flex-start; }
+    .note b { color: var(--amber); font-weight: 700; }
+    .note .i { color: var(--amber); }
+
+    .cta-band { text-align: center; border-radius: 24px; padding: clamp(2.4rem,6vw,4rem); color: #fff;
+      background: linear-gradient(160deg, #062338 0%, #0a3251 55%, #1e4ea8 100%); }
+    .cta-band h2 { font-size: clamp(1.8rem,4vw,2.8rem); font-weight: 800; letter-spacing: -.03em; }
+    .cta-band p { color: #cfe0fb; max-width: 480px; margin: 1rem auto 2rem; line-height: 1.7; }
+    .cta-band .btn-ghost { border-color: rgba(255,255,255,.32); color: #fff; }
+    .cta-band .btn-ghost:hover { border-color: #7fb0fb; color: #7fb0fb; }
+
+    footer { padding: 3rem 0; text-align: center; }
+    footer .mono { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted3); }
+    footer a { color: var(--mint); }
+    footer a:hover { color: var(--mint-d); }
+
+    /* ════ PRINT / PDF ════ */
+    @media print {
+      @page { margin: 10mm; }
+      html, body { background: #fff !important; }
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .r { opacity: 1 !important; transform: none !important; }
+      .back-nav { display: none !important; }
+      /* menos aire vertical: secciones y encabezados compactos */
+      section { padding: 14px 0 !important; }
+      .shead { margin-bottom: 1.2rem !important; }
+      .slabel { margin-bottom: .6rem !important; }
+      /* hero compacto para que quepa contenido debajo en la misma página */
+      #hero { min-height: auto !important; padding: 22px 0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      #hero .brand { margin-bottom: .9rem !important; }
+      #hero .h-eye { margin-bottom: .9rem !important; }
+      #hero .h-title { font-size: 2.5rem !important; margin-bottom: .9rem !important; }
+      #hero .h-lead { font-size: 1rem !important; margin-bottom: 1rem !important; }
+      #hero .h-cta { margin-bottom: 1.2rem !important; }
+      #logros { padding-top: 10px !important; }
+      .logros-head { margin-bottom: 1.1rem !important; }
+      .logro { padding: 1.15rem 1rem !important; }
+      /* números en color sólido para impresión (el gradient-clip saca líneas raras en PDF) */
+      .logro .lv { background: none !important; -webkit-text-fill-color: #2563d4 !important; color: #2563d4 !important; }
+      .cta-band { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      /* mantener las tarjetas en columnas (no apilarlas) para compactar */
+      .g2 { grid-template-columns: 1fr 1fr !important; }
+      .g3 { grid-template-columns: repeat(3, 1fr) !important; }
+      .flow { grid-template-columns: 1fr 1fr !important; }
+      .card { padding: 1.25rem !important; }
+      .price-amt { font-size: 1.7rem !important; }
+      /* limitar alto de capturas para que no dejen huecos grandes */
+      .shot img { max-height: 340px; object-fit: contain; object-position: top; }
+      /* evitar cortar solo elementos individuales; los bloques grandes fluyen libremente */
+      .logro, .card, .step, .pipe .node, .shot, .author, .price-card { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <a href="/" class="back-nav">← christiangtzb.com</a>
+
+  <!-- ═══════ HERO ═══════ -->
+  <section id="hero">
+    <div class="h-grid"></div>
+    <div class="w h-c">
+      <div class="brand r on"><span class="lasso-mark"></span><span class="bt">Lasso</span></div>
+      <div class="h-eye r on d1">
+        <span class="h-badge">Propuesta · Magno Building Group</span>
+        <span class="h-sep"></span>
+        <span class="h-date">Christian Gutiérrez</span>
+      </div>
+      <h1 class="h-title r on d2">
+        Todos tus negocios,
+        <span class="ht2">en primer lugar.</span>
+      </h1>
+      <p class="h-lead r on d3">
+        Ya lo hicimos con inmobiliarias en todo México. Ahora lo hacemos por ti:
+        <b>páginas web</b> que venden, <b>Facebook Ads</b> para cada negocio y
+        <b>posicionamiento en Google</b> para dominar tu rubro en Vallarta.
+      </p>
+      <div class="h-cta r on d4">
+        <a href="https://wa.me/528180502810?text=Hola%20Christian%2C%20vi%20la%20propuesta%20de%20Magno%20Building%20Group%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n" target="_blank" rel="noreferrer" class="btn btn-primary">Hablemos por WhatsApp</a>
+        <a href="#logros" class="btn btn-ghost">Ver lo que hemos logrado ↓</a>
+      </div>
+      <div class="h-stats r on d5">
+        <div class="hs"><span class="hs-v">$5M</span><span class="hs-k">vendido en 2 semanas · Residenzo</span></div>
+        <div class="hs"><span class="hs-v">↓85%</span><span class="hs-k">costo por lead · Doorvel</span></div>
+        <div class="hs"><span class="hs-v">Todo México</span><span class="hs-k">campañas inmobiliarias</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ LOGROS (números grandes) ═══════ -->
+  <section id="logros">
+    <div class="w">
+      <div class="logros-head r">— Lo que hemos logrado —</div>
+      <div class="logros">
+        <div class="logro r d1"><div class="lv">$5M</div><div class="lk">vendido en 2 semanas con Residenzo</div></div>
+        <div class="logro r d2"><div class="lv">↓85%</div><div class="lk">reducción de costo por lead ($2,000 → $300)</div></div>
+        <div class="logro r d3"><div class="lv">+$2.5M</div><div class="lk">MXN en pauta publicitaria gestionada</div></div>
+        <div class="logro r d4"><div class="lv">3.8x</div><div class="lk">retorno promedio sobre la inversión (ROAS)</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="div"></div>
+
+  <!-- ═══════ CASO DOORVEL ═══════ -->
+  <section id="caso-doorvel">
+    <div class="w">
+      <div class="shead r">
+        <div class="slabel">01 — Ya lo hicimos</div>
+        <h2 class="stitle">Propiedades vendidas<br />en todo México.</h2>
+        <p class="sdesc">Con <b>Doorvel</b> llevamos campañas inmobiliarias a nivel nacional, generando compradores calificados para propiedades de las inmobiliarias más grandes del país. Es la misma maquinaria que ponemos a trabajar para Magno Building Group.</p>
+      </div>
+
+      <div class="shot r d1">
+        <div class="shot-bar"><i></i><i></i><i></i><span>doorvel.com — Venta y renta en todo México</span></div>
+        <img src="/images/doorvel.png" alt="Doorvel — plataforma inmobiliaria en todo México con inmobiliarias aliadas" loading="lazy" />
+      </div>
+      <div class="cap r d2">Portada real de Doorvel, con las inmobiliarias que trabajan con nosotros.</div>
+
+      <div style="margin-top:2rem" class="r d2">
+        <div class="slabel" style="margin-bottom:.9rem">Inmobiliarias con las que hemos trabajado</div>
+        <div class="chips">
+          <span class="chip">🏠 RE/MAX</span>
+          <span class="chip">🔑 Century 21</span>
+          <span class="chip">🌐 Realty World</span>
+          <span class="chip">⭐ Realty Experts</span>
+          <span class="chip">🏢 Top Brokers Network</span>
+          <span class="chip">🇲🇽 + inmobiliarias en toda la República</span>
+        </div>
+      </div>
+
+      <div class="grid g3" style="margin-top:2rem">
+        <div class="card r d1"><div class="ico">🇲🇽</div><h3>Cobertura nacional</h3><p>Campañas segmentadas ciudad por ciudad en toda la República, adaptadas al mercado local de cada propiedad.</p></div>
+        <div class="card r d2"><div class="ico">🏆</div><h3>Con las marcas líderes</h3><p>Generamos y calificamos compradores para propiedades de las inmobiliarias más reconocidas de México.</p></div>
+        <div class="card r d3"><div class="ico">📉</div><h3>Costo por lead bajísimo</h3><p>Optimización constante hasta reducir el CPL un 85%: de $2,000 a $300 MXN por lead calificado.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="div"></div>
+
+  <!-- ═══════ LANDING DE COMPRA + CRM ═══════ -->
+  <section id="crm">
+    <div class="w">
+      <div class="shead r">
+        <div class="slabel">02 — Cómo capturamos cada lead</div>
+        <h2 class="stitle">Un lead que cae,<br />es un lead que se atiende.</h2>
+        <p class="sdesc">Cada propiedad tiene su propia <b>landing page de compra</b>: precio, fotos, ubicación y un formulario que captura al interesado y lo pasa a nuestro <b>CRM hecho a la medida</b>. Como esta que hicimos para Residenzo:</p>
+      </div>
+
+      <div class="showcase r d1">
+        <div>
+          <div class="shot">
+            <div class="shot-bar"><i></i><i></i><i></i><span>residenzo.mx — Ficha de propiedad</span></div>
+            <img src="/images/residenzo-landing.png" alt="Landing de compra Residenzo — ficha de propiedad con formulario de captura" loading="lazy" />
+          </div>
+          <div class="cap">Precio, datos y formulario de captura de contacto.</div>
+        </div>
+        <div>
+          <div class="shot">
+            <div class="shot-bar"><i></i><i></i><i></i><span>residenzo.mx — Galería</span></div>
+            <img src="/images/residenzo-galeria.png" alt="Landing de compra Residenzo — galería de la propiedad" loading="lazy" />
+          </div>
+          <div class="cap">Galería que enamora al comprador antes de la visita.</div>
+        </div>
+      </div>
+
+      <div class="pipe r d2">
+        <div class="node"><div class="pn">01</div><div class="pico">📣</div><h4>Anuncio / Google</h4><p>Facebook Ads y SEO atraen al interesado.</p></div>
+        <div class="node"><div class="pn">02</div><div class="pico">🧲</div><h4>Landing de compra</h4><p>Capta sus datos y lo manda al CRM.</p></div>
+        <div class="node"><div class="pn">03</div><div class="pico">🗂️</div><h4>CRM a la medida</h4><p>Organiza y notifica al asesor al instante.</p></div>
+        <div class="node"><div class="pn">04</div><div class="pico">🤝</div><h4>Cierre de venta</h4><p>El asesor da seguimiento al lead y cierra la venta.</p></div>
+      </div>
+
+      <div class="grid g2" style="margin-top:2rem">
+        <div class="card r d1"><div class="ico">⚡</div><h3>Respuesta inmediata</h3><p>El lead llega al asesor con toda su info — se atiende en caliente, cuando más quiere comprar.</p></div>
+        <div class="card r d2"><div class="ico">📊</div><h3>Todo medible</h3><p>Cuántos leads, de qué negocio, cuánto cuestan y cuántos cierran. Reportes claros.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="div"></div>
+
+  <!-- ═══════ PÁGINAS WEB ═══════ -->
+  <section id="web">
+    <div class="w">
+      <div class="shead r">
+        <div class="slabel">03 — Páginas Web</div>
+        <h2 class="stitle">Sitios que trabajan<br />por ti 24/7.</h2>
+        <p class="sdesc">La base de todo: páginas rápidas y modernas pensadas para convertir, que alimentan tanto la pauta como el posicionamiento orgánico en Google.</p>
+      </div>
+      <div class="grid g2">
+        <div class="card r d1">
+          <div class="ico">🧩</div>
+          <h3>MAVE Marketing<span class="soc">Sociedad</span></h3>
+          <p>Sitio corporativo y de marketing del grupo: imagen de marca, servicios y captación de contactos. El centro digital desde donde se proyecta todo.</p>
+        </div>
+        <div class="card r d2">
+          <div class="ico">🏗️</div>
+          <h3>Inmobiliaria y Constructora Central</h3>
+          <p>Portal inmobiliario con catálogo de propiedades tipo promolocales: fichas con fotos, ubicación y contacto directo para agendar visitas.</p>
+        </div>
+      </div>
+      <div style="margin-top:1.6rem" class="r d2">
+        <div class="slabel" style="margin-bottom:.9rem">Incluye</div>
+        <div class="chips">
+          <span class="chip">📱 Diseño responsivo</span>
+          <span class="chip">⚡ Optimización de velocidad</span>
+          <span class="chip">🔎 SEO técnico desde el día 1</span>
+          <span class="chip">🎯 Pixel de Meta + Google</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="div"></div>
+
+  <!-- ═══════ FACEBOOK ADS ═══════ -->
+  <section id="ads">
+    <div class="w">
+      <div class="shead r">
+        <div class="slabel">04 — Facebook Ads</div>
+        <h2 class="stitle">Campañas para<br />cada negocio del grupo.</h2>
+        <p class="sdesc">Publicidad en Facebook e Instagram segmentada a Vallarta y su zona, con creativos por rubro que llevan compradores calificados directo a tu asesor.</p>
+      </div>
+      <div class="grid g2">
+        <div class="card r d1"><div class="ico">📍</div><h3>Segmentación local</h3><p>Radio geográfico en Puerto Vallarta y alrededores, por intereses y comportamiento de compra de cada rubro.</p></div>
+        <div class="card r d2"><div class="ico">🎥</div><h3>Creativos por rubro</h3><p>Anuncios pensados para construcción, terrenos, servicios y venta de inmuebles — cada negocio con su mensaje.</p></div>
+      </div>
+      <div style="margin-top:1.6rem" class="r d3">
+        <div class="slabel" style="margin-bottom:.9rem">Negocios a promocionar</div>
+        <div class="chips">
+          <span class="chip">🏢 Magno Building Group</span>
+          <span class="chip">🧹 Limpieza Integral de Construcción</span>
+          <span class="chip">🎨 El Pintor del Pacífico</span>
+          <span class="chip">🌄 Terrenos Valle Rubí</span>
+          <span class="chip">📢 Espectaculares Valle Rubí</span>
+          <span class="chip">⚡ Generadores para Casas · Sociedad</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="div"></div>
+
+  <!-- ═══════ SEO / GOOGLE ═══════ -->
+  <section id="seo">
+    <div class="w">
+      <div class="shead r">
+        <div class="slabel">05 — Posicionamiento SEO</div>
+        <h2 class="stitle">Primeros lugares<br />cuando buscan tu rubro.</h2>
+        <p class="sdesc">Cuando alguien en Vallarta busca lo que ofreces, tu negocio aparece de primero. Trabajamos el posicionamiento por palabra clave para cada negocio del grupo.</p>
+      </div>
+      <div class="card r d1">
+        <ul class="feat-list">
+          <li><div class="fx">🏢</div><div><b>Magno Building Group</b><p>Aparece al buscar <span class="kw">"constructor Vallarta"</span> · <span class="kw">"arquitecto Vallarta"</span></p></div></li>
+          <li><div class="fx">🏠</div><div><b>Inmobiliaria y Constructora Central</b><p>Aparece al buscar <span class="kw">"casas en venta Vallarta"</span> · <span class="kw">"inmobiliaria Vallarta"</span></p></div></li>
+          <li><div class="fx">🧹</div><div><b>Limpieza Integral de Construcción</b><p>Aparece al buscar <span class="kw">"limpieza de obra Vallarta"</span></p></div></li>
+          <li><div class="fx">🎨</div><div><b>El Pintor del Pacífico</b><p>Aparece al buscar <span class="kw">"pintor Vallarta"</span> · <span class="kw">"pintura de casas Vallarta"</span></p></div></li>
+          <li><div class="fx">🌄</div><div><b>Terrenos Valle Rubí</b><p>Aparece al buscar <span class="kw">"terrenos en venta Vallarta"</span></p></div></li>
+          <li><div class="fx">⚡</div><div><b>Generadores para Casas <span class="soc">Sociedad</span></b><p>Aparece al buscar <span class="kw">"generadores para casa Vallarta"</span></p></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="div"></div>
+
+  <!-- ═══════ PAQUETES ═══════ -->
+  <section id="paquetes">
+    <div class="w">
+      <div class="shead r">
+        <div class="slabel">06 — Paquetes</div>
+        <h2 class="stitle">Tres formas de arrancar.</h2>
+        <p class="sdesc">El honorario cubre estrategia, desarrollo web, gestión de pauta, creativos, SEO y reportes. La inversión en pauta (medios) es adicional y va directo a Meta. La comisión se activa por resultados.</p>
+      </div>
+      <div class="grid g3">
+        <div class="card price-card r d1">
+          <div class="price-name">Básico</div>
+          <div class="price-amt">$6,000<span> MXN / mes + % comisión</span></div>
+          <div class="price-sub">Solo Ads, 1 negocio</div>
+          <ul class="price-list">
+            <li>Facebook Ads para 1 negocio</li>
+            <li>Segmentación local a Vallarta</li>
+            <li>Creativos por rubro</li>
+            <li>Reporte mensual de resultados</li>
+            <li>% de comisión por definir</li>
+          </ul>
+          <a href="#cta" class="btn btn-ghost">Elegir Básico</a>
+        </div>
+        <div class="card price-card feat r d2">
+          <span class="price-tag">Recomendado</span>
+          <div class="price-name">Crecimiento</div>
+          <div class="price-amt">$10,000<span> MXN / mes + comisión</span></div>
+          <div class="price-sub">Casi todo incluido</div>
+          <ul class="price-list">
+            <li>Páginas web del grupo (MAVE + Inmobiliaria Central)</li>
+            <li>Facebook Ads para todos los negocios</li>
+            <li>SEO por rubro para posicionar en Google</li>
+            <li>Landing de compra + CRM a la medida</li>
+            <li>Optimización + reporte quincenal</li>
+          </ul>
+          <a href="#cta" class="btn btn-primary">Elegir Crecimiento</a>
+        </div>
+        <div class="card price-card r d3">
+          <div class="price-name">Todo Incluido</div>
+          <div class="price-amt">$14,000<span> MXN / mes + comisión</span></div>
+          <div class="price-sub">El grupo completo</div>
+          <ul class="price-list">
+            <li>Todo lo de Crecimiento</li>
+            <li>Todos los negocios del grupo en Ads</li>
+            <li>Más creativos y campañas por negocio</li>
+            <li>SEO agresivo + contenido continuo</li>
+            <li>Reporte semanal + llamada estratégica</li>
+          </ul>
+          <a href="#cta" class="btn btn-ghost">Elegir Todo Incluido</a>
+        </div>
+      </div>
+      <div class="note r d1">
+        <span class="i">◆</span>
+        <div>
+          <b>La inversión en pauta es aparte del honorario.</b>
+          El honorario cubre el trabajo (web, gestión, creativos, SEO); el presupuesto de anuncios va directo a Meta.
+          A mayor inversión en pauta, mayor volumen de leads — y la comisión se activa por los resultados que generamos.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="div"></div>
+
+  <!-- ═══════ PROCESO + AUTOR ═══════ -->
+  <section id="proceso">
+    <div class="w">
+      <div class="shead r">
+        <div class="slabel">07 — Cómo trabajamos</div>
+        <h2 class="stitle">Del kickoff<br />a los primeros leads.</h2>
+      </div>
+      <div class="flow r d1">
+        <div class="step"><div class="n">01</div><div class="sico">🚀</div><h4>Kickoff</h4><p>Definimos negocios, rubros, palabras clave y prioridades del grupo.</p></div>
+        <div class="step"><div class="n">02</div><div class="sico">🛠️</div><h4>Setup</h4><p>Páginas web, landings de compra, pixeles y estructura SEO de cada negocio.</p></div>
+        <div class="step"><div class="n">03</div><div class="sico">📣</div><h4>Lanzamiento</h4><p>Salen campañas de Facebook Ads y empiezan a entrar leads.</p></div>
+        <div class="step"><div class="n">04</div><div class="sico">📈</div><h4>Escalar</h4><p>Subimos posiciones en Google y escalamos lo que más ventas genera.</p></div>
+      </div>
+
+      <div class="author r d2" style="margin-top:2.4rem">
+        <img src="/images/portrait.png" alt="Christian Gutiérrez" />
+        <div class="who">
+          <div class="nm">Christian Gutiérrez</div>
+          <div class="rl">Web · Paid Media · SEO · CRM</div>
+          <div class="bio">Ayudo a negocios inmobiliarios y de alto ticket a vender más combinando páginas web que convierten, campañas rentables y posicionamiento en Google. Como con Residenzo y Doorvel: resultados medibles, no promesas.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="div"></div>
+
+  <!-- ═══════ CTA ═══════ -->
+  <section id="cta">
+    <div class="w">
+      <div class="cta-band r">
+        <h2>¿Arrancamos con Magno Building Group?</h2>
+        <p>En una llamada de 30 minutos definimos qué negocios priorizar, palabras clave objetivo y fecha de lanzamiento.</p>
+        <div class="h-cta" style="justify-content:center;">
+          <a href="https://wa.me/528180502810?text=Hola%20Christian%2C%20vi%20la%20propuesta%20de%20Magno%20Building%20Group%20y%20quiero%20arrancar" target="_blank" rel="noreferrer" class="btn btn-primary">Hablemos por WhatsApp</a>
+          <a href="#paquetes" class="btn btn-ghost">Ver paquetes de nuevo</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="w">
+      <div class="mono">Propuesta Magno Building Group · Lasso × Christian Gutiérrez · <a href="https://christiangtzb.com">christiangtzb.com</a></div>
+    </div>
+  </footer>
+
+  <script>
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('on');
+          e.target.querySelectorAll?.('[data-h]').forEach((b) => { b.style.height = b.dataset.h; });
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.14 });
+    document.querySelectorAll('.r:not(.on)').forEach((el) => io.observe(el));
+  </script>
+</body>
+</html>
