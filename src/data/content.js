@@ -134,10 +134,21 @@ export const services = {
 };
 
 export const conferences = {
-  kicker: "Una conferencia menos",
-  title: "Llevo los datos al escenario.",
+  kicker: "Conferencias y capacitación",
+  title: [
+    { t: "He llevado la IA a " },
+    { t: "+1,000 personas", accent: true },
+    { t: " en empresas líderes." },
+  ],
+  // Texto del home (sección Talks). `sub` lo usa /portafolio.
+  intro: "Con Grupo PISSA he dado conferencias y talleres de IA aplicada a equipos de grandes empresas y gobierno: cómo usar la IA en el trabajo diario, automatizar procesos y decidir con datos — claro, accionable y con ejemplos reales.",
   sub: "Charlas sobre performance marketing, analítica e IA aplicada a negocios — claras, accionables y con ejemplos reales. Para equipos de marketing, ventas y founders que quieren decidir con evidencia, no con intuición.",
-  photo: "/images/talk-1.png",
+  stats: [
+    { value: 1000, prefix: "+", lab: "personas capacitadas en IA" },
+    { value: 2, suffix: "×", lab: "columnista en El Financiero · Bloomberg" },
+  ],
+  orgs: ["Grupo PISSA", "Bimbo", "Nestlé", "Brocar", "Gobierno del Estado de México"],
+  photo: "/images/talk-1-crop.png",
   topics: [
     "Performance marketing",
     "Analítica & BI",

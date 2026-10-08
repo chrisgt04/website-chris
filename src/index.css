@@ -1427,15 +1427,37 @@ html.lenis body {
 .talks-photo .frame img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center 35%;
+  object-fit: contain; /* recorte ya centrado en la persona: se ve completa */
 }
 .talks-photo .frame::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 45%, rgba(10, 11, 10, 0.55));
+  background: linear-gradient(180deg, transparent 70%, rgba(10, 11, 10, 0.55));
   pointer-events: none;
+}
+/* Play abajo a la izquierda para no tapar a la persona */
+.talks-photo .play-btn {
+  top: auto;
+  left: 1.4rem;
+  bottom: 1.4rem;
+  width: 58px;
+  height: 58px;
+  transform: none;
+}
+.talks-photo .play-btn:hover {
+  transform: scale(1.08);
+}
+.talks-photo .play-btn svg {
+  width: 22px;
+  height: 22px;
+}
+.talks-photo .video-cap {
+  left: calc(1.4rem + 58px + 0.9rem);
+  right: auto;
+  bottom: calc(1.4rem + 29px);
+  transform: translateY(50%);
+  text-align: left;
 }
 .talks-photo .frame iframe {
   position: absolute;

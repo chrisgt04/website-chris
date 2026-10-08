@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import Reveal from "./ui/Reveal";
+import Counter from "./ui/Counter";
 import { conferences as c } from "../data/content";
 
 export default function Talks() {
@@ -23,10 +24,31 @@ export default function Talks() {
             {c.kicker}
           </Reveal>
           <Reveal as="h2" className="talks-title" delay={0.05}>
-            {c.title}
+            {c.title.map((p, i) => (
+              <span key={i} className={p.accent ? "accent" : undefined}>
+                {p.t}
+              </span>
+            ))}
           </Reveal>
           <Reveal as="p" className="talks-sub" delay={0.1}>
-            {c.sub}
+            {c.intro}
+          </Reveal>
+          <Reveal className="cons-talks-stats" delay={0.14}>
+            {c.stats.map((s) => (
+              <div className="cons-stat" key={s.lab}>
+                <span className="cons-stat-val">
+                  <Counter value={s.value} prefix={s.prefix} suffix={s.suffix} />
+                </span>
+                <span className="cons-stat-lab">{s.lab}</span>
+              </div>
+            ))}
+          </Reveal>
+          <Reveal className="cons-orgs" delay={0.16}>
+            {c.orgs.map((o) => (
+              <span className="cons-org" key={o}>
+                {o}
+              </span>
+            ))}
           </Reveal>
           <Reveal className="talk-topics" delay={0.18}>
             {c.topics.map((t) => (
