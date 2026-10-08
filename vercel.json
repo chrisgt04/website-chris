@@ -21,7 +21,7 @@
       "destination": "/propuesta-magno-lasso/index.html"
     },
     {
-      "source": "/((?!lasso-reports|propuesta-alex|propuesta-terraza-loredo|propuesta-magno|propuesta-magno-lasso).*)",
+      "source": "/((?!lasso-reports|propuesta-alex|propuesta-terraza-loredo|propuesta-magno|propuesta-magno-lasso|cotizacionjuliotorres).*)",
       "destination": "/index.html"
     }
   ]
